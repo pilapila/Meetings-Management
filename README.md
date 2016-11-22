@@ -1,5 +1,5 @@
 # Meetings Management System with AngularJS
-This is a first serious AngularJS project made by myself which is an open source application for keeping track of your meetings.
+This is a serious AngularJS project made by myself which is an open source application for keeping track of your meetings.
 
 ## Instructions
 1. Make sure you have [node.js](http://nodejs.org/) and [git](http://git-scm.com/) installed on your machine.
