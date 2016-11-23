@@ -1,0 +1,66 @@
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
+  <li><a href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
+  <!-- <li class="divider"></li> -->
+  <li><a href="#/logout"><i class="material-icons left">power_settings_new</i>Sign out</a></li>
+</ul>
+<nav>
+  <div class="nav-wrapper pink darken-1">
+    <a href="#!" class="brand-logo-own">Meetings Management System</a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="#/login"><i class="material-icons left">https</i>Login</a></li>
+      <li><a href="#/register"><i class="material-icons left">input</i>Register</a></li>
+      <li><a href="#/alarm"><i class="material-icons left">query_builder</i>Alarm</a></li>
+      <li><a href="#/meetings"><i class="material-icons left">view_list</i>Meetings</a></li>
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<script type="text/javascript">
+(function($) {
+		$(function() {
+
+$('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      hover: false, // Activate on hover
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'right', // Displays dropdown with edge aligned to the left of button
+    });
+}); // End Document Ready
+})(jQuery); // End of jQuery name space
+</script>
+
+<!--  <nav>
+		<div class="nav-wrapper grey darken-3">
+				<a href="#!" class="brand-logo left">Concept Nav</a>
+				<ul class="right hide-on-med-and-down">
+						<li><a href="#!">Sass</a></li>
+						<li><a href="#!">Components</a></li>
+						
+						<li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true">Contacts<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+				</ul>
+		</div>
+</nav>
+
+<ul id="dropdown" class="dropdown-content collection">
+		<li class="collection-item avatar">
+				<img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
+				<span class="title">Name</span>
+				<p>First Line</p>
+				<a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
+		</li>
+		<li class="collection-item avatar">
+				<img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
+				<span class="title">Name</span>
+				<p>First Line</p>
+				<a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
+		</li>
+		<li class="collection-item avatar">
+				<img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
+				<span class="title">Name</span>
+				<p>First Line</p>
+				<a href="#!" class="secondary-content"><i class="material-icons">contact_mail</i></a>
+		</li>
+</ul> -->
