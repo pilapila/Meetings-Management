@@ -1,38 +1,29 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12 offset-m2">
-     
-     <form name="myform">
-     <p><br><h4>Hi there!</h4></p>
-     <p>Log-in to access the awesomeness</p>
-      <div class="row">
-        <div class="input-field col s8">
-          <input name="email" id="email" type="email" class="validate" 
-          		 ng-model="user.email">
-          <label for="email">Email</label>
+<div class="row">
+    <form ng-submit="login()" class="col s12">
+    	<br><p class="title center">Log-in to access the awesomeness</p>
+        <div class="row form-card">
+            <div class="input-field col s12">
+                <i class="small material-icons prefix">email</i>
+                <input name="email" id="email" type="email" class="validate" 
+                       required="" aria-required="true" ng-model="user.email">
+                <label for="email2" data-error="wrong" data-success="right">Email</label>
+            </div>
+            <div class="input-field col s12">
+                <i class="small material-icons prefix">https</i>
+                <input name="password" id="password" type="password" class="validate" 
+                       required="" aria-required="true" ng-model="user.password">
+                <label for="password" data-error="password is required" data-success="right">
+                   Password
+                </label>
+            </div>
+            <div class="input-field col s12 center">
+                <button class="waves-effect Default btn-flat" type="submit" name="action">
+                	Submit
+                </button>
+                <a href="#/register" class="waves-effect Default btn-flat" name="action">
+                	Register
+                </a>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s8">
-          <input name="password" id="password" type="password" class="validate" 
-          		 ng-model="user.password">
-          <label for="password">Password</label>
-        </div>
-      </div>
-      <div class="row center center">
-        <div class="input-field col s8">
-          <a class="waves-effect Default btn-flat">Login</a>
-          <a href="#/register" class="waves-effect Default btn-flat">Register</a>
-        </div>
-      </div>
-     </form>
-
-  </div>
- </div>
+    </form>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    Materialize.updateTextFields();
-  });
-</script>

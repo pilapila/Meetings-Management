@@ -10,12 +10,12 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 
 		$routeProvider
 			.when('/login', {
-				templateUrl: 'views/login.html'
-				//controller: ''
+				templateUrl: 'views/login.html',
+				controller: 'RegistrationController'
 			})
 			.when('/register', {
-				templateUrl: 'views/register.html'
-				//controller: ''
+				templateUrl: 'views/register.html',
+				controller: 'RegistrationController'
 			})
 			.when('/meetings', {
 				templateUrl: 'views/meetings.html'

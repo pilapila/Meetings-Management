@@ -1,1 +1,126 @@
-<h3>Register</h3>
+<div class="row">
+    <br><p class="title center">Register to access site features</p>
+        <form ng-submit="register()" class=" col s12 right-alert">
+          <div class="row">
+          
+          <div class="input-field col s12">
+                <i class="small material-icons prefix">person_pin</i>
+                <input name="firstname" id="firstname" type="text" class="validate" required="" 
+                       aria-required="true" ng-model="user.firstname">
+                <label for="" data-error="Please enter first name." data-success="Perfect!">
+                  First Name
+                </label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="input-field col s12">
+                <i class="small material-icons prefix">person_pin</i>
+                <input name="lastname" id="lastname" type="text" class="validate" required="" 
+                       aria-required="true" ng-model="user.lastname">
+                <label for="" data-error="Please enter last name." data-success="Perfect!">
+                  Last Name
+                </label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="input-field col s12">
+                <i class="small material-icons prefix">verified_user</i>
+                <input name="age" id="age_input2" type="number" class="validate" 
+                       required="" aria-required="true" ng-model="user.age">
+                <label for="age_input2" data-error="Please enter your age." data-success="Wow!">  Age
+                </label>
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="small material-icons prefix">email</i>
+              <input name="email" id="email_input2" type="email" class="validate" 
+                     required="" aria-required="true" ng-model="user.email">
+              <label for="email_input2" class="" data-error="Please enter valid email." 
+                     data-success="I Like it!">
+                     Email
+              </label>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="small material-icons prefix">https</i>
+                <input name="password" id="password" type="password" class="validate" 
+                       required="" aria-required="true" ng-model="user.password">
+                <label for="password" data-error="password is required" data-success="right">
+                   Password
+                </label>
+            </div>
+          </div>
+                   
+        <div class="row">
+          <div class="input-field col s12 center">
+            <button class="waves-effect Default btn-flat" type="submit" name="action">
+            	Submit
+            </button>
+          </div>
+        </div>
+    </form>
+</div>
+  
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    Materialize.updateTextFields();
+  });
+
+$("#formValidate").validate({
+        rules: {
+            uname: {
+                required: true,
+                minlength: 5
+            },
+            cemail: {
+                required: true,
+                email:true
+            },
+            password: {
+				required: true,
+				minlength: 5
+			},
+			cpassword: {
+				required: true,
+				minlength: 5,
+				equalTo: "#password"
+			},
+			curl: {
+                required: true,
+                url:true
+            },
+            crole:"required",
+            ccomment: {
+				required: true,
+				minlength: 15
+            },
+            cgender:"required",
+			cagree:"required",
+        },
+        //For custom messages
+        messages: {
+            uname:{
+                required: "Enter a username",
+                minlength: "Enter at least 5 characters"
+            },
+            curl: "Enter your website",
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            error.insertAfter(element);
+          }
+        }
+     });
+</script>
