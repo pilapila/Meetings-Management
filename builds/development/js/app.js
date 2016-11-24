@@ -1,4 +1,5 @@
-var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute"]);
+var meetingsApp = angular.module("meetingsApp", 
+	["ngMaterial", "ngRoute", "firebase"]);
 	
 meetingsApp.config(["$routeProvider", "$mdThemingProvider", 
 	function($routeProvider, $mdThemingProvider) {
@@ -18,8 +19,8 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				controller: 'RegistrationController'
 			})
 			.when('/meetings', {
-				templateUrl: 'views/meetings.html'
-				//controller: ''
+				templateUrl: 'views/meetings.html',
+				controller: 'MeetingsController'
 			})
 			.otherwise({
 				redirectTo: '/login'

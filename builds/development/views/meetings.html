@@ -1,1 +1,144 @@
-<h3>Meetings</h3>
+<br>
+<!-- <nav class="meeting-nav">
+    <div class="nav-wrapper teal lighten-2">
+      <a href="#" class="meeting-title">Meetings List</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a data-target="modal1">Add New</a></li>
+        <li><a href="">Calendar</a></li>
+      </ul>
+    </div>
+  </nav>
+<ul class="collection with-header">
+    <li class="collection-item" ng-repeat="meeting in meetings">
+    	<div>{{meeting.name}}
+    		<a href="#!" class="secondary-content">
+    			<i class="material-icons">send</i>
+    		</a>
+    	</div>
+    </li>
+</ul> -->
+<ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header modal-title"><i class="material-icons">add</i>
+      	Add New Meeting
+      </div>
+      <div class="collapsible-body">
+      	<div class="row modal-form">
+      	<form ng-submit="login()" class="col s12">
+      		<div class="row">
+            <div class="input-field col s6">
+                <i class="small material-icons prefix">supervisor_account</i>
+                <input name="meeting" id="meeting" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="user.meeting">
+                <label for="meeting" data-error="meeting is required" data-success="right">
+                	Meeting
+                </label>
+            </div>
+            <div class="input-field col s6">  
+                <i class="small material-icons prefix">supervisor_account</i>
+                <input name="Invitees" id="Invitees" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="user.Invitees">
+                <label for="Invitees" data-error="Invitees is required" data-success="right">
+                	Meeting
+                </label>
+            </div>
+            <div class="input-field col s12">
+            	<i class="small material-icons prefix">today</i>
+            	<input type="date" class="datepicker">
+            </div>
+            <div class="input-field col s12">
+                <i class="small material-icons prefix">comment</i>
+                <input name="message" id="message" type="text" class="validate" 
+                          required="" aria-required="true" ng-model="user.message">
+                <label for="message" data-error="message is required">
+                   Meesage
+                </label>
+            </div>
+            <div>
+		    <button class="waves-effect Default btn-flat right" 
+               data-click=".collapsible .collapsible-header:first">
+            	Cancel
+            </button>
+            <button class="waves-effect Default btn-flat right" type="submit" name="action">
+		          Add
+		    </button>
+  			</div>
+        </div>
+      	</form>
+      </div>
+      </div>
+    </li>
+</ul>
+<ul class="collection with-header">
+    <li class="collection-item" ng-repeat="meeting in meetings">
+    	<div>{{meeting.name}}
+    		<a href="#!" class="secondary-content">
+    			<i class="material-icons">send</i>
+    		</a>
+    	</div>
+    </li>
+</ul>
+
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <form ng-submit="login()" class="col m5 offset-m3 s12">
+    	<div class="modal-content">
+      	<h5 class="">Add a new meeting</h5>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="small material-icons prefix">supervisor_account</i>
+                <input name="meeting" id="meeting" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="user.meeting">
+                <label for="meeting" data-error="meeting is required" data-success="right">
+                	Meeting
+                </label>
+            </div>
+            <div class="input-field col s12">
+            	<i class="small material-icons prefix">today</i>
+            	<input type="date" class="datepicker">
+            </div>
+            <div class="input-field col s12">
+                <i class="small material-icons prefix">comment</i>
+                <textarea name="message" id="message" class="materialize-textarea validate" 
+                          required="" aria-required="true" ng-model="user.message"></textarea>
+                <label for="message" data-error="message is required">
+                   Meesage
+                </label>
+            </div>
+        </div>
+    
+    </div>
+    <div class="modal-footer">
+      <a href="" class="modal-action modal-close waves-effect waves-green btn-flat ">
+	      Cancel
+	  </a>
+	  <button class="waves-effect Default btn-flat" type="submit" name="action">
+          Add
+      </button>
+    </div>
+    </form>
+  </div>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.modal').modal({
+  		
+	});
+	$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15, // Creates a dropdown of 15 years to control year
+	    format: 'dd-mm-yyyy'
+  	});
+  	$('.collapsible').collapsible({
+  		
+  	});
+  	$('[data-click]').on('click', function (e) {
+    	$( $(this).data('click') ).trigger('click');
+	});
+}); 
+</script>

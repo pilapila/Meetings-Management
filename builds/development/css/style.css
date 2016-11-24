@@ -7,13 +7,41 @@ main {
     flex: 1 0 auto;
 }
 
-.form-card {
-  
+.modal-form {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.modal-title {
+  background-color: #80cbc4 !important;
+  border: 1px solid #b2dfdb !important;
+  color: #fff !important;
+}
+
+.modal { 
+  width: 45% !important ;
 }
 
 .title {
   font-weight:300;
   font-size: 1.2rem;
+}
+
+.meeting-table {
+  border-radius: 10%;
+}
+
+.meeting-title {
+  font-weight:300;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.meeting-nav {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  height: 45px;
+  line-height: 45px;
 }
 
 .brand-logo-own{
