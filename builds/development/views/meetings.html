@@ -1,66 +1,55 @@
-<br>
-<!-- <nav class="meeting-nav">
-    <div class="nav-wrapper teal lighten-2">
-      <a href="#" class="meeting-title">Meetings List</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a data-target="modal1">Add New</a></li>
-        <li><a href="">Calendar</a></li>
-      </ul>
-    </div>
-  </nav>
-<ul class="collection with-header">
-    <li class="collection-item" ng-repeat="meeting in meetings">
-    	<div>{{meeting.name}}
-    		<a href="#!" class="secondary-content">
-    			<i class="material-icons">send</i>
-    		</a>
-    	</div>
-    </li>
-</ul> -->
-<ul class="collapsible" data-collapsible="accordion">
+<br><ul class="collapsible" data-collapsible="accordion">
     <li>
       <div class="collapsible-header modal-title"><i class="material-icons">add</i>
       	Add New Meeting
       </div>
-      <div class="collapsible-body">
+      <div class="collapsible-body modal-background">
       	<div class="row modal-form">
-      	<form ng-submit="login()" class="col s12">
+      	<form ng-submit="addMeeting()" id="meetingform" class="col s12">
       		<div class="row">
-            <div class="input-field col s6">
-                <i class="small material-icons prefix">supervisor_account</i>
-                <input name="meeting" id="meeting" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="user.meeting">
-                <label for="meeting" data-error="meeting is required" data-success="right">
-                	Meeting
-                </label>
-            </div>
             <div class="input-field col s6">  
                 <i class="small material-icons prefix">supervisor_account</i>
-                <input name="Invitees" id="Invitees" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="user.Invitees">
-                <label for="Invitees" data-error="Invitees is required" data-success="right">
+                <input name="name" id="name" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="meeting.name"  length="25">
+                <label class="modal-label" for="name" data-error="oops! too much words">
                 	Meeting
                 </label>
             </div>
-            <div class="input-field col s12">
-            	<i class="small material-icons prefix">today</i>
-            	<input type="date" class="datepicker">
-            </div>
-            <div class="input-field col s12">
+            <!-- <div class="input-field col s6">  
+                <i class="small material-icons prefix">supervisor_account</i>
+                <input name="invitees" id="invitees" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="meeting.invitees"  length="25">
+                <label class="modal-label" for="invitees" data-error="oops! too much words">
+                	Invitees
+                </label>
+            </div> -->
+            <div class="input-field col s6">
                 <i class="small material-icons prefix">comment</i>
-                <input name="message" id="message" type="text" class="validate" 
-                          required="" aria-required="true" ng-model="user.message">
-                <label for="message" data-error="message is required">
-                   Meesage
+                <input name="description" id="description" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="meeting.description" length="150">
+                <label class="modal-label" for="description" data-error="oops! too much words">
+                  Description
                 </label>
             </div>
+            <div class="input-field col s6">
+            	<i class="small material-icons prefix">today</i>
+            	<input type="date" id="date" class="datepicker" placeholder="Date"
+            	       name="date" ng-model="meeting.date">
+            	
+            </div>
+            <div class="input-field col s6">
+                <i class="small material-icons prefix">av_timer</i>
+                <input id="timepicker_ampm_dark" class="timepicker" type="time" name="time"
+                       ng-model="meeting.time" placeholder="Time">
+            </div>
             <div>
-		    <button class="waves-effect Default btn-flat right" 
-               data-click=".collapsible .collapsible-header:first">
+		            <a class="waves-effect Default btn-flat right" id="clearButton" 
+                    data-click=".collapsible .collapsible-header:first">
             	Cancel
-            </button>
-            <button class="waves-effect Default btn-flat right" type="submit" name="action">
-		          Add
+            </a>
+            <button class="waves-effect Default btn-flat right" type="submit" id="addButton"
+            		data-click=".collapsible .collapsible-header:first">
+		          Add 
 		    </button>
   			</div>
         </div>
@@ -69,76 +58,75 @@
       </div>
     </li>
 </ul>
-<ul class="collection with-header">
-    <li class="collection-item" ng-repeat="meeting in meetings">
-    	<div>{{meeting.name}}
-    		<a href="#!" class="secondary-content">
-    			<i class="material-icons">send</i>
-    		</a>
-    	</div>
-    </li>
-</ul>
+
+<table class="bordered highlight card">
+  <thead>
+    <tr class="meeting-data-table">
+      
+      <th></th>
+      <th>Meeting</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th></th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="(key, meeting) in meetings">
+     
+      <td class="meeting-data-table">{{ $index + 1 }}</td>
+      <td class="meeting-data-table">{{meeting.name}}</td>
+      <td class="meeting-data-table">{{meeting.description}}</td>
+      <td class="meeting-data-table">{{meeting.dateMeeting}}</td>
+      <td class="meeting-data-table">{{meeting.time}}</td>
+      <td class="right meeting-data-table">
+        <a href=""><i class="material-icons prefix icon-color">mode_edit</i></a>
+        <a href=""><i class="material-icons prefix icon-color">comment</i></a>
+        <a href="" ng-click="deleteMeeting($event, key, meeting.name)">
+          <i class="material-icons prefix icon-color">delete</i>
+        </a>
+        </td>
+    </tr>
+  </tbody>
+</table>
 
 
+                    
+                                         
+<!-- <a class="btn tooltipped" data-position="top" data-delay="50" data-tooltip="I am tooltip">Hover!</a>
 
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal modal-fixed-footer">
-    <form ng-submit="login()" class="col m5 offset-m3 s12">
-    	<div class="modal-content">
-      	<h5 class="">Add a new meeting</h5>
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="small material-icons prefix">supervisor_account</i>
-                <input name="meeting" id="meeting" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="user.meeting">
-                <label for="meeting" data-error="meeting is required" data-success="right">
-                	Meeting
-                </label>
-            </div>
-            <div class="input-field col s12">
-            	<i class="small material-icons prefix">today</i>
-            	<input type="date" class="datepicker">
-            </div>
-            <div class="input-field col s12">
-                <i class="small material-icons prefix">comment</i>
-                <textarea name="message" id="message" class="materialize-textarea validate" 
-                          required="" aria-required="true" ng-model="user.message"></textarea>
-                <label for="message" data-error="message is required">
-                   Meesage
-                </label>
-            </div>
-        </div>
+<style>
+  .backdrop{
+    background-color: #ef5350;
+   }
+  td .tooltipped {
     
-    </div>
-    <div class="modal-footer">
-      <a href="" class="modal-action modal-close waves-effect waves-green btn-flat ">
-	      Cancel
-	  </a>
-	  <button class="waves-effect Default btn-flat" type="submit" name="action">
-          Add
-      </button>
-    </div>
-    </form>
-  </div>
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    position:absolute;
+  }
+</style>
 
 
 
+        <button data-target="modal1" class="btn modal-trigger">Modal</button>
+          <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>Modal Header</h4>
+              <p>Are you sure you want to delete meeting ( {{meeting.name}} )</p>
+            </div>
+            <div class="modal-footer">
+              <a href="" class=" modal-action modal-close waves-effect waves-green btn-flat"
+                 onclick="Materialize.toast('Meeting deleted!', 4000)" ng-click="deleteMeeting(key)">
+                 Agree
+              </a>
+            </div>
+          </div> 
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.modal').modal({
-  		
-	});
-	$('.datepicker').pickadate({
-	    selectMonths: true, // Creates a dropdown to control month
-	    selectYears: 15, // Creates a dropdown of 15 years to control year
-	    format: 'dd-mm-yyyy'
-  	});
-  	$('.collapsible').collapsible({
-  		
-  	});
-  	$('[data-click]').on('click', function (e) {
-    	$( $(this).data('click') ).trigger('click');
-	});
-}); 
-</script>
+
+
+ -->

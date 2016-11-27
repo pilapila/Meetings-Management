@@ -1,30 +1,57 @@
 body {
+    overflow-y: hidden !important
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    font-family: 'Titillium Web', sans-serif !important;
 }
+
 main {
     flex: 1 0 auto;
 }
 
+md-toast {
+  top: 60px;
+  /*left: calc(50vw - 150px);*/
+}
+
+.form-base {
+  padding-top: 20px;
+}
+
+.modal-background {
+  background-color: #fff !important;
+  color: #d4b24f !important;
+}
+
+.modal-label {
+  color: #c9cfce !important;
+}
+
 .modal-form {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
 }
 
 .modal-title {
   background-color: #80cbc4 !important;
-  border: 1px solid #b2dfdb !important;
+  border: 1px solid #6fc5bd !important;
   color: #fff !important;
-}
-
-.modal { 
-  width: 45% !important ;
 }
 
 .title {
   font-weight:300;
   font-size: 1.2rem;
+}
+
+.icon-color {
+  color: #999 !important;
+}
+
+.meeting-data-table {
+  font-size: .85em;
+  padding: 15px !important;
 }
 
 .meeting-table {
