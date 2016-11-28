@@ -1,22 +1,34 @@
-<ul id="dropdown1" class="dropdown-content">
+<ul id="dropdown1" class="dropdown-content" ng-controller="statusController">
   <li><a href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
   <li><a href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
   <!-- <li class="divider"></li> -->
-  <li><a href="#/logout"><i class="material-icons left">power_settings_new</i>Sign out</a></li>
+  <li>
+  	<a href="" ng-click="logout()">
+  	  <i class="material-icons left">power_settings_new</i>
+  	  Sign out
+    </a>
+</li>
 </ul>
-<nav>
+<nav ng-controller="statusController">
   <div class="nav-wrapper pink darken-1">
     <a href="#!" class="brand-logo-own">Meetings Management System</a>
     <ul class="right hide-on-med-and-down">
-      <li><a href="#/login"><i class="material-icons left">https</i>Login</a></li>
-      <li><a href="#/register"><i class="material-icons left">input</i>Register</a></li>
-      <li><a href="#/alarm"><i class="material-icons left">query_builder</i>
+      <li ng-hide="currentUser">
+        <a href="#/login"><i class="material-icons left">https</i>Login</a></li>
+      <li ng-hide="currentUser">
+        <a href="#/register"><i class="material-icons left">input</i>Register</a></li>
+      <li ng-show="currentUser">
+        <a href="#/alarm"><i class="material-icons left">query_builder</i>
       	Alarm<span class="new badge" data-badge-caption="new">2</span></a>
       </li>
-      <li><a href="#/meetings"><i class="material-icons left">view_list</i>
+      <li ng-show="currentUser">
+        <a href="#/meetings"><i class="material-icons left">view_list</i>
       	Meetings<span class="new badge" data-badge-caption="">4</span></a>
       </li>
-      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+      <li ng-show="currentUser">
+      	<a class="dropdown-button" href="#!" data-activates="dropdown1">
+      	Welcome {{ currentUser.firstname }}<i class="material-icons right">arrow_drop_down</i>
+      </a></li>
     </ul>
   </div>
 </nav>

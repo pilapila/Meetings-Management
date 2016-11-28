@@ -52,15 +52,12 @@
 		$scope.showToast = function(message) {
 			$mdToast.show(
 				$mdToast.simple()
-					.parent(document.querySelectorAll('#toaster'))
+					.toastClass('md-toast-error')
 					.content(message)
 					.position('top, right')
 					.hideDelay(3000)
-					//.action('x')
 			);
-		};		
-
-		
+		};
 <!-- ------------------------Html Jquery----------------------------------------------------------- -->
 	    
 	    $scope.deactiveForm = function() {
@@ -99,6 +96,7 @@
 		        $scope.deactiveForm();
 		    }
 		});
+
 
 	  	$('.collapsible').collapsible({});
 	  	$('.tooltipped').tooltip({delay: 50});

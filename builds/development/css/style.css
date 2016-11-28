@@ -11,6 +11,7 @@ main {
 }
 
 md-toast {
+  max-height: 110px;
   top: 60px;
   /*left: calc(50vw - 150px);*/
 }
@@ -47,6 +48,11 @@ md-toast {
 
 .icon-color {
   color: #999 !important;
+}
+
+.meeting-table-title {
+  background-color: #cfcfcf !important;
+  
 }
 
 .meeting-data-table {

@@ -1,6 +1,7 @@
 <br><ul class="collapsible" data-collapsible="accordion">
     <li>
-      <div class="collapsible-header modal-title"><i class="material-icons">add</i>
+      <div class="collapsible-header modal-title">
+        <i class="material-icons">add</i>
       	Add New Meeting
       </div>
       <div class="collapsible-body modal-background">
@@ -45,12 +46,12 @@
             <div>
 		            <a class="waves-effect Default btn-flat right" id="clearButton" 
                     data-click=".collapsible .collapsible-header:first">
-            	Cancel
-            </a>
-            <button class="waves-effect Default btn-flat right" type="submit" id="addButton"
-            		data-click=".collapsible .collapsible-header:first">
-		          Add 
-		    </button>
+                	Cancel
+                </a>
+                <button class="waves-effect Default btn-flat right" type="submit" id="addButton"
+                        data-click=".collapsible .collapsible-header:first">
+    		          Add 
+    		        </button>
   			</div>
         </div>
       	</form>
@@ -61,9 +62,9 @@
 
 <table class="bordered highlight card">
   <thead>
-    <tr class="meeting-data-table">
+    <tr class="meeting-data-table meeting-table-title">
       
-      <th></th>
+      <th class="meeting-data-table">#</th>
       <th>Meeting</th>
       <th>Description</th>
       <th>Date</th>
@@ -82,19 +83,29 @@
       <td class="meeting-data-table">{{meeting.dateMeeting}}</td>
       <td class="meeting-data-table">{{meeting.time}}</td>
       <td class="right meeting-data-table">
-        <a href=""><i class="material-icons prefix icon-color">mode_edit</i></a>
-        <a href=""><i class="material-icons prefix icon-color">comment</i></a>
-        <a href="" ng-click="deleteMeeting($event, key, meeting.name)">
-          <i class="material-icons prefix icon-color">delete</i>
+        <a href="">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" style="color:#b6dda1;"></i>
+            <i class="fa fa-pencil fa-stack-1x" style="font-size:20px;color:#82b168;"></i>
+            <md-tooltip md-direction="top">
+              EDIT
+            </md-tooltip>
+          </span>
+        </a>
+        <a class="fontawesome-color" href="" ng-click="deleteMeeting($event, key, meeting.name)">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" style="color:#eaa8be;"></i>
+            <i class="fa fa-trash-o fa-stack-1x" style="font-size:20px;color:#d44977;"></i>
+            <md-tooltip md-direction="top">
+              DELETE
+            </md-tooltip>
+          </span>
         </a>
         </td>
     </tr>
   </tbody>
 </table>
-
-
-                    
-                                         
+                                            
 <!-- <a class="btn tooltipped" data-position="top" data-delay="50" data-tooltip="I am tooltip">Hover!</a>
 
 <style>

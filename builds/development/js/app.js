@@ -1,5 +1,5 @@
 var meetingsApp = angular.module("meetingsApp", 
-	["ngMaterial", "ngRoute", "firebase"]);
+	["ngMaterial", "ngRoute", "firebase", "ngMessages"]);
 	
 meetingsApp.config(["$routeProvider", "$mdThemingProvider", 
 	function($routeProvider, $mdThemingProvider) {
