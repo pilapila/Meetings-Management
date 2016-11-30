@@ -1,4 +1,13 @@
-<br><ul class="collapsible" data-collapsible="accordion">
+<br>
+
+<div ng-hide="signedIn()" class="center">
+  <h3>Sorry</h3>
+  <p>Only registered users can create and manage meetings.</p>
+  <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
+</div>
+
+<div ng-show="signedIn()">
+<ul class="collapsible" data-collapsible="accordion">
     <li>
       <div class="collapsible-header modal-title">
         <i class="material-icons">add</i>
@@ -80,7 +89,7 @@
       <td class="meeting-data-table">{{ $index + 1 }}</td>
       <td class="meeting-data-table">{{meeting.name}}</td>
       <td class="meeting-data-table">{{meeting.description}}</td>
-      <td class="meeting-data-table">{{meeting.dateMeeting}}</td>
+      <td class="meeting-data-table">{{meeting.dateMeeting | date}}</td>
       <td class="meeting-data-table">{{meeting.time}}</td>
       <td class="right meeting-data-table">
         <a href="">
@@ -105,7 +114,7 @@
     </tr>
   </tbody>
 </table>
-                                            
+</div>                                          
 <!-- <a class="btn tooltipped" data-position="top" data-delay="50" data-tooltip="I am tooltip">Hover!</a>
 
 <style>

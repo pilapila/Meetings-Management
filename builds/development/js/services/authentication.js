@@ -10,6 +10,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 			                      'regUser': regUser.uid,
 			                      'firstname': user.firstname,
 			                      'lastname': user.lastname,
+			                      'age': user.age,
 			                      'email': user.email
 								});
                    });
@@ -41,7 +42,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 		
 		$rootScope.signedIn = function(){
 			return myObject.signedIn();
-		}
+		} // add function to rootScope to find it in every where
 
 		return myObject;
          

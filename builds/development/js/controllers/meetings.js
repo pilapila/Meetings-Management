@@ -1,22 +1,62 @@
 (function(){
-  'use strict';
+ 'use strict';
 
-	meetingsApp.controller('MeetingsController', 
-	  function($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog) {
+meetingsApp.controller('MeetingsController', 
+  function($scope, $rootScope, $firebase, $timeout, $firebaseArray, $firebaseObject, 
+  		   $mdToast, $mdDialog, RefServices) {
+  	
+	firebase.auth().onAuthStateChanged(firebaseUser =>{
+		if(firebaseUser !== null){
 
-		const dbRefObject = firebase.database().ref().child('/meetings');
-	        dbRefObject.on('value', function (snap) {
-	            $timeout(function () {
-		            $scope.meetings = snap.val();
-	            }, 0); //timeout 
-	        });  //ref to database
+		  RefServices.refData(firebaseUser).on('value', function (snap) {
+		            $timeout(function () {
+			            $scope.meetings = snap.val();
+			            $rootScope.howManyMeetings = snap.numChildren();
+
+			            var today = new Date();
+						var dd = today.getDate();
+						var mm = today.getMonth()+1; //January is 0!
+						var yyyy = today.getFullYear();
+
+						if(dd<10) {
+						    dd='0'+dd
+						} 
+
+						if(mm<10) {
+						    mm='0'+mm
+						} 
+						today = yyyy+'-'+mm+'-'+dd;
+						$rootScope.alarm = 0;
+						$scope.meetingAlarm = [];
+			            angular.forEach($scope.meetings, function (value, key) {
+			            	var date1 = new Date(today);
+							var date2 = new Date(value.dateMeeting);
+							var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+			            	if(diffDays <= 2){
+			            		$rootScope.alarm += 1;
+			            		$scope.meetingAlarm.push(key);
+			            	}
+			            });
+			            $scope.showAlarmList = false;
+			            $scope.meetingAlarmFilter = {};
+			            angular.forEach($scope.meetings, function (value, key) {
+			            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
+			            		if ( key == $scope.meetingAlarm[i]) {
+			            			$scope.meetingAlarmFilter[key] = value;
+			            			$scope.showAlarmList = true;
+			            		}
+			            	};
+			            }); 
+		            }, 0); //timeout 
+	       		});  //ref to database
 
 	    $scope.addMeeting = function() {
-	        const meetingListRef = firebase.database().ref().child('/meetings').push();
-	            meetingListRef.set({
+	        RefServices.refData(firebaseUser).push().set({
 	              'name':         $scope.meeting.name,
 	              'description':  $scope.meeting.description,
-	              'dateEnter':    Firebase.ServerValue.TIMESTAMP,
+	              'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
 	              'dateMeeting':  $('.datepicker').val(),
 	              'time':         $('.timepicker').val()
 	            }).then(function() {
@@ -26,22 +66,14 @@
 	            });
 	    }   // addMeeting 
 
-
-	    // $scope.deleteMeeting = function(key){
-	    //     var meetingname = firebase.database().ref('/meetings/' + key );
-	    //     meetingname.remove();
-	    // } // delete meeting
-
 		$scope.deleteMeeting = function(event, key, meeting) {
-			console.log(meeting);
 			var confirm = $mdDialog.confirm()
 				.title('Are you sure you want to delete ' + meeting + '?')
 				.ok('Yes')
 				.cancel('Cancel')
 				.targetEvent(event);
 			$mdDialog.show(confirm).then(function(){
-				var meetingname = firebase.database().ref('/meetings/' + key );
-				meetingname.remove();
+				RefServices.delData(firebaseUser, key).remove();
 				$scope.showToast('Meeting Deleted!');
 			}, function(){
 
@@ -58,60 +90,60 @@
 					.hideDelay(3000)
 			);
 		};
-<!-- ------------------------Html Jquery----------------------------------------------------------- -->
-	    
-	    $scope.deactiveForm = function() {
-	    	inputElement.data( 'pickadate' ).clear();
-	    	$("#name").val("");
-			$("#name").next().removeClass("active");
-			$("#invitees").val("");
-			$("#invitees").next().removeClass("active");
-			$("#description").val("");
-			$("#description").next().removeClass("active");
-	    };
-		
-		$('input#name, textarea#textarea1').characterCounter();
-		//$('input#time, textarea#textarea1').characterCounter();
-		$('input#description, textarea#textarea1').characterCounter();
-	    $('.modal').modal();
 
-		var inputElement = $('.datepicker').pickadate({
-			onClose: function() {
-			    $(document.activeElement).blur();
-			},
-			onSet: function (ele) {
-			   if(ele.select){
-			          this.close();
-			   }
-			},
-		    selectMonths: true, // Creates a dropdown to control month
-		    selectYears: 15, // Creates a dropdown of 15 years to control year
-		    format: 'dd-mm-yyyy'
-	  	});
+	}   //if statement
+  }); //firebaseUser
 
-	  	var clearButton = $( '#clearButton' ).on({
-		    click: function() {
-		        $( $(this).data('click') ).trigger('click');
-		        $scope.meeting = '';
-		        $scope.deactiveForm();
-		    }
-		});
+			$scope.deactiveForm = function() {
+		    	inputElement.data( 'pickadate' ).clear();
+		    	$("#name").val("");
+				$("#name").next().removeClass("active");
+				$("#invitees").val("");
+				$("#invitees").next().removeClass("active");
+				$("#description").val("");
+				$("#description").next().removeClass("active");
+		    };
+			
+			$('input#name, textarea#textarea1').characterCounter();
+			//$('input#time, textarea#textarea1').characterCounter();
+			$('input#description, textarea#textarea1').characterCounter();
+		    $('.modal').modal();
+
+			var inputElement = $('.datepicker').pickadate({
+				onClose: function() {
+				    $(document.activeElement).blur();
+				},
+				onSet: function (ele) {
+				   if(ele.select){
+				          this.close();
+				   }
+				},
+			    selectMonths: true, // Creates a dropdown to control month
+			    selectYears: 15, // Creates a dropdown of 15 years to control year
+			    format: 'yyyy-mm-dd'
+		  	});
+
+		  	var clearButton = $( '#clearButton' ).on({
+			    click: function() {
+			        $( $(this).data('click') ).trigger('click');
+			        $scope.meeting = '';
+			        $scope.deactiveForm();
+			    }
+			});
 
 
-	  	$('.collapsible').collapsible({});
-	  	$('.tooltipped').tooltip({delay: 50});
-	  	$('.timepicker').pickatime({
-		    default: 'now',
-		    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
-		    donetext: 'OK',
-		    autoclose: false,
-		    vibrate: true // vibrate the device when dragging clock hand
-		});
+		  	$('.collapsible').collapsible({});
+		  	$('.tooltipped').tooltip({delay: 50});
+		  	$('.timepicker').pickatime({
+			    default: 'now',
+			    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
+			    donetext: 'OK',
+			    autoclose: false,
+			    vibrate: true // vibrate the device when dragging clock hand
+			});
+		  	// $('[data-click]').on('click', function (e) {
+		   //  }); 
 
-	  	// $('[data-click]').on('click', function (e) {
-	    	
-	   //  }); 
-		 
 	}); // MeetingsController
 
 }());

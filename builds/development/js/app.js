@@ -22,6 +22,10 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				templateUrl: 'views/meetings.html',
 				controller: 'MeetingsController'
 			})
+			.when('/alarm', {
+				templateUrl: 'views/alarm.html',
+				controller: 'MeetingsController'
+			})
 			.otherwise({
 				redirectTo: '/login'
 			})

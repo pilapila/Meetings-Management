@@ -1,6 +1,6 @@
 <ul id="dropdown1" class="dropdown-content" ng-controller="statusController">
-  <li><a href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
-  <li><a href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
+  <li><a ng-href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
+  <li><a ng-href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
   <!-- <li class="divider"></li> -->
   <li>
   	<a href="" ng-click="logout()">
@@ -14,16 +14,20 @@
     <a href="#!" class="brand-logo-own">Meetings Management System</a>
     <ul class="right hide-on-med-and-down">
       <li ng-hide="currentUser">
-        <a href="#/login"><i class="material-icons left">https</i>Login</a></li>
+        <a ng-href="#/login"><i class="material-icons left">lock</i>Login</a></li>
       <li ng-hide="currentUser">
-        <a href="#/register"><i class="material-icons left">input</i>Register</a></li>
+        <a ng-href="#/register"><i class="material-icons left">input</i>Register</a></li>
       <li ng-show="currentUser">
-        <a href="#/alarm"><i class="material-icons left">query_builder</i>
-      	Alarm<span class="new badge" data-badge-caption="new">2</span></a>
+        <a ng-href="#/alarm"><i class="material-icons left">query_builder</i>
+      	Alarm
+        <span class="new badge" data-badge-caption="new" ng-show="alarm">
+          {{alarm}}
+        </span>
+        </a>
       </li>
       <li ng-show="currentUser">
-        <a href="#/meetings"><i class="material-icons left">view_list</i>
-      	Meetings<span class="new badge" data-badge-caption="">4</span></a>
+        <a ng-href="#/meetings"><i class="material-icons left">view_list</i>
+      	Meetings<span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">{{ howManyMeetings }} </span></a>
       </li>
       <li ng-show="currentUser">
       	<a class="dropdown-button" href="#!" data-activates="dropdown1">

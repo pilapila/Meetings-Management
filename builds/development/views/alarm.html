@@ -1,0 +1,61 @@
+<br>
+<div ng-hide="signedIn()" class="center">
+  <h3>Sorry</h3>
+  <p>Only registered users can create and manage meetings.</p>
+  <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
+</div>
+
+<div ng-show="signedIn()">
+  
+  <div ng-hide="showAlarmList" class="center">
+    <h3 style="color: #555;">It's ok</h3>
+    <p style="color: #777;">You have nothing alarm in this time, maybe next day :)</p>
+  </div>
+
+  <table ng-show="showAlarmList" class="bordered highlight card">
+    <thead>
+      <tr class="meeting-data-table meeting-table-title">
+        
+        <th class="meeting-data-table">#</th>
+        <th>Meeting</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th></th>
+        
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="(key, meeting) in meetingAlarmFilter">
+       
+        <td class="meeting-data-table">{{ $index + 1 }}</td>
+        <td class="meeting-data-table">{{meeting.name}}</td>
+        <td class="meeting-data-table">{{meeting.description}}</td>
+        <td class="meeting-data-table">{{meeting.dateMeeting | date}}</td>
+        <td class="meeting-data-table">{{meeting.time}}</td>
+        <td class="right meeting-data-table">
+          <a href="">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-thin fa-stack-2x" style="color:#b6dda1;"></i>
+              <i class="fa fa-pencil fa-stack-1x" style="font-size:20px;color:#82b168;"></i>
+              <md-tooltip md-direction="top">
+                EDIT
+              </md-tooltip>
+            </span>
+          </a>
+          <a class="fontawesome-color" href="" ng-click="deleteMeeting($event, key, meeting.name)">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle-thin fa-stack-2x" style="color:#eaa8be;"></i>
+              <i class="fa fa-trash-o fa-stack-1x" style="font-size:20px;color:#d44977;"></i>
+              <md-tooltip md-direction="top">
+                DELETE
+              </md-tooltip>
+            </span>
+          </a>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>   
