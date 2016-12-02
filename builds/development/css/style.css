@@ -10,11 +10,18 @@ main {
     flex: 1 0 auto;
 }
 
+span:focus {
+    outline: none;
+    border: 0;
+ }
+
+/* This css part is for disable animate.css delay */
 .delayAnimate.ng-animate { transition:0s none;
        -webkit-transition:0s none;
        animation: 0s none;
        -webkit-animation: 0s none; 
 }
+
 
 md-toast {
   max-height: 110px;

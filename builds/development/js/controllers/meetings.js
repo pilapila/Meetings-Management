@@ -107,7 +107,7 @@ meetingsApp.controller('MeetingsController',
 
 		$scope.deleteMeeting = function(event, key, meeting) {
 			var confirm = $mdDialog.confirm()
-				.title('Are you sure you want to delete ' + meeting + '?')
+				.title('Are you sure you want to delete ' +  meeting  + ' ?')
 				.ok('Yes')
 				.cancel('Cancel')
 				.targetEvent(event);
@@ -174,6 +174,12 @@ meetingsApp.controller('MeetingsController',
 
 
 		  	$('.collapsible').collapsible({});
+
+		  	$scope.editLink = function (){
+			  $(".collapsible-header").addClass("active");
+			  $(".collapsible").collapsible({accordion: false});
+			};
+
 		  	$('.tooltipped').tooltip({delay: 50});
 		  	$('.timepicker').pickatime({
 			    default: 'now',

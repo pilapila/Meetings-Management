@@ -89,7 +89,8 @@
   <thead>
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
-      <th ng-click="sort('name')">Meeting 
+      <th>
+        <a href="" ng-click="sort('name')">Meeting 
         <i ng-show="sort.field !== 'name'" 
            class="fa fa-chevron-down" 
            aria-hidden="true" style="color:#999"></i>
@@ -98,10 +99,11 @@
            aria-hidden="true" style="color:#d81b60"></i> 
         <i ng-show="sort.field === 'name' && sort.order" 
            class="fa fa-chevron-up animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
-      <th ng-click="sort('description')">
-        Description 
+      
+      <th>
+        <a href="" ng-click="sort('description')">Description 
         <i ng-show="sort.field !== 'description'" 
            class="fa fa-chevron-down" 
            aria-hidden="true" style="color:#999"></i>
@@ -110,10 +112,10 @@
            aria-hidden="true" style="color:#d81b60"></i> 
         <i ng-show="sort.field === 'description' && sort.order" 
            class="fa fa-chevron-up animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i>  
+           aria-hidden="true" style="color:#d81b60"></i> </a> 
       </th>
-      <th ng-click="sort('date')">
-        Date
+      <th>
+        <a href="" ng-click="sort('date')">Date
         <i ng-show="sort.field !== 'date'" 
            class="fa fa-chevron-down" 
            aria-hidden="true" style="color:#999"></i> 
@@ -122,7 +124,7 @@
            aria-hidden="true" style="color:#d81b60"></i> 
         <i ng-show="sort.field === 'date' && sort.order"
            class="fa fa-chevron-up animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
         Time 
@@ -156,7 +158,8 @@
         {{ meeting.remainDay }} {{ meeting.diffDays }}
       </td>
       <td class="right meeting-data-table">
-        <a href="">
+        <a href="" id="editLink" ng-click="editLink()" 
+           data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#b6dda1;margin-top:-7px;"></i>
