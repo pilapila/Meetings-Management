@@ -13,26 +13,57 @@
   <div class="nav-wrapper pink darken-1">
     <a href="#!" class="brand-logo-own">Meetings Management System</a>
     <ul class="right hide-on-med-and-down">
+      
       <li ng-hide="currentUser">
-        <a ng-href="#/login"><i class="material-icons left">lock</i>Login</a></li>
+        <a ng-href="#/login">
+          <i class="fa fa-lock fa-lg fa-icon" aria-hidden="true"></i>
+          Login
+        </a>
+      </li>
+
       <li ng-hide="currentUser">
-        <a ng-href="#/register"><i class="material-icons left">input</i>Register</a></li>
-      <li ng-show="currentUser">
-        <a ng-href="#/alarm"><i class="material-icons left">query_builder</i>
-      	Alarm
-        <span class="new badge" data-badge-caption="new" ng-show="alarm">
-          {{alarm}}
+        <a ng-href="#/register">
+          <i class="fa fa-sign-in fa-lg fa-icon" aria-hidden="true"></i>
+          Register
+        </a>
+      </li>
+
+      <li ng-show="currentUser && expiredDate" class="animated bounce">
+        <a ng-href=""><i class="fa fa-calendar-times-o fa-lg fa-icon" aria-hidden="true"></i>
+        Expired! 
+        <span class="new badge red" data-badge-caption="exp">
+          {{expiredDate}}
         </span>
         </a>
       </li>
-      <li ng-show="currentUser">
-        <a ng-href="#/meetings"><i class="material-icons left">view_list</i>
-      	Meetings<span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">{{ howManyMeetings }} </span></a>
+
+      <li ng-show="currentUser && alarm" class="animated bounce">
+        <a ng-href="#/alarm">
+          <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
+          Alarm
+          <span class="new badge" data-badge-caption="new">
+            {{alarm}}
+          </span>
+        </a>
       </li>
+
+      <li ng-show="currentUser" class="animated bounce">
+        <a ng-href="#/meetings">
+          <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"></i>
+      	   Meetings
+           <span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">
+            {{ howManyMeetings }} 
+           </span>
+        </a>
+      </li>
+
       <li ng-show="currentUser">
-      	<a class="dropdown-button" href="#!" data-activates="dropdown1">
-      	Welcome {{ currentUser.firstname }}<i class="material-icons right">arrow_drop_down</i>
+      	<a class="dropdown-button animated bounce" href="#!" data-activates="dropdown1">
+          <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
+      	   Welcome  {{  currentUser.firstname  }}
+           <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
       </a></li>
+
     </ul>
   </div>
 </nav>

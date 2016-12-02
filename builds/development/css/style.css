@@ -16,13 +16,43 @@ md-toast {
   /*left: calc(50vw - 150px);*/
 }
 
+nav .input-field {
+  height: 35px !important;
+}
+
+.input-field input[type=search] {
+  display: block !important;
+  line-height: 35px !important;
+  padding-left: 4rem !important;
+  width: calc(100% - 4rem) !important;
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+nav .input-field input {
+  height: 35px !important;
+  font-size: 1rem !important;
+  border: none !important;
+  padding-left: 2rem !important;
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+nav .input-field label {
+  line-height: 35px !important;
+  height: 35px !important;
+}
+
+nav .nav-wrapper i {
+  line-height: 35px !important;
+  height: 35px !important;
+}
+
 .form-base {
   padding-top: 20px;
 }
 
 .modal-background {
   background-color: #fff !important;
-  color: #d4b24f !important;
+  color: #a1a1a1 !important;
 }
 
 .modal-label {
@@ -46,18 +76,33 @@ md-toast {
   font-size: 1.2rem;
 }
 
+.fa-icon {
+  padding-right: 5px;
+  vertical-align: -3% !important;
+}
+
+.fa-icon-right {
+  padding-left: 10px;
+  vertical-align: -3% !important;
+}
+
 .icon-color {
   color: #999 !important;
 }
 
 .meeting-table-title {
-  background-color: #cfcfcf !important;
-  
+  background-color: #dcdcdc !important;
 }
 
 .meeting-data-table {
   font-size: .85em;
   padding: 15px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+}
+
+.meeting-data-table i {
+  margin-left: 5px !important;
 }
 
 .meeting-table {

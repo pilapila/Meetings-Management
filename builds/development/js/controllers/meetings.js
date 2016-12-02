@@ -8,62 +8,93 @@ meetingsApp.controller('MeetingsController',
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
-		  RefServices.refData(firebaseUser).on('value', function (snap) {
+			const meetingRef = RefServices.refData(firebaseUser);
+		  		  meetingRef.on('value', function (snap) {
 		            $timeout(function () {
-			            $scope.meetings = snap.val();
+			            //$scope.meetingsList = $firebaseArray(meetingRef);
+			            //$scope.meetings = snap.val();
+			            $scope.meetings = $firebaseArray(meetingRef);
 			            $rootScope.howManyMeetings = snap.numChildren();
 
-			            var today = new Date();
-						var dd = today.getDate();
-						var mm = today.getMonth()+1; //January is 0!
-						var yyyy = today.getFullYear();
+			            var count = $rootScope.howManyMeetings;
 
-						if(dd<10) {
-						    dd='0'+dd
-						} 
+			        	$scope.meetings.$loaded().then(function (list) { // asynchronous data in AngularFire
 
-						if(mm<10) {
-						    mm='0'+mm
-						} 
-						today = yyyy+'-'+mm+'-'+dd;
-						$rootScope.alarm = 0;
-						$scope.meetingAlarm = [];
-			            angular.forEach($scope.meetings, function (value, key) {
-			            	var date1 = new Date(today);
-							var date2 = new Date(value.dateMeeting);
-							var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+				            var today = new Date();
+							var dd = today.getDate();
+							var mm = today.getMonth()+1; //January is 0!
+							var yyyy = today.getFullYear();
 
-			            	if(diffDays <= 2){
-			            		$rootScope.alarm += 1;
-			            		$scope.meetingAlarm.push(key);
-			            	}
-			            });
-			            $scope.showAlarmList = false;
-			            $scope.meetingAlarmFilter = {};
-			            angular.forEach($scope.meetings, function (value, key) {
-			            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
-			            		if ( key == $scope.meetingAlarm[i]) {
-			            			$scope.meetingAlarmFilter[key] = value;
-			            			$scope.showAlarmList = true;
-			            		}
-			            	};
-			            }); 
-		            }, 0); //timeout 
+							if(dd<10) {
+							    dd='0'+dd
+							} 
+
+							if(mm<10) {
+							    mm='0'+mm
+							} 
+							today = yyyy+'-'+mm+'-'+dd;
+
+							$rootScope.alarm = 0;
+							$rootScope.expiredDate = 0;
+							$scope.meetingAlarm = [];
+							$scope.showAlarmList = false;
+				            $scope.meetingAlarmFilter = {};
+							
+				            angular.forEach($scope.meetings, function (value, key) {
+
+				            	var date1 = new Date(today);
+								var date2 = new Date(value.dateMeeting);
+
+								var timeDiff = (date2.getTime() - date1.getTime());
+								var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+								
+				            	if(diffDays > 0 && diffDays <= 2){
+				            		$rootScope.alarm += 1;
+				            		$scope.meetingAlarm.push(key);
+				            		if (diffDays == 1) {
+				            			$scope.meetings[key].remainDay = diffDays + " day";
+				            		} else {
+				            			$scope.meetings[key].remainDay = diffDays + " days";
+				            		}
+				            	} else if (diffDays < 0) {
+				            		$scope.meetings[key].remainDay = "expired";
+				            		$rootScope.expiredDate += 1;
+				            		$scope.meetings[key].dayColor = "#d81b60";
+				            		$scope.meetings[key].textColor = "#ccc";
+				            		$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
+				            	} else if (diffDays == 0) {
+				            		$scope.meetings[key].remainDay = "Today!";
+				            		$scope.meetings[key].dayColor = "#419215";
+				            		$rootScope.alarm += 1;
+				            		$scope.meetingAlarm.push(key);
+				            	} else if (diffDays > 2) {
+				            		$scope.meetings[key].remainDay = diffDays + " days";
+				            	}
+
+				            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
+				            		if ( key == $scope.meetingAlarm[i]) {
+				            			$scope.meetingAlarmFilter[key] = value;
+				            			$scope.showAlarmList = true;
+				            		}
+				            	};
+
+				            });
+		           		}.bind(this)); // asynchronous data in AngularFire
+					}, 0);
 	       		});  //ref to database
-
+						
 	    $scope.addMeeting = function() {
 	        RefServices.refData(firebaseUser).push().set({
-	              'name':         $scope.meeting.name,
-	              'description':  $scope.meeting.description,
-	              'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
-	              'dateMeeting':  $('.datepicker').val(),
-	              'time':         $('.timepicker').val()
-	            }).then(function() {
-	            	$scope.showToast('Added Meeting');
-	            	$scope.meeting = '';
-	            	$scope.deactiveForm();
-	            });
+               'name':         $scope.meeting.name,
+               'description':  $scope.meeting.description,
+               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+               'dateMeeting':  $('.datepicker').val(),
+               'time':         $('.timepicker').val()
+	        }).then(function() {
+            	$scope.showToast('Added Meeting');
+            	$scope.meeting = '';
+            	$scope.deactiveForm();
+	        });
 	    }   // addMeeting 
 
 		$scope.deleteMeeting = function(event, key, meeting) {
@@ -108,8 +139,10 @@ meetingsApp.controller('MeetingsController',
 			//$('input#time, textarea#textarea1').characterCounter();
 			$('input#description, textarea#textarea1').characterCounter();
 		    $('.modal').modal();
-
+			
 			var inputElement = $('.datepicker').pickadate({
+				//selectMonths: true,
+			    //min: new Date(),
 				onClose: function() {
 				    $(document.activeElement).blur();
 				},
