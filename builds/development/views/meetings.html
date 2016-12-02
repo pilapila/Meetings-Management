@@ -89,30 +89,53 @@
   <thead>
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
-      <th>Meeting 
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+      <th ng-click="sort('name')">Meeting 
+        <i ng-show="sort.field !== 'name'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'name' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'name' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
       </th>
-      <th>
+      <th ng-click="sort('description')">
         Description 
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field !== 'description'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'description' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'description' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i>  
       </th>
-      <th>
+      <th ng-click="sort('date')">
         Date
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field !== 'date'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i> 
+        <i ng-show="sort.field === 'date' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'date' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
       </th>
       <th>
         Time 
       </th>
       <th>
-        Remain Day
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+        Remain Day 
       </th>
       <th class="right" style="margin-right:20px;">Action</th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, meeting) in meetings | filter:query" 
+    <tr ng-repeat="(key, meeting) in meetings | filter:query | orderBy: sort.field: sort.order" 
         style="border-color: #e4e4e4">
       <td class="meeting-data-table">
         <b>{{ $index + 1 }}</b>

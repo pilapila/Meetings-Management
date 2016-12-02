@@ -15,20 +15,20 @@
     <ul class="right hide-on-med-and-down">
       
       <li ng-hide="currentUser">
-        <a ng-href="#/login">
+        <a ng-href="#/login" class="animated bounce delayAnimate">
           <i class="fa fa-lock fa-lg fa-icon" aria-hidden="true"></i>
           Login
         </a>
       </li>
 
       <li ng-hide="currentUser">
-        <a ng-href="#/register">
+        <a ng-href="#/register" class="animated bounce delayAnimate">
           <i class="fa fa-sign-in fa-lg fa-icon" aria-hidden="true"></i>
           Register
         </a>
       </li>
 
-      <li ng-show="currentUser && expiredDate" class="animated bounce">
+      <li ng-show="currentUser && expiredDate" class="animated bounce delayAnimate">
         <a ng-href=""><i class="fa fa-calendar-times-o fa-lg fa-icon" aria-hidden="true"></i>
         Expired! 
         <span class="new badge red" data-badge-caption="exp">
@@ -37,7 +37,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && alarm" class="animated bounce">
+      <li ng-show="currentUser && alarm" class="animated bounce delayAnimate">
         <a ng-href="#/alarm">
           <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
           Alarm
@@ -47,7 +47,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser" class="animated bounce">
+      <li ng-show="currentUser" class="animated bounce delayAnimate">
         <a ng-href="#/meetings">
           <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"></i>
       	   Meetings
@@ -58,11 +58,13 @@
       </li>
 
       <li ng-show="currentUser">
-      	<a class="dropdown-button animated bounce" href="#!" data-activates="dropdown1">
+      	<a class="dropdown-button animated bounce delayAnimate" href="#!" 
+           data-activates="dropdown1">
           <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
       	   Welcome  {{  currentUser.firstname  }}
            <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
-      </a></li>
+        </a>
+      </li>
 
     </ul>
   </div>

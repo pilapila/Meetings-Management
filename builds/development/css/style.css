@@ -10,6 +10,12 @@ main {
     flex: 1 0 auto;
 }
 
+.delayAnimate.ng-animate { transition:0s none;
+       -webkit-transition:0s none;
+       animation: 0s none;
+       -webkit-animation: 0s none; 
+}
+
 md-toast {
   max-height: 110px;
   top: 60px;

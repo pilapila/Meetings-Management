@@ -11,8 +11,16 @@ meetingsApp.controller('MeetingsController',
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {
 		            $timeout(function () {
-			            //$scope.meetingsList = $firebaseArray(meetingRef);
-			            //$scope.meetings = snap.val();
+
+		            	// sort by fields
+		            	$scope.sort = function (field) {
+		            		$scope.sort.field = field;
+		            		$scope.sort.order = !$scope.sort.order;
+		            	};
+
+		            	$scope.sort.field = 'name';
+		            	$scope.sort.order = false;  // ordering for meetings
+
 			            $scope.meetings = $firebaseArray(meetingRef);
 			            $rootScope.howManyMeetings = snap.numChildren();
 
@@ -142,7 +150,7 @@ meetingsApp.controller('MeetingsController',
 			
 			var inputElement = $('.datepicker').pickadate({
 				//selectMonths: true,
-			    //min: new Date(),
+			    min: new Date(),
 				onClose: function() {
 				    $(document.activeElement).blur();
 				},
@@ -176,7 +184,6 @@ meetingsApp.controller('MeetingsController',
 			});
 		  	// $('[data-click]').on('click', function (e) {
 		   //  }); 
-
 	}); // MeetingsController
 
 }());
