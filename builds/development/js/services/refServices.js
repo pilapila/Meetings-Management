@@ -6,7 +6,7 @@
             refData: function(firebaseUser) {
                 return firebase.database().ref().child('users/' + firebaseUser.uid + '/meetings'); 
             },
-            delData: function(firebaseUser, key) {
+            meetData: function(firebaseUser, key) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/meetings/' + key)
             }
         };

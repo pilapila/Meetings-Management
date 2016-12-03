@@ -8,6 +8,9 @@ meetingsApp.controller('MeetingsController',
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
+			$scope.nameAction = "Add New Meeting";
+			$scope.meetingAction = "add";
+
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {
 		            $timeout(function () {
@@ -92,18 +95,45 @@ meetingsApp.controller('MeetingsController',
 	       		});  //ref to database
 						
 	    $scope.addMeeting = function() {
-	        RefServices.refData(firebaseUser).push().set({
-               'name':         $scope.meeting.name,
-               'description':  $scope.meeting.description,
-               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
-               'dateMeeting':  $('.datepicker').val(),
-               'time':         $('.timepicker').val()
-	        }).then(function() {
-            	$scope.showToast('Added Meeting');
-            	$scope.meeting = '';
-            	$scope.deactiveForm();
-	        });
-	    }   // addMeeting 
+	    	$timeout(function () {
+		      if ($scope.meetingAction == "add") {
+		        RefServices.refData(firebaseUser).push().set({
+	               'name':         $scope.meeting.name,
+	               'description':  $scope.meeting.description,
+	               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+	               'dateMeeting':  $('.datepicker').val(),
+	               'time':         $('.timepicker').val()
+		        }).then(function() {
+	            	$scope.showToast('Added Meeting');
+	            	$scope.meeting = "";
+	            	$scope.deactiveForm();
+	            	$(".collapsible-header").removeClass(function(){
+					    return "active";
+					});
+					$(".collapsible").collapsible({accordion: true});
+					$(".collapsible").collapsible({accordion: false});
+		        }); // if action is add statement
+		      } else if ($scope.meetingAction == "edit") {
+		      	RefServices.meetData(firebaseUser, $scope.key).update({
+	               'name':         $scope.meeting.name,
+	               'description':  $scope.meeting.description,
+	               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+	               'dateMeeting':  $('.datepicker').val(),
+	               'time':         $('.timepicker').val()
+	            }).then(function() {
+	            	$scope.showToast('Edited Meeting');
+	            	$scope.deactiveForm();
+	            	$scope.nameAction = "Add New Meeting";
+					$scope.meetingAction = "add";
+					$(".collapsible-header").removeClass(function(){
+					    return "active";
+					});
+					$(".collapsible").collapsible({accordion: true});
+					$(".collapsible").collapsible({accordion: false});
+		        }); // if action is edit statement
+		      }
+		    }, 0);
+		}   // add Meeting 
 
 		$scope.deleteMeeting = function(event, key, meeting) {
 			var confirm = $mdDialog.confirm()
@@ -112,13 +142,13 @@ meetingsApp.controller('MeetingsController',
 				.cancel('Cancel')
 				.targetEvent(event);
 			$mdDialog.show(confirm).then(function(){
-				RefServices.delData(firebaseUser, key).remove();
+				RefServices.meetData(firebaseUser, key).remove();
 				$scope.showToast('Meeting Deleted!');
 			}, function(){
 
 			});
 
-		};
+		};  // delete Meeting
 
 		$scope.showToast = function(message) {
 			$mdToast.show(
@@ -128,7 +158,23 @@ meetingsApp.controller('MeetingsController',
 					.position('top, right')
 					.hideDelay(3000)
 			);
-		};
+		}; // Show Toast
+
+		$scope.getEdit = function (key) {
+			$scope.nameAction = "Edit Meeting";
+			$scope.meetingAction = "edit";
+			$(".collapsible-header").addClass("active");
+			$(".collapsible").collapsible({accordion: false});
+			$("#name").next().addClass("active");
+			$("#description").next().addClass("active");
+
+			RefServices.meetData(firebaseUser, key).on('value', function (snap) {
+		        $timeout(function () {
+		        	$scope.key = key;
+		        	$scope.meeting = snap.val();
+		        }, 0); // timeput
+	       	});  //ref to database
+		}; // get edit
 
 	}   //if statement
   }); //firebaseUser
@@ -167,18 +213,15 @@ meetingsApp.controller('MeetingsController',
 		  	var clearButton = $( '#clearButton' ).on({
 			    click: function() {
 			        $( $(this).data('click') ).trigger('click');
-			        $scope.meeting = '';
+			        $scope.meeting = "";
 			        $scope.deactiveForm();
+			        $scope.nameAction = "Add New Meeting";
+					$scope.meetingAction = "add";
 			    }
 			});
 
 
 		  	$('.collapsible').collapsible({});
-
-		  	$scope.editLink = function (){
-			  $(".collapsible-header").addClass("active");
-			  $(".collapsible").collapsible({accordion: false});
-			};
 
 		  	$('.tooltipped').tooltip({delay: 50});
 		  	$('.timepicker').pickatime({

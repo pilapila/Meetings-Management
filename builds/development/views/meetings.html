@@ -26,7 +26,7 @@
     <li>
       <div class="collapsible-header modal-title">
         <i class="material-icons">add</i>
-      	Add New Meeting
+      	{{ nameAction }}
       </div>
       <div class="collapsible-body modal-background">
       	<div class="row modal-form">
@@ -68,11 +68,11 @@
                        ng-model="meeting.time" placeholder="Time">
             </div>
             <div>
-		            <a class="waves-effect Default btn-flat right" id="clearButton" 
-                    data-click=".collapsible .collapsible-header:first">
+		            <a class="waves-effect Default btn-flat right" 
+                   id="clearButton" data-click=".collapsible .collapsible-header:first">
                 	Cancel
                 </a>
-                <button class="waves-effect Default btn-flat right" type="submit" id="addButton"
+                <button class="waves-effect Default btn-flat right" type="submit"
                         data-click=".collapsible .collapsible-header:first">
     		          Add 
     		        </button>
@@ -158,7 +158,7 @@
         {{ meeting.remainDay }} {{ meeting.diffDays }}
       </td>
       <td class="right meeting-data-table">
-        <a href="" id="editLink" ng-click="editLink()" 
+        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
