@@ -10,10 +10,11 @@ main {
     flex: 1 0 auto;
 }
 
-span:focus {
-    outline: none;
-    border: 0;
- }
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:   #bde9f6 !important;
+    opacity: 1 !important;
+}
+
 
 /* This css part is for disable animate.css delay */
 .delayAnimate.ng-animate { transition:0s none;
@@ -65,7 +66,7 @@ nav .nav-wrapper i {
 
 .modal-background {
   background-color: #fff !important;
-  color: #a1a1a1 !important;
+  color: #c27491 !important;
 }
 
 .modal-label {
@@ -79,8 +80,8 @@ nav .nav-wrapper i {
 }
 
 .modal-title {
-  background-color: #80cbc4 !important;
-  border: 1px solid #6fc5bd !important;
+  background-color: #2ea6c8 !important;
+  border: 1px solid #039be4 !important;
   color: #fff !important;
 }
 
@@ -121,6 +122,17 @@ nav .nav-wrapper i {
 .meeting-table {
   border-radius: 10%;
 }
+
+/*input:not([type]), input[type=search] {
+    border: none !important;
+    border-bottom: 1px solid #9e9e9e !important;
+    outline: none;
+    height: 3rem !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+    margin: 0 0 20px 0 !important;
+    padding: 0 !important;
+}*/
 
 .meeting-title {
   font-weight:300;

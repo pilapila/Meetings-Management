@@ -1,4 +1,4 @@
-
+<br>
 <div ng-hide="signedIn()" class="center">
   <h3>Sorry</h3>
   <p>Only registered users can create and manage meetings.</p>
@@ -7,16 +7,18 @@
 
 <div ng-show="signedIn()">
 
-<nav class="search" 
-     style="height:35px;background-color:#dcdcdc;margin-top: 10px;">
+<h5>Meetings system,</h5>add and manage your meetings
+
+<nav class="search right right z-depth-0" 
+style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;width:250px;">
   <div class="nav-wrapper">
     <form>
       <div class="input-field">
-        <input type="search" ng-model="query">
+        <input type="search" ng-model="query" placeholder="search your term">
         <label for="search">
           <i class="material-icons" style="font-size:24px;">search</i>
         </label>
-          <i class="material-icons" style="font-size:15px;">close</i>
+          <i class="material-icons" style="font-size:15px;" ng-click="query = ''">close</i>
       </div>
     </form>
   </div>
@@ -25,7 +27,7 @@
 <ul class="collapsible" data-collapsible="accordion">
     <li>
       <div class="collapsible-header modal-title">
-        <i class="material-icons">add</i>
+        <i class="material-icons">{{ meetingAction }}</i>
       	{{ nameAction }}
       </div>
       <div class="collapsible-body modal-background">
@@ -85,7 +87,6 @@
 </ul>
 
 <table class="bordered highlight card">
-  
   <thead>
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
@@ -138,15 +139,15 @@
 
   <tbody>
     <tr ng-repeat="(key, meeting) in meetings | filter:query | orderBy: sort.field: sort.order" 
-        style="border-color: #e4e4e4">
+        style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
       <td class="meeting-data-table">
         <b>{{ $index + 1 }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.name }}
+        {{ meeting.shortName }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.description }}
+        {{ meeting.shortDescription }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.dateMeeting | date }}
@@ -162,16 +163,28 @@
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#b6dda1;margin-top:-7px;"></i>
+               style="color:#bcebf8;margin-top:-7px;"></i>
+            <i class="fa fa-bars fa-stack-1x" 
+               style="font-size:16px;color:#19a7ce;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
+        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+           data-click=".collapsible .collapsible-header:first">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#c7ebb7;margin-top:-7px;"></i>
             <i class="fa fa-pencil fa-stack-1x" 
-               style="font-size:20px;color:#82b168;margin-top:-7px;"></i>
+               style="font-size:18px;color:#65b13b;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               EDIT
             </md-tooltip>
           </span>
         </a>
-        <a class="fontawesome-color" ng-click="deleteMeeting($event, meeting.$id, meeting.name)"
-           href="" >
+        <a class="fontawesome-color" href="" 
+           ng-click="deleteMeeting($event, meeting.$id, meeting.shortName)">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#eaa8be;margin-top:-7px;"></i>

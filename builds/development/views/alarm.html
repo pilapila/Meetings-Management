@@ -12,81 +12,77 @@
     <p style="color: #777;">You have nothing alarm in this time, maybe next day :)</p>
   </div>
 
-<!--   <table ng-show="showAlarmList" class="bordered highlight card">
-    <thead>
-      <tr class="meeting-data-table meeting-table-title">
-        
-        <th class="meeting-data-table">#</th>
-        <th>Meeting</th>
-        <th>Description</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th></th>
-        
-      </tr>
-    </thead>
+<p><h5>Alarm, </h5>snow is comming...</p>
 
-    <tbody>
-      <tr ng-repeat="(key, meeting) in meetingAlarmFilter">
-       
-        <td class="meeting-data-table"><b> {{ $index + 1 }} </b> </td>
-        <td class="meeting-data-table">{{meeting.name}}</td>
-        <td class="meeting-data-table">{{meeting.description}}</td>
-        <td class="meeting-data-table">{{meeting.dateMeeting | date}}</td>
-        <td class="meeting-data-table">{{meeting.time}}</td>
-        <td class="right meeting-data-table">
-          <a href="">
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-thin fa-stack-2x" style="color:#b6dda1;"></i>
-              <i class="fa fa-pencil fa-stack-1x" style="font-size:20px;color:#82b168;"></i>
-              <md-tooltip md-direction="top">
-                EDIT
-              </md-tooltip>
-            </span>
-          </a>
-          <a class="fontawesome-color" href="" ng-click="deleteMeeting($event, key, meeting.name)">
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle-thin fa-stack-2x" style="color:#eaa8be;"></i>
-              <i class="fa fa-trash-o fa-stack-1x" style="font-size:20px;color:#d44977;"></i>
-              <md-tooltip md-direction="top">
-                DELETE
-              </md-tooltip>
-            </span>
-          </a>
-          </td>
-      </tr>
-    </tbody>
-  </table> -->
+<nav class="search" 
+     style="height:35px;background-color:#2ea6c8;margin-top: 10px;color:#fff;">
+  <div class="nav-wrapper">
+    <form>
+      <div class="input-field">
+        <input type="search" ng-model="query" placeholder="search your term">
+        <label for="search">
+          <i class="material-icons" style="font-size:24px;">search</i>
+        </label>
+          <i class="material-icons" style="font-size:15px;" ng-click="query = ''">close</i>
+      </div>
+    </form>
+  </div>
+</nav>
 
- <table class="bordered highlight card">
-  
+<table class="bordered highlight card">
   <thead>
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
-      <th>Meeting 
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+      <th>
+        <a href="" ng-click="sort('name')">Meeting 
+        <i ng-show="sort.field !== 'name'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'name' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'name' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
+      </th>
+      
+      <th>
+        <a href="" ng-click="sort('description')">Description 
+        <i ng-show="sort.field !== 'description'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'description' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'description' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a> 
       </th>
       <th>
-        Description 
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
-      </th>
-      <th>
-        Date
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+        <a href="" ng-click="sort('date')">Date
+        <i ng-show="sort.field !== 'date'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i> 
+        <i ng-show="sort.field === 'date' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'date' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
         Time 
       </th>
       <th>
-        Remain Day
-        <i class="fa fa-chevron-down" aria-hidden="true" style="color:#d81b60"></i> 
+        Remain Day 
       </th>
       <th class="right" style="margin-right:20px;">Action</th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, meeting) in meetingAlarmFilter" 
+    <tr class="animated fadeIn delayAnimate" 
+        ng-repeat="(key, meeting) in meetingAlarmFilter | filter:query | orderBy: sort.field: sort.order" 
         style="border-color: #e4e4e4">
       <td class="meeting-data-table">
         <b>{{ $index + 1 }}</b>
@@ -107,7 +103,8 @@
         {{ meeting.remainDay }} {{ meeting.diffDays }}
       </td>
       <td class="right meeting-data-table">
-        <a href="">
+        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+           data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#b6dda1;margin-top:-7px;"></i>
@@ -133,6 +130,7 @@
         </td>
     </tr>
   </tbody>
-</table> 
+</table>
+</div> 
 
 </div>   

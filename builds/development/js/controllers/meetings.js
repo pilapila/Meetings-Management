@@ -49,7 +49,7 @@ meetingsApp.controller('MeetingsController',
 							$rootScope.expiredDate = 0;
 							$scope.meetingAlarm = [];
 							$scope.showAlarmList = false;
-				            $scope.meetingAlarmFilter = {};
+				            $scope.meetingAlarmFilter = [];
 							
 				            angular.forEach($scope.meetings, function (value, key) {
 
@@ -72,7 +72,11 @@ meetingsApp.controller('MeetingsController',
 				            		$rootScope.expiredDate += 1;
 				            		$scope.meetings[key].dayColor = "#d81b60";
 				            		$scope.meetings[key].textColor = "#ccc";
-				            		$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
+				            		if (diffDays == -1) {
+				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
+				            		} else if (diffDays < -1) {
+				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
+				            		}
 				            	} else if (diffDays == 0) {
 				            		$scope.meetings[key].remainDay = "Today!";
 				            		$scope.meetings[key].dayColor = "#419215";
@@ -84,25 +88,46 @@ meetingsApp.controller('MeetingsController',
 
 				            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
 				            		if ( key == $scope.meetingAlarm[i]) {
-				            			$scope.meetingAlarmFilter[key] = value;
+				            			$scope.meetingAlarmFilter[i] = value;
 				            			$scope.showAlarmList = true;
 				            		}
 				            	};
-
 				            });
+
 		           		}.bind(this)); // asynchronous data in AngularFire
 					}, 0);
 	       		});  //ref to database
 						
 	    $scope.addMeeting = function() {
+	    	
+	    	var shortName = "";
+	    	var shortDescription = "";
+	    	var nameLength = $scope.meeting.name.length;
+	    	var descriptionLength = $scope.meeting.description.length;
+	    	var showCountName = nameLength - 15;
+	    	var showCountDes = descriptionLength - 15;
+
+	    	if (nameLength > 15) {
+	    		shortName = $scope.meeting.name.substr(0, nameLength-showCountName) + ' ...';
+	    	} else {
+	    		shortName = $scope.meeting.name;
+	    	}
+	    	if (descriptionLength > 15) {
+	    		shortDescription = $scope.meeting.description.substr(0, descriptionLength-showCountDes) + ' ...';
+	    	} else {
+	    		shortDescription = $scope.meeting.description;
+	    	} // check for name and description's string not more than 15 char
+
 	    	$timeout(function () {
 		      if ($scope.meetingAction == "add") {
 		        RefServices.refData(firebaseUser).push().set({
-	               'name':         $scope.meeting.name,
-	               'description':  $scope.meeting.description,
-	               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
-	               'dateMeeting':  $('.datepicker').val(),
-	               'time':         $('.timepicker').val()
+	               'name':         		$scope.meeting.name,
+	               'shortName':    		shortName,
+	               'description':  		$scope.meeting.description,
+	               'shortDescription': 	shortDescription,
+	               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+	               'dateMeeting':  		$('.datepicker').val(),
+	               'time':         		$('.timepicker').val()
 		        }).then(function() {
 	            	$scope.showToast('Added Meeting');
 	            	$scope.meeting = "";
@@ -115,11 +140,13 @@ meetingsApp.controller('MeetingsController',
 		        }); // if action is add statement
 		      } else if ($scope.meetingAction == "edit") {
 		      	RefServices.meetData(firebaseUser, $scope.key).update({
-	               'name':         $scope.meeting.name,
-	               'description':  $scope.meeting.description,
-	               'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
-	               'dateMeeting':  $('.datepicker').val(),
-	               'time':         $('.timepicker').val()
+	               'name':         		$scope.meeting.name,
+	               'shortName':    		shortName,
+	               'description': 		$scope.meeting.description,
+	               'shortDescription': 	shortDescription,
+	               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+	               'dateMeeting':  		$('.datepicker').val(),
+	               'time':         		$('.timepicker').val()
 	            }).then(function() {
 	            	$scope.showToast('Edited Meeting');
 	            	$scope.deactiveForm();
@@ -171,7 +198,24 @@ meetingsApp.controller('MeetingsController',
 			RefServices.meetData(firebaseUser, key).on('value', function (snap) {
 		        $timeout(function () {
 		        	$scope.key = key;
-		        	$scope.meeting = snap.val();
+		        	$scope.editMeeting = snap.val();
+
+		        	var $inputDate = $('.datepicker').pickadate();
+					var pickerDate = $inputDate.pickadate('picker');
+					var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
+
+					// var $inputTime = $('.timepicker').pickatime();
+					// var pickerTime = $inputTime.pickatime('picker');
+					// var setTimePicker = pickerTime.set("select", $scope.editMeeting.time);
+
+		        	$scope.meeting = {
+		        	   'name':         $scope.editMeeting.name,
+		               'description':  $scope.editMeeting.description,
+		               'date':         setDatePicker,
+		               //'time':         setTimePicker
+		        	}
+		        	console.log($scope.editMeeting.dateMeeting);
+		        	//console.log(new time($scope.editMeeting.time));
 		        }, 0); // timeput
 	       	});  //ref to database
 		}; // get edit
@@ -222,13 +266,12 @@ meetingsApp.controller('MeetingsController',
 
 
 		  	$('.collapsible').collapsible({});
-
 		  	$('.tooltipped').tooltip({delay: 50});
 		  	$('.timepicker').pickatime({
 			    default: 'now',
 			    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
 			    donetext: 'OK',
-			    autoclose: false,
+			    autoclose: true,
 			    vibrate: true // vibrate the device when dragging clock hand
 			});
 		  	// $('[data-click]').on('click', function (e) {
