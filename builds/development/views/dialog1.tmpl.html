@@ -1,0 +1,24 @@
+<div ng-controller="MeetingsController">
+<md-dialog aria-label="Checkins">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h5>Check-in</h5>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        {{dialog}} <br>
+        {{dialog.name}} <br>
+        {{dialog.description}}
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer('not useful')">
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>
+</div>

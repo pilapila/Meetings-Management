@@ -3,7 +3,7 @@
 
 meetingsApp.controller('MeetingsController', 
   function($scope, $rootScope, $firebase, $timeout, $firebaseArray, $firebaseObject, 
-  		   $mdToast, $mdDialog, RefServices) {
+  		   $mdToast, $mdDialog, $mdMedia, RefServices) {
   	
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
@@ -223,59 +223,111 @@ meetingsApp.controller('MeetingsController',
 	}   //if statement
   }); //firebaseUser
 
-			$scope.deactiveForm = function() {
-		    	inputElement.data( 'pickadate' ).clear();
-		    	$("#name").val("");
-				$("#name").next().removeClass("active");
-				$("#invitees").val("");
-				$("#invitees").next().removeClass("active");
-				$("#description").val("");
-				$("#description").next().removeClass("active");
-		    };
-			
-			$('input#name, textarea#textarea1').characterCounter();
-			//$('input#time, textarea#textarea1').characterCounter();
-			$('input#description, textarea#textarea1').characterCounter();
-		    $('.modal').modal();
-			
-			var inputElement = $('.datepicker').pickadate({
-				//selectMonths: true,
-			    min: new Date(),
-				onClose: function() {
-				    $(document.activeElement).blur();
-				},
-				onSet: function (ele) {
-				   if(ele.select){
-				          this.close();
-				   }
-				},
-			    selectMonths: true, // Creates a dropdown to control month
-			    selectYears: 15, // Creates a dropdown of 15 years to control year
-			    format: 'yyyy-mm-dd'
-		  	});
 
-		  	var clearButton = $( '#clearButton' ).on({
-			    click: function() {
-			        $( $(this).data('click') ).trigger('click');
-			        $scope.meeting = "";
-			        $scope.deactiveForm();
-			        $scope.nameAction = "Add New Meeting";
-					$scope.meetingAction = "add";
-			    }
-			});
+    $scope.showMeetDialog = function(ev, key, meeting) {
+     	$scope.dialog = meeting;
+     	console.log(meeting);
+        $mdDialog.show({
+          controller: function () { this.parent = $scope; },
+          controllerAs: 'ctrl',
+          parent: angular.element(document.body),
+          template: '<md-dialog aria-label="Meeting details">' +
+	          		'<md-toolbar>' +
+				      '<div class="md-toolbar-tools left left">' +
+				        '<span flex><h6>Meeting details</h6></span>' +
+				      '</div>' +
+				    '</md-toolbar>' +
+			        '<md-dialog-content>' +
+				     ' <div class="md-dialog-content">' +
+				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">people</i><b style="color:#e62291;"> Meeting Name: </b> {{ ctrl.parent.dialog.name }} </p>' +
+				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">description</i><b style="color:#e62291;"> Meeting Description: </b> {{ ctrl.parent.dialog.description }} </p>' +
+				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">today</i><b style="color:#e62291;"> Meeting Date: </b> {{ ctrl.parent.dialog.dateMeeting }} </p>' +
+				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">alarm</i><b style="color:#e62291;"> Meeting Time: </b> {{ ctrl.parent.dialog.time }} </p>' +
+				      '</div>' +
+				    '</md-dialog-content>' +
+				'</md-dialog>',
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+          
+          //console.log("Answer is:", answer.firstname.$viewValue, answer.lastname.$viewValue, answer.email.$viewValue , regUser, key);
+        }, function() {
+          console.log("Cancel");
+        });
+    }
+
+    function DialogController($scope, $mdDialog) {
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
+    }// Show Advanced
+
+    
 
 
-		  	$('.collapsible').collapsible({});
-		  	$('.tooltipped').tooltip({delay: 50});
-		  	$('.timepicker').pickatime({
-			    default: 'now',
-			    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
-			    donetext: 'OK',
-			    autoclose: true,
-			    vibrate: true // vibrate the device when dragging clock hand
-			});
+  $scope.deactiveForm = function() {
+	inputElement.data( 'pickadate' ).clear();
+	$("#name").val("");
+	$("#name").next().removeClass("active");
+	$("#invitees").val("");
+	$("#invitees").next().removeClass("active");
+	$("#description").val("");
+	$("#description").next().removeClass("active");
+  };
+
+	$('input#name, textarea#textarea1').characterCounter();
+	//$('input#time, textarea#textarea1').characterCounter();
+	$('input#description, textarea#textarea1').characterCounter();
+    $('.modal').modal();
+	
+	var inputElement = $('.datepicker').pickadate({
+		//selectMonths: true,
+	    min: new Date(),
+		onClose: function() {
+		    $(document.activeElement).blur();
+		},
+		onSet: function (ele) {
+		   if(ele.select){
+		          this.close();
+		   }
+		},
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15, // Creates a dropdown of 15 years to control year
+	    format: 'yyyy-mm-dd'
+  	});
+
+  	var clearButton = $( '#clearButton' ).on({
+	    click: function() {
+	        $( $(this).data('click') ).trigger('click');
+	        $scope.meeting = "";
+	        $scope.deactiveForm();
+	        $scope.nameAction = "Add New Meeting";
+			$scope.meetingAction = "add";
+	    }
+	});
+
+
+  	$('.collapsible').collapsible({});
+  	$('.tooltipped').tooltip({delay: 50});
+  	$('.timepicker').pickatime({
+	    default: 'now',
+	    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
+	    donetext: 'OK',
+	    autoclose: true,
+	    vibrate: true // vibrate the device when dragging clock hand
+	});
 		  	// $('[data-click]').on('click', function (e) {
 		   //  }); 
-	}); // MeetingsController
+ }); // MeetingsController
 
 }());

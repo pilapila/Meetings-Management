@@ -10,11 +10,70 @@ main {
     flex: 1 0 auto;
 }
 
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+    background-color: rgb(42, 166, 202) !important;
+    color: rgb(255,255,255) !important;
+}
+
+md-toolbar {
+    box-sizing: border-box !important;
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -webkit-flex-direction: column !important;
+    flex-direction: column !important;
+    position: relative !important;
+    z-index: 2 !important;
+    font-size: 20px !important;
+    min-height: 34px !important;
+    width: 100% !important;
+}
+
+.md-toolbar-tools {
+    font-size: 14px !important;
+    letter-spacing: 0.005em !important;
+    box-sizing: border-box !important;
+    font-weight: 400 !important;
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+    -webkit-flex-direction: row !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+}
+
+md-dialog .md-dialog-content {
+    padding: 14px !important;
+    font-size: 14px !important;
+    min-width: 400px !important;
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:   #bde9f6 !important;
     opacity: 1 !important;
 }
 
+footer.page-footer {
+    margin-top: 20px !important;
+    padding-top: 10px !important;
+}
+
+footer.page-footer .footer-copyright {
+    overflow: hidden !important;
+    height: 30px !important;
+    line-height: 30px !important;
+}
 
 /* This css part is for disable animate.css delay */
 .delayAnimate.ng-animate { transition:0s none;

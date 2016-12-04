@@ -81,17 +81,16 @@
   </thead>
 
   <tbody>
-    <tr class="animated fadeIn delayAnimate" 
-        ng-repeat="(key, meeting) in meetingAlarmFilter | filter:query | orderBy: sort.field: sort.order" 
-        style="border-color: #e4e4e4">
+    <tr ng-repeat="(key, meeting) in meetingAlarmFilter | filter:query | orderBy: sort.field: sort.order" 
+        style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
       <td class="meeting-data-table">
         <b>{{ $index + 1 }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.name }}
+        {{ meeting.shortName }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.description }}
+        {{ meeting.shortDescription }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.dateMeeting | date }}
@@ -103,20 +102,32 @@
         {{ meeting.remainDay }} {{ meeting.diffDays }}
       </td>
       <td class="right meeting-data-table">
+        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+           class="md-primary md-raised">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#bcebf8;margin-top:-7px;"></i>
+            <i class="fa fa-bars fa-stack-1x" 
+               style="font-size:16px;color:#19a7ce;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
         <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#b6dda1;margin-top:-7px;"></i>
+               style="color:#c7ebb7;margin-top:-7px;"></i>
             <i class="fa fa-pencil fa-stack-1x" 
-               style="font-size:20px;color:#82b168;margin-top:-7px;"></i>
+               style="font-size:18px;color:#65b13b;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               EDIT
             </md-tooltip>
           </span>
         </a>
-        <a class="fontawesome-color" ng-click="deleteMeeting($event, meeting.$id, meeting.name)"
-           href="" >
+        <a class="fontawesome-color" href="" 
+           ng-click="deleteMeeting($event, meeting.$id, meeting.shortName)">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#eaa8be;margin-top:-7px;"></i>
@@ -131,6 +142,5 @@
     </tr>
   </tbody>
 </table>
-</div> 
 
-</div>   
+</div>  
