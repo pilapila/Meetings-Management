@@ -47,9 +47,14 @@ meetingsApp.controller('MeetingsController',
 
 							$rootScope.alarm = 0;
 							$rootScope.expiredDate = 0;
+
 							$scope.meetingAlarm = [];
+							$scope.meetingAlarmFilter = [];
 							$scope.showAlarmList = false;
-				            $scope.meetingAlarmFilter = [];
+				            
+				            $scope.meetingExp = [];
+				            $scope.meetingExpFilter = [];
+				            $scope.showExpList = false;
 							
 				            angular.forEach($scope.meetings, function (value, key) {
 
@@ -72,6 +77,7 @@ meetingsApp.controller('MeetingsController',
 				            		$rootScope.expiredDate += 1;
 				            		$scope.meetings[key].dayColor = "#d81b60";
 				            		$scope.meetings[key].textColor = "#ccc";
+				            		$scope.meetingExp.push(key);
 				            		if (diffDays == -1) {
 				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
 				            		} else if (diffDays < -1) {
@@ -92,6 +98,13 @@ meetingsApp.controller('MeetingsController',
 				            			$scope.showAlarmList = true;
 				            		}
 				            	};
+
+				            	for (var i = 0; i < $scope.meetingExp.length; i++) {
+				            		if ( key == $scope.meetingExp[i]) {
+				            			$scope.meetingExpFilter[i] = value;
+				            			$scope.showExpList = true;
+				            		}
+				            	};
 				            });
 
 		           		}.bind(this)); // asynchronous data in AngularFire
@@ -99,32 +112,11 @@ meetingsApp.controller('MeetingsController',
 	       		});  //ref to database
 						
 	    $scope.addMeeting = function() {
-	    	
-	    	var shortName = "";
-	    	var shortDescription = "";
-	    	var nameLength = $scope.meeting.name.length;
-	    	var descriptionLength = $scope.meeting.description.length;
-	    	var showCountName = nameLength - 15;
-	    	var showCountDes = descriptionLength - 15;
-
-	    	if (nameLength > 15) {
-	    		shortName = $scope.meeting.name.substr(0, nameLength-showCountName) + ' ...';
-	    	} else {
-	    		shortName = $scope.meeting.name;
-	    	}
-	    	if (descriptionLength > 15) {
-	    		shortDescription = $scope.meeting.description.substr(0, descriptionLength-showCountDes) + ' ...';
-	    	} else {
-	    		shortDescription = $scope.meeting.description;
-	    	} // check for name and description's string not more than 15 char
-
 	    	$timeout(function () {
-		      if ($scope.meetingAction == "add") {
+		      if ($scope.meetingAction === "add") {
 		        RefServices.refData(firebaseUser).push().set({
 	               'name':         		$scope.meeting.name,
-	               'shortName':    		shortName,
 	               'description':  		$scope.meeting.description,
-	               'shortDescription': 	shortDescription,
 	               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
 	               'dateMeeting':  		$('.datepicker').val(),
 	               'time':         		$('.timepicker').val()
@@ -138,12 +130,10 @@ meetingsApp.controller('MeetingsController',
 					$(".collapsible").collapsible({accordion: true});
 					$(".collapsible").collapsible({accordion: false});
 		        }); // if action is add statement
-		      } else if ($scope.meetingAction == "edit") {
+		      } else if ($scope.meetingAction === "edit") {
 		      	RefServices.meetData(firebaseUser, $scope.key).update({
 	               'name':         		$scope.meeting.name,
-	               'shortName':    		shortName,
 	               'description': 		$scope.meeting.description,
-	               'shortDescription': 	shortDescription,
 	               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
 	               'dateMeeting':  		$('.datepicker').val(),
 	               'time':         		$('.timepicker').val()
@@ -188,6 +178,9 @@ meetingsApp.controller('MeetingsController',
 		}; // Show Toast
 
 		$scope.getEdit = function (key) {
+		  $timeout(function () {
+		  	
+			$scope.key = key;
 			$scope.nameAction = "Edit Meeting";
 			$scope.meetingAction = "edit";
 			$(".collapsible-header").addClass("active");
@@ -196,16 +189,15 @@ meetingsApp.controller('MeetingsController',
 			$("#description").next().addClass("active");
 
 			RefServices.meetData(firebaseUser, key).on('value', function (snap) {
-		        $timeout(function () {
-		        	$scope.key = key;
 		        	$scope.editMeeting = snap.val();
 
 		        	var $inputDate = $('.datepicker').pickadate();
 					var pickerDate = $inputDate.pickadate('picker');
 					var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
-
+					
+					var spliceTime = $scope.editMeeting.time.slice(0, 5);
 					var time = new Date(),
-					    s = $scope.editMeeting.time + " AM",
+					    s = spliceTime + " AM",
 					    parts = s.match(/(\d+)\:(\d+) (\w+)/),
 					    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
 					    minutes = parseInt(parts[2], 10);
@@ -219,9 +211,11 @@ meetingsApp.controller('MeetingsController',
 		               'date':         setDatePicker,
 		               'time':         time
 		        	}
-		        }, 0); // timeput
+		        	
+		        	console.log(time);
 	       	});  //ref to database
-		}; // get edit
+	      }, 0); // timeput
+		}; // get edit function
 
 	}   //if statement
   }); //firebaseUser
@@ -229,7 +223,6 @@ meetingsApp.controller('MeetingsController',
 
     $scope.showMeetDialog = function(ev, key, meeting) {
      	$scope.dialog = meeting;
-     	console.log(meeting);
         $mdDialog.show({
           controller: function () { this.parent = $scope; },
           controllerAs: 'ctrl',
@@ -282,14 +275,11 @@ meetingsApp.controller('MeetingsController',
 	inputElement.data( 'pickadate' ).clear();
 	$("#name").val("");
 	$("#name").next().removeClass("active");
-	$("#invitees").val("");
-	$("#invitees").next().removeClass("active");
 	$("#description").val("");
 	$("#description").next().removeClass("active");
   };
 
 	$('input#name, textarea#textarea1').characterCounter();
-	//$('input#time, textarea#textarea1').characterCounter();
 	$('input#description, textarea#textarea1').characterCounter();
     $('.modal').modal();
 	
@@ -318,7 +308,6 @@ meetingsApp.controller('MeetingsController',
 			$scope.meetingAction = "add";
 	    }
 	});
-
 
   	$('.collapsible').collapsible({});
   	$('.tooltipped').tooltip({delay: 50});

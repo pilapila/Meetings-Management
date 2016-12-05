@@ -133,7 +133,7 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
       <th>
         Remain Day 
       </th>
-      <th class="right" style="margin-right:20px;">Action</th>
+      <th class="right" style="margin-right:20px;">Actions</th>
     </tr>
   </thead>
 
@@ -144,16 +144,16 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
         <b>{{ $index + 1 }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.shortName }}
+        {{ meeting.name | ShortName }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.shortDescription }}
+        {{ meeting.description | ShortName }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.dateMeeting | date }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.time }}
+        {{ meeting.time | limitTo:5 }}
       </td>
       <td class="meeting-data-table" style="color: {{meeting.dayColor}};">
         {{ meeting.remainDay }} {{ meeting.diffDays }}
@@ -163,9 +163,9 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
            class="md-primary md-raised">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#bcebf8;margin-top:-7px;"></i>
+               style="color:#ffe5a0;margin-top:-7px;"></i>
             <i class="fa fa-bars fa-stack-1x" 
-               style="font-size:16px;color:#19a7ce;margin-top:-7px;"></i>
+               style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               VIEW DETAILS
             </md-tooltip>
@@ -183,8 +183,20 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
             </md-tooltip>
           </span>
         </a>
+        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+           data-click=".collapsible .collapsible-header:first">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#bcebf8;margin-top:-7px;"></i>
+            <i class="fa fa-check fa-stack-1x" 
+               style="font-size:18px;color:#19a7ce;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              CHECK IN
+            </md-tooltip>
+          </span>
+        </a>
         <a class="fontawesome-color" href="" 
-           ng-click="deleteMeeting($event, meeting.$id, meeting.shortName)">
+           ng-click="deleteMeeting($event, meeting.$id, meeting.name)">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#eaa8be;margin-top:-7px;"></i>

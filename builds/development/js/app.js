@@ -26,6 +26,10 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				templateUrl: 'views/alarm.html',
 				controller: 'MeetingsController'
 			})
+			.when('/expired', {
+				templateUrl: 'views/expired.html',
+				controller: 'MeetingsController'
+			})
 			.otherwise({
 				redirectTo: '/login'
 			})
