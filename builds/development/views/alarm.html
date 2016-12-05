@@ -7,11 +7,14 @@
 
 <div ng-show="signedIn()">
   
-  <div ng-hide="showAlarmList" class="center">
-    <h3 style="color: #555;">It's ok</h3>
-    <p style="color: #777;">You have nothing alarm in this time, maybe next day :)</p>
-  </div>
+<div ng-hide="showAlarmList" class="center">
+  <h3 style="color: #555;">It's ok</h3>
+  <p style="color: #777;">You have nothing alarm in this time, maybe next day :)</p>
+</div>
 
+
+<div ng-show="showAlarmList">
+  
 <p><h5>Alarm, </h5>snow is comming...</p>
 
 <nav class="search" 
@@ -142,5 +145,6 @@
     </tr>
   </tbody>
 </table>
-
+<br><br><br>
 </div>  
+</div>

@@ -204,18 +204,21 @@ meetingsApp.controller('MeetingsController',
 					var pickerDate = $inputDate.pickadate('picker');
 					var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
 
-					// var $inputTime = $('.timepicker').pickatime();
-					// var pickerTime = $inputTime.pickatime('picker');
-					// var setTimePicker = pickerTime.set("select", $scope.editMeeting.time);
+					var time = new Date(),
+					    s = $scope.editMeeting.time + " AM",
+					    parts = s.match(/(\d+)\:(\d+) (\w+)/),
+					    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
+					    minutes = parseInt(parts[2], 10);
+
+					time.setHours(hours);
+					time.setMinutes(minutes);
 
 		        	$scope.meeting = {
 		        	   'name':         $scope.editMeeting.name,
 		               'description':  $scope.editMeeting.description,
 		               'date':         setDatePicker,
-		               //'time':         setTimePicker
+		               'time':         time
 		        	}
-		        	console.log($scope.editMeeting.dateMeeting);
-		        	//console.log(new time($scope.editMeeting.time));
 		        }, 0); // timeput
 	       	});  //ref to database
 		}; // get edit
