@@ -10,6 +10,10 @@ main {
     flex: 1 0 auto;
 }
 
+.md-content.md-show {
+  background-color: #1b96b9 !important;
+}
+
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
     background-color: rgb(42, 166, 202) !important;
     color: rgb(255,255,255) !important;

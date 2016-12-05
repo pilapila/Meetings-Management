@@ -179,7 +179,7 @@ meetingsApp.controller('MeetingsController',
 
 		$scope.getEdit = function (key) {
 		  $timeout(function () {
-		  	
+
 			$scope.key = key;
 			$scope.nameAction = "Edit Meeting";
 			$scope.meetingAction = "edit";
@@ -211,8 +211,6 @@ meetingsApp.controller('MeetingsController',
 		               'date':         setDatePicker,
 		               'time':         time
 		        	}
-		        	
-		        	console.log(time);
 	       	});  //ref to database
 	      }, 0); // timeput
 		}; // get edit function
@@ -247,9 +245,8 @@ meetingsApp.controller('MeetingsController',
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
-          
-          //console.log("Answer is:", answer.firstname.$viewValue, answer.lastname.$viewValue, answer.email.$viewValue , regUser, key);
-        }, function() {
+         
+         }, function() {
           console.log("Cancel");
         });
     }
@@ -318,8 +315,7 @@ meetingsApp.controller('MeetingsController',
 	    autoclose: true,
 	    vibrate: true // vibrate the device when dragging clock hand
 	});
-		  	// $('[data-click]').on('click', function (e) {
-		   //  }); 
+
  }); // MeetingsController
 
 }());

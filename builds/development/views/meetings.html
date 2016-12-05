@@ -159,6 +159,7 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
         {{ meeting.remainDay }} {{ meeting.diffDays }}
       </td>
       <td class="right meeting-data-table">
+
         <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
            class="md-primary md-raised">
           <span class="fa-stack fa-lg">
@@ -171,6 +172,7 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
             </md-tooltip>
           </span>
         </a>
+
         <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
@@ -183,7 +185,8 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
             </md-tooltip>
           </span>
         </a>
-        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+
+        <a href="" id="editLink" ng-click="" 
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
@@ -195,6 +198,7 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
             </md-tooltip>
           </span>
         </a>
+
         <a class="fontawesome-color" href="" 
            ng-click="deleteMeeting($event, meeting.$id, meeting.name)">
           <span class="fa-stack fa-lg">
@@ -207,6 +211,8 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
             </md-tooltip>
           </span>
         </a>
+
+
         </td>
     </tr>
   </tbody>
