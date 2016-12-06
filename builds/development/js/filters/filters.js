@@ -1,24 +1,4 @@
 meetingsApp
-    .filter("range", function ($filter) {
-        return function (data, page, size) {
-            var start_index = (page - 1) * size;
-            if (data.length < start_index) {
-                return [];
-            } else {
-                return $filter("limitTo")(data.splice(start_index), size);
-            }
-        };
-    })
-    .filter("pageCount", function () {
-        return function (data, size) {
-                var result = [];
-                console.log(data.length);
-                for (var i = 0; i < Math.ceil(data.length / size) ; i++) {
-                    result.push(i);
-                }
-                return result;
-        };
-    })
     .filter("ShortName", function () {
     	return function (input, count) {
     		var shortName = "";
@@ -33,4 +13,31 @@ meetingsApp
 
     		return shortName
     	};
+    })
+    .filter("range", function ($filter) {
+        return function (data, page, size) {
+            if (angular.isArray(data) && angular.isNumber(page) && angular.isNumber(size)) {
+                var start_index = (page - 1) * size;
+                if (data.length < start_index) {
+                    return [];
+                } else {
+                    return $filter("limitTo")(data.splice(start_index), size);
+                }
+            } else {
+                return data;
+            }
+        };
+    })
+    .filter("pageCount", function () {
+        return function (data, size) {
+            if (angular.isArray(data) && angular.isNumber(size)) {
+                var result = [];
+                for (var i = 0; i < Math.ceil(data.length / size) ; i++) {
+                    result.push(i);
+                }
+                return result;
+            } else {
+                return data;
+            }
+        };
     });

@@ -1,7 +1,7 @@
 var meetingsApp = angular.module("meetingsApp", 
 	["ngMaterial", "ngRoute", "firebase", "ngMessages"])
 		.constant("productListPageCount", 3)
-		.constant("paginationActiveClass", "active");
+		.constant("paginationActiveClass", "active blue lighten-3");
 	
 meetingsApp.config(["$routeProvider", "$mdThemingProvider", 
 	function($routeProvider, $mdThemingProvider) {

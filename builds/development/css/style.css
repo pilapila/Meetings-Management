@@ -10,6 +10,26 @@ main {
     flex: 1 0 auto;
 }
 
+.pagination li a {
+    color: #444 !important;
+    display: inline-block !important;
+    font-size: 1.0rem !important;
+    padding: 0 7px !important;
+    line-height: 24px !important;
+}
+
+.pagination li {
+    display: inline-block !important;
+    border-radius: 4px !important;
+    vertical-align: center !important;
+    height: 23px !important;
+}
+
+.pagination li i {
+    font-size: 1.2rem !important;
+    margin-top: 3px !important;
+}
+
 .md-content.md-show {
   background-color: #1b96b9 !important;
 }

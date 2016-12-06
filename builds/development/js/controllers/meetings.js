@@ -88,8 +88,8 @@ meetingsApp.controller('MeetingsController', function
 				            	} else if (diffDays < 0) {
 				            		$scope.meetings[key].remainDay = "expired";
 				            		$rootScope.expiredDate += 1;
-				            		$scope.meetings[key].dayColor = "#d81b60";
-				            		$scope.meetings[key].textColor = "#ccc";
+				            		$scope.meetings[key].dayColor = "#cc2864";
+				            		$scope.meetings[key].textColor = "#cc2864";
 				            		$scope.meetingExp.push(key);
 				            		if (diffDays == -1) {
 				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
