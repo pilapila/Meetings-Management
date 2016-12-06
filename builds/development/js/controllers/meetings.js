@@ -99,6 +99,7 @@ meetingsApp.controller('MeetingsController', function
 				            	} else if (diffDays == 0) {
 				            		$scope.meetings[key].remainDay = "Today!";
 				            		$scope.meetings[key].dayColor = "#419215";
+				            		$scope.meetings[key].textColor = "#419215";
 				            		$rootScope.alarm += 1;
 				            		$scope.meetingAlarm.push(key);
 				            	} else if (diffDays > 2) {
