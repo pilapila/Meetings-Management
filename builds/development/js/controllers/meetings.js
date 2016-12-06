@@ -1,15 +1,28 @@
 (function(){
  'use strict';
 
-meetingsApp.controller('MeetingsController', 
-  function($scope, $rootScope, $firebase, $timeout, $firebaseArray, $firebaseObject, 
-  		   $mdToast, $mdDialog, $mdMedia, RefServices) {
+meetingsApp.controller('MeetingsController', function
+  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
+   $mdMedia, $filter, RefServices, productListPageCount, paginationActiveClass) {
   	
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
 			$scope.nameAction = "Add New Meeting";
 			$scope.meetingAction = "add";
+
+			$scope.selectedPage = 1;
+			$scope.pageSize = productListPageCount;
+
+			$scope.selectPage = function (newPage) {
+				$scope.selectedPage = newPage;
+			};
+
+			$scope.getPageClass = function(page) {
+				console.log("page"+ page);
+            	return $scope.selectedPage == page ? paginationActiveClass : "";
+        	}; // Pagination functions
+
 
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {

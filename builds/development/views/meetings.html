@@ -138,16 +138,16 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, meeting) in meetings | filter:query | orderBy: sort.field: sort.order" 
+    <tr ng-repeat="(key, meeting) in meetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
         style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
       <td class="meeting-data-table">
         <b>{{ $index + 1 }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.name | ShortName }}
+        {{ meeting.name | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.description | ShortName }}
+        {{ meeting.description | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.dateMeeting | date }}
@@ -218,8 +218,18 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
   </tbody>
 </table>
 
-       
-<br><br><br>
+<div class="row"> 
+    <div class="col s7">
+          <ul class="pagination right">
+            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+            <li ng-repeat="page in meetings | filter:query | pageCount:pageSize"
+                ng-click="selectPage($index + 1)" class="waves-effect"
+                ng-class="getPageClass($index + 1)"><a href="">{{$index+1}}</a></li>
+            <li class="waves-effect"><a href=""><i class="material-icons">chevron_right</i></a></li>
+          </ul>
+    </div>
+</div>
+
 
 </div>                                          
 

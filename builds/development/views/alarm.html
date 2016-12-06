@@ -90,10 +90,10 @@
         <b>{{ $index + 1 }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.name | ShortName }}
+        {{ meeting.name | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        {{ meeting.description | ShortName }}
+        {{ meeting.description | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.dateMeeting | date }}
