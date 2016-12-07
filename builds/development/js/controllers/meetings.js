@@ -13,15 +13,57 @@ meetingsApp.controller('MeetingsController', function
 
 			$scope.selectedPage = 1;
 			$scope.pageSize = productListPageCount;
+			$scope.activationPre = "disabled";
+			$scope.activationNext = "active waves-effect grey lighten-2";
 
 			$scope.selectPage = function (newPage) {
 				$scope.selectedPage = newPage;
-			};
+				if ($scope.selectedPage < $rootScope.pageCount) {
+					$scope.activationNext = "active waves-effect grey lighten-2";
+					//$scope.activationPre = "active";
+				}
+				if ($scope.selectedPage == $rootScope.pageCount) {
+					$scope.activationNext = "disabled";
+					$scope.activationPre = "active waves-effect grey lighten-2";
+				}
+				if ($scope.selectedPage > 1) {
+					//$scope.activationNext = "active";
+					$scope.activationPre = "active waves-effect grey lighten-2";
+				}
+				if ($scope.selectedPage == 1) {
+					$scope.activationNext = "active waves-effect grey lighten-2";
+					$scope.activationPre = "disabled";
+				}
+
+			}; // Pagination select functions
+
+			$scope.selectNextPage = function () {
+				if ($scope.selectedPage < $rootScope.pageCount) {
+					$scope.selectedPage += 1;
+					$scope.activationPre = "active waves-effect grey lighten-2";
+					if ($scope.selectedPage == $rootScope.pageCount) {
+						$scope.activationNext = "disabled";
+					}
+				} else if ($scope.selectedPage >= $rootScope.pageCount) {
+					$scope.selectedPage = $rootScope.pageCount;
+				}
+			}; // Pagination select next functions
+
+			$scope.selectPrePage = function () {
+				if ($scope.selectedPage > 1) {
+					$scope.selectedPage -= 1;
+					$scope.activationNext = "active waves-effect grey lighten-2";
+					if ($scope.selectedPage == 1) {
+						$scope.activationPre = "disabled";
+					}
+				} else if ($scope.selectedPage <= 1) {
+					$scope.selectedPage = 1;
+				}
+			}; // Pagination select pre functions
 
 			$scope.getPageClass = function(page) {
-				console.log("page"+ page);
             	return $scope.selectedPage == page ? paginationActiveClass : "";
-        	}; // Pagination functions
+        	}; // Pagination class functions
 
 
 			const meetingRef = RefServices.refData(firebaseUser);

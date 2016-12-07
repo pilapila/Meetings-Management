@@ -28,13 +28,14 @@ meetingsApp
             }
         };
     })
-    .filter("pageCount", function () {
+    .filter("pageCount", function ($rootScope) {
         return function (data, size) {
             if (angular.isArray(data) && angular.isNumber(size)) {
                 var result = [];
                 for (var i = 0; i < Math.ceil(data.length / size) ; i++) {
                     result.push(i);
                 }
+                $rootScope.pageCount = result.length;
                 return result;
             } else {
                 return data;

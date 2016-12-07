@@ -221,13 +221,21 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
 <div class="row"> 
     <div class="col s7">
           <ul class="pagination right">
-            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+            <li class="{{activationPre}}" ng-click="selectPrePage()">
+              <a href="">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
             <li ng-repeat="page in meetings | filter:query | pageCount:pageSize"
                 ng-click="selectPage($index + 1)" class="waves-effect"
                 ng-class="getPageClass($index + 1)" style="font-size:12px;">
                 <a href="">{{$index+1}}</a>
             </li>
-            <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+            <li class="{{activationNext}}" ng-click="selectNextPage()">
+              <a href="">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
           </ul>
     </div>
 </div>
