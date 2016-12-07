@@ -3,7 +3,7 @@
 
 meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
-   $mdMedia, $filter, RefServices, productListPageCount, paginationActiveClass) {
+   $mdMedia, $filter, RefServices, productListPageCount, paginationActiveClass, paginationActiveClassDir) {
   	
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
@@ -11,36 +11,45 @@ meetingsApp.controller('MeetingsController', function
 			$scope.nameAction = "Add New Meeting";
 			$scope.meetingAction = "add";
 
+			// Start Pagination code
+
 			$scope.selectedPage = 1;
 			$scope.pageSize = productListPageCount;
 			$scope.activationPre = "disabled";
-			$scope.activationNext = "active waves-effect grey lighten-2";
+			$scope.activationNext = paginationActiveClassDir;
+
+		    $scope.selectRowNum = function(num) {
+		    	$scope.pageSize = num;
+		    	$scope.selectedPage = 1;
+		    	$scope.activationPre = "disabled";
+		    	$scope.activationNext = paginationActiveClassDir;
+		    };
 
 			$scope.selectPage = function (newPage) {
 				$scope.selectedPage = newPage;
 				if ($scope.selectedPage < $rootScope.pageCount) {
-					$scope.activationNext = "active waves-effect grey lighten-2";
+					$scope.activationNext = paginationActiveClassDir;
 					//$scope.activationPre = "active";
 				}
 				if ($scope.selectedPage == $rootScope.pageCount) {
 					$scope.activationNext = "disabled";
-					$scope.activationPre = "active waves-effect grey lighten-2";
+					$scope.activationPre = paginationActiveClassDir;
 				}
 				if ($scope.selectedPage > 1) {
 					//$scope.activationNext = "active";
-					$scope.activationPre = "active waves-effect grey lighten-2";
+					$scope.activationPre = paginationActiveClassDir;
 				}
 				if ($scope.selectedPage == 1) {
-					$scope.activationNext = "active waves-effect grey lighten-2";
+					$scope.activationNext = paginationActiveClassDir;
 					$scope.activationPre = "disabled";
 				}
-
 			}; // Pagination select functions
 
 			$scope.selectNextPage = function () {
+				$scope.pageCountRow = $rootScope.pageCount;
 				if ($scope.selectedPage < $rootScope.pageCount) {
 					$scope.selectedPage += 1;
-					$scope.activationPre = "active waves-effect grey lighten-2";
+					$scope.activationPre = paginationActiveClassDir;
 					if ($scope.selectedPage == $rootScope.pageCount) {
 						$scope.activationNext = "disabled";
 					}
@@ -52,7 +61,7 @@ meetingsApp.controller('MeetingsController', function
 			$scope.selectPrePage = function () {
 				if ($scope.selectedPage > 1) {
 					$scope.selectedPage -= 1;
-					$scope.activationNext = "active waves-effect grey lighten-2";
+					$scope.activationNext = paginationActiveClassDir;
 					if ($scope.selectedPage == 1) {
 						$scope.activationPre = "disabled";
 					}
@@ -64,7 +73,7 @@ meetingsApp.controller('MeetingsController', function
 			$scope.getPageClass = function(page) {
             	return $scope.selectedPage == page ? paginationActiveClass : "";
         	}; // Pagination class functions
-
+        	// End Pagination code
 
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {
@@ -364,6 +373,7 @@ meetingsApp.controller('MeetingsController', function
 
   	$('.collapsible').collapsible({});
   	$('.tooltipped').tooltip({delay: 50});
+  	$('select').material_select();
   	$('.timepicker').pickatime({
 	    default: 'now',
 	    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
@@ -371,6 +381,21 @@ meetingsApp.controller('MeetingsController', function
 	    autoclose: true,
 	    vibrate: true // vibrate the device when dragging clock hand
 	});
+
+	$(".button-collapse").sideNav();
+
+	(function($) {
+	    $(function() {
+	      $('.dropdown-button').dropdown({
+	            inDuration: 300,
+	            outDuration: 225,
+	            hover: false, // Activate on hover
+	            belowOrigin: false, // Displays dropdown below the button
+	            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+	          });
+	    }); // End Document Ready
+	})(jQuery); // End of jQuery name space
+
 
  }); // MeetingsController
 

@@ -236,12 +236,30 @@ style="height:35px;background-color:#2ea6c8;margin-top:37px;margin-right:7px;wid
                 <i class="material-icons">chevron_right</i>
               </a>
             </li>
-          </ul>
+          </ul> 
+    </div>
+    <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
+        <a class='dropdown-button' href='javascript:void(0);' data-activates='demoDropdown'   dropdown data-hover="true" style="color:#5a5a5a">
+              rows:  
+              &nbsp&nbsp&nbsp  {{pageSize}}
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              style="margin-left:-10px;"></i>
+        </a>
+
     </div>
 </div>
 
+<ul id='demoDropdown' class='dropdown-content'>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
+      style="font-size:0.85rem!important;">5</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
+      style="font-size:0.85rem!important;">10</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)" 
+      style="font-size:0.85rem!important;">15</a></li>
+</ul>
 
-</div>                                          
+
+</div> <!-- End Page --> 
 
 
 <!-- 

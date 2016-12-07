@@ -38,17 +38,19 @@
  <script src="js/controllers/meetings.js"></script>
 
 </head>
-<body layout="column" style="background-image: url('images/back.png');">
+<body layout="column" 
+style="background-image: url('images/back.png');">
 
 <!-- <md-content> -->
 		<header>
 			<nav ng-include="'views/nav.html'"></nav>
 		</header>
 
-		<main>
+		<main style="background-image: url('images/back.png');">
 			<div class="container col s12" ng-view></div>
 		</main>
-		<div ng-include="'views/footer.html'"></div>
+		<div ng-include="'views/footer.html'" 
+			 style="background-image: url('images/back.png');"></div>
 <!-- </md-content> -->
 		
 

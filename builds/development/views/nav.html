@@ -6,7 +6,7 @@
       <i class="material-icons left">power_settings_new</i>
       Sign out
     </a>
-</li>
+  </li>
 </ul>
 
 <ul id="dropdown2" class="dropdown-content" ng-controller="statusController">
@@ -137,9 +137,9 @@
       <li ng-show="currentUser">
         <a class="dropdown-button animated bounce delayAnimate" href="#!" 
            data-activates="dropdown2">
-          <i class="fa fa-unlock fa-lg fa-icon" style="margin-top: 6px;" aria-hidden="true"></i>
+          <i class="fa fa-unlock fa-lg fa-icon" style="margin-top: 6px;" aria-hidden="true">
+          </i>
            Welcome  {{  currentUser.firstname  }}
-          
         </a>
       </li>
     </ul>
@@ -147,21 +147,3 @@
 
   </div>
 </nav>
-
-<script type="text/javascript">
-
-$(".button-collapse").sideNav();
-
-(function($) {
-		$(function() {
-
-      $('.dropdown-button').dropdown({
-            inDuration: 300,
-            outDuration: 225,
-            hover: false, // Activate on hover
-            belowOrigin: false, // Displays dropdown below the button
-            alignment: 'right', // Displays dropdown with edge aligned to the left of button
-          });
-    }); // End Document Ready
-})(jQuery); // End of jQuery name space
-</script>
