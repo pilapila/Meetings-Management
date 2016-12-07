@@ -136,6 +136,11 @@ nav .input-field {
   padding-left: 4rem !important;
   width: calc(100% - 4rem) !important;
   font-family: 'Titillium Web', sans-serif !important;
+  border-radius: 12px !important;
+}
+
+.input-field input:focus[type=search] {
+  background-color: #a3d7e6 !important;
 }
 
 nav .input-field input {
@@ -176,6 +181,8 @@ nav .nav-wrapper i {
 }
 
 .modal-title {
+  border-top-left-radius: 12px !important; 
+  border-top-right-radius: 12px !important;
   background-color: #2ea6c8 !important;
   border: 1px solid #039be4 !important;
   color: #fff !important;
