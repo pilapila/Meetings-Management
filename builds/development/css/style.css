@@ -11,6 +11,14 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+.card {
+    position: relative;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 12px !important;
+}
+
 main {
     flex: 1 0 auto;
 }
