@@ -140,7 +140,12 @@ nav .input-field {
 }
 
 .input-field input:focus[type=search] {
-  background-color: #b8e2eb !important;
+  background-color: #fff !important;
+
+}
+
+.input-field input.checkins:focus[type=search] {
+  background-color: #fff !important;
 
 }
 
@@ -186,6 +191,17 @@ nav .nav-wrapper i {
   background-color: #2ea6c8 !important;
   border: 1px solid #039be4 !important;
   color: #fff !important;
+}
+
+.sidenav-title1 {
+  border-radius: 12px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.sidenav-li {
+  height: 40px !important;
+  line-height: 40px !important;
 }
 
 .title {

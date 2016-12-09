@@ -33,6 +33,10 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				templateUrl: 'views/expired.html',
 				controller: 'MeetingsController'
 			})
+			.when('/checkins/:uId/:mId', {
+				templateUrl: 'views/checkins.html',
+				controller: 'MeetingsController'
+			})
 			.otherwise({
 				redirectTo: '/login'
 			})

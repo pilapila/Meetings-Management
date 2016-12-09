@@ -91,6 +91,10 @@ meetingsApp.controller('MeetingsController', function
 			            $scope.meetings = $firebaseArray(meetingRef);
 			            $rootScope.howManyMeetings = snap.numChildren();
 
+			            // $scope.meetings.$watch(function(event) {
+					    //    $rootScope.howManyMeetings = $scope.meetings.length;
+					    // });
+
 			            var count = $rootScope.howManyMeetings;
 
 			        	$scope.meetings.$loaded().then(function (list) { // asynchronous data in AngularFire
@@ -312,7 +316,7 @@ meetingsApp.controller('MeetingsController', function
         .then(function(answer) {
          
          }, function() {
-          console.log("Cancel");
+          
         });
     }
 
