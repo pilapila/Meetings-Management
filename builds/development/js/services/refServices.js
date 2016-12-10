@@ -8,7 +8,14 @@
             },
             meetData: function(firebaseUser, key) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/meetings/' + key)
+            },
+            refMeetChecked: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key)
+            },
+            refCheckin: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/checkins')
             }
+
         };
     }]);
 })();

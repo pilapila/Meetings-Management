@@ -30,20 +30,20 @@
     <ul class="right hide-on-med-and-down">
       
       <li ng-hide="currentUser">
-        <a ng-href="#/login" class="animated bounce delayAnimate">
+        <a ng-href="#/login">
           <i class="fa fa-lock fa-lg fa-icon" aria-hidden="true"></i>
           Login
         </a>
       </li>
 
       <li ng-hide="currentUser">
-        <a ng-href="#/register" class="animated bounce delayAnimate">
+        <a ng-href="#/register" >
           <i class="fa fa-sign-in fa-lg fa-icon" aria-hidden="true"></i>
           Register
         </a>
       </li>
 
-      <li ng-show="currentUser && expiredDate" class="animated bounce delayAnimate">
+      <li ng-show="currentUser && expiredDate">
         <a ng-href="#/expired">
           <i class="fa fa-calendar-times-o fa-lg fa-icon" aria-hidden="true"></i>
         Expired! 
@@ -53,7 +53,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && alarm" class="animated bounce delayAnimate">
+      <li ng-show="currentUser && alarm">
         <a ng-href="#/alarm">
           <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
           Alarm
@@ -63,7 +63,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser" class="animated bounce delayAnimate">
+      <li ng-show="currentUser">
         <a ng-href="#/meetings">
           <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"></i>
       	   Meetings
@@ -74,7 +74,7 @@
       </li>
 
       <li ng-show="currentUser">
-      	<a class="dropdown-button animated bounce delayAnimate" href="#!" 
+      	<a class="dropdown-button" href="#!" 
            data-activates="dropdown1">
           <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
       	   Welcome  {{  currentUser.firstname  }}
@@ -111,7 +111,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && alarm" class="animated bounce delayAnimate">
+      <li ng-show="currentUser && alarm">
         <a ng-href="#/alarm">
           <i class="fa fa-clock-o fa-lg fa-icon" 
           style="margin-top:7px;margin-right:5px;" aria-hidden="true"></i>
@@ -123,7 +123,7 @@
         </a>
       </li>
 
-      <li ng-show="currentUser" class="animated bounce delayAnimate">
+      <li ng-show="currentUser">
         <a ng-href="#/meetings">
           <i class="fa fa-users fa-lg fa-icon" 
           style="margin-top:7px;margin-right:5px;" aria-hidden="true"></i>
@@ -135,7 +135,7 @@
       </li>
 
       <li ng-show="currentUser">
-        <a class="dropdown-button animated bounce delayAnimate" href="#!" 
+        <a class="dropdown-button" href="#!" 
            data-activates="dropdown2">
           <i class="fa fa-unlock fa-lg fa-icon" style="margin-top: 6px;" aria-hidden="true">
           </i>

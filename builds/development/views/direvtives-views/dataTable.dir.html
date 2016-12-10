@@ -1,0 +1,236 @@
+<div ng-controller="MeetingsController">
+  
+<div>
+<ul class="collapsible" data-collapsible="accordion" 
+style="border-radius: 12px !important;">
+    <li>
+      <div class="collapsible-header modal-title">
+        <i class="material-icons">{{ meetingAction }}</i>
+        {{ nameAction }}
+      </div>
+      <div class="collapsible-body modal-background"
+         style="border-radius: 12px !important;">
+        <div class="row modal-form">
+        <form ng-submit="addMeeting()" id="meetingform" class="col s12">
+          <div class="row">
+            <div class="input-field col s6">  
+                <i class="small material-icons prefix">supervisor_account</i>
+                <input name="name" id="name" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="meeting.name"  length="25">
+                <label class="modal-label" for="name" data-error="oops! too much words">
+                  Meeting
+                </label>
+            </div>
+            <div class="input-field col s6">
+                <i class="small material-icons prefix">comment</i>
+                <input name="description" id="description" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="meeting.description" length="150">
+                <label class="modal-label" for="description" data-error="oops! too much words">
+                  Description
+                </label>
+            </div>
+            <div class="input-field col s6">
+              <i class="small material-icons prefix">today</i>
+              <input type="date" id="date" class="datepicker" placeholder="Date"
+                     name="date" ng-model="meeting.date">
+              
+            </div>
+            <div class="input-field col s6">
+                <i class="small material-icons prefix">av_timer</i>
+                <input id="timepicker_ampm_dark" class="timepicker" type="time" name="time"
+                       ng-model="meeting.time" placeholder="Time">
+            </div>
+            <div>
+                <a class="waves-effect Default btn-flat right" 
+                   id="clearButton" data-click=".collapsible .collapsible-header:first">
+                  Cancel
+                </a>
+                <button class="waves-effect Default btn-flat right" type="submit"
+                        data-click=".collapsible .collapsible-header:first">
+                  Add 
+                </button>
+        </div>
+        </div>
+        </form>
+      </div>
+      </div>
+    </li>
+</ul>
+</div>
+
+
+
+<table class="bordered highlight card" style="margin-top:-8px">
+  <thead>
+    <tr class="meeting-data-table meeting-table-title">
+      <th class="meeting-data-table">#</th>
+      <th>
+        <a href="" ng-click="sort('name')">Meeting 
+        <i ng-show="sort.field !== 'name'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'name' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'name' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
+      </th>
+      
+      <th>
+        <a href="" ng-click="sort('description')">Description 
+        <i ng-show="sort.field !== 'description'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'description' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'description' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a> 
+      </th>
+      <th>
+        <a href="" ng-click="sort('date')">Date
+        <i ng-show="sort.field !== 'date'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i> 
+        <i ng-show="sort.field === 'date' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'date' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
+      </th>
+      <th>
+        Time 
+      </th>
+      <th>
+        Remain Day 
+      </th>
+      <th style="padding-left:50px">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+        style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
+      <td class="meeting-data-table">
+        <b>{{ $index + 1 }}</b>
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ meeting.name | ShortName:15 }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ meeting.description | ShortName:15 }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ meeting.dateMeeting | date }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ meeting.time | limitTo:5 }}
+      </td>
+      <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
+        {{ meeting.remainDay }} {{ meeting.diffDays }}
+      </td>
+      <td class="right meeting-data-table">
+
+        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+           class="md-primary md-raised">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#ffe5a0;margin-top:-7px;"></i>
+            <i class="fa fa-bars fa-stack-1x" 
+               style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+           data-click=".collapsible .collapsible-header:first">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#c7ebb7;margin-top:-7px;"></i>
+            <i class="fa fa-pencil fa-stack-1x" 
+               style="font-size:18px;color:#65b13b;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              EDIT
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a ng-href="#/checkins/{{firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}" 
+           id="editLink" 
+           data-click=".collapsible .collapsible-header:first">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#bcebf8;margin-top:-7px;"></i>
+            <i class="fa fa-check fa-stack-1x" 
+               style="font-size:18px;color:#19a7ce;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              CHECKINS & INVITEES
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a class="fontawesome-color" href="" 
+           ng-click="deleteMeeting($event, meeting.$id, meeting.name)">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#eaa8be;margin-top:-7px;"></i>
+            <i class="fa fa-trash-o fa-stack-1x" 
+               style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              DELETE
+            </md-tooltip>
+          </span>
+        </a>
+
+
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="row"> 
+    <div class="col s7">
+          <ul class="pagination right">
+            <li class="{{activationPre}}" ng-click="selectPrePage()">
+              <a href="">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
+            <li ng-repeat="page in datameetings | filter:query | pageCount:pageSize"
+                ng-click="selectPage($index + 1)" class="waves-effect"
+                ng-class="getPageClass($index + 1)" style="font-size:12px;">
+                <a href="">{{$index+1}}</a>
+            </li>
+            <li class="{{activationNext}}" ng-click="selectNextPage()">
+              <a href="">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul> 
+    </div>
+    <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
+        <a class='dropdown-button' href='javascript:void(0);' data-activates='demoDropdown'   dropdown data-hover="true" style="color:#5a5a5a">
+              rows:  
+              &nbsp&nbsp&nbsp  {{pageSize}}
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              style="margin-left:-10px;"></i>
+        </a>
+    </div>
+</div>
+
+<ul id='demoDropdown' class='dropdown-content'>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
+      style="font-size:0.85rem!important;">5</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
+      style="font-size:0.85rem!important;">10</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)" 
+      style="font-size:0.85rem!important;">15</a></li>
+</ul>
+
+</div>

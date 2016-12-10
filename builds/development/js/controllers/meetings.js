@@ -3,94 +3,19 @@
 
 meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
-   $mdMedia, $filter, RefServices, productListPageCount, paginationActiveClass, paginationActiveClassDir) {
+   $mdMedia, $filter, RefServices, productListPageCount) {
   	
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
-			$scope.nameAction = "Add New Meeting";
-			$scope.meetingAction = "add";
-
-			// Start Pagination code
-
-			$scope.selectedPage = 1;
-			$scope.pageSize = productListPageCount;
-			$scope.activationPre = "disabled";
-			$scope.activationNext = paginationActiveClassDir;
-
-		    $scope.selectRowNum = function(num) {
-		    	$scope.pageSize = num;
-		    	$scope.selectedPage = 1;
-		    	$scope.activationPre = "disabled";
-		    	$scope.activationNext = paginationActiveClassDir;
-		    };
-
-			$scope.selectPage = function (newPage) {
-				$scope.selectedPage = newPage;
-				if ($scope.selectedPage < $rootScope.pageCount) {
-					$scope.activationNext = paginationActiveClassDir;
-					//$scope.activationPre = "active";
-				}
-				if ($scope.selectedPage == $rootScope.pageCount) {
-					$scope.activationNext = "disabled";
-					$scope.activationPre = paginationActiveClassDir;
-				}
-				if ($scope.selectedPage > 1) {
-					//$scope.activationNext = "active";
-					$scope.activationPre = paginationActiveClassDir;
-				}
-				if ($scope.selectedPage == 1) {
-					$scope.activationNext = paginationActiveClassDir;
-					$scope.activationPre = "disabled";
-				}
-			}; // Pagination select functions
-
-			$scope.selectNextPage = function () {
-				$scope.pageCountRow = $rootScope.pageCount;
-				if ($scope.selectedPage < $rootScope.pageCount) {
-					$scope.selectedPage += 1;
-					$scope.activationPre = paginationActiveClassDir;
-					if ($scope.selectedPage == $rootScope.pageCount) {
-						$scope.activationNext = "disabled";
-					}
-				} else if ($scope.selectedPage >= $rootScope.pageCount) {
-					$scope.selectedPage = $rootScope.pageCount;
-				}
-			}; // Pagination select next functions
-
-			$scope.selectPrePage = function () {
-				if ($scope.selectedPage > 1) {
-					$scope.selectedPage -= 1;
-					$scope.activationNext = paginationActiveClassDir;
-					if ($scope.selectedPage == 1) {
-						$scope.activationPre = "disabled";
-					}
-				} else if ($scope.selectedPage <= 1) {
-					$scope.selectedPage = 1;
-				}
-			}; // Pagination select pre functions
-
-			$scope.getPageClass = function(page) {
-            	return $scope.selectedPage == page ? paginationActiveClass : "";
-        	}; // Pagination class functions
-        	// End Pagination code
 
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {
 		            $timeout(function () {
 
-		            	// sort by fields
-		            	$scope.sort = function (field) {
-		            		$scope.sort.field = field;
-		            		$scope.sort.order = !$scope.sort.order;
-		            	};
-
-		            	$scope.sort.field = 'name';
-		            	$scope.sort.order = false;  // ordering for meetings
-
-			            $scope.meetings = $firebaseArray(meetingRef);
-			            $rootScope.howManyMeetings = snap.numChildren();
-
+		            	$scope.firebaseUser = firebaseUser.uid;
+		            	$scope.meetings = $firebaseArray(meetingRef);
+            			$rootScope.howManyMeetings = snap.numChildren();
 			            // $scope.meetings.$watch(function(event) {
 					    //    $rootScope.howManyMeetings = $scope.meetings.length;
 					    // });
@@ -134,17 +59,18 @@ meetingsApp.controller('MeetingsController', function
 								
 				            	if(diffDays > 0 && diffDays <= 2){
 				            		$rootScope.alarm += 1;
+				            		$scope.meetings[key].dayColor = "707070";
 				            		$scope.meetingAlarm.push(key);
 				            		if (diffDays == 1) {
-				            			$scope.meetings[key].remainDay = diffDays + " day";
+				            			$scope.meetings[key].remainDay = diffDays + " day remain";
 				            		} else {
-				            			$scope.meetings[key].remainDay = diffDays + " days";
+				            			$scope.meetings[key].remainDay = diffDays + " days remain";
 				            		}
 				            	} else if (diffDays < 0) {
 				            		$scope.meetings[key].remainDay = "expired";
 				            		$rootScope.expiredDate += 1;
-				            		$scope.meetings[key].dayColor = "#cc2864";
-				            		$scope.meetings[key].textColor = "#cc2864";
+				            		$scope.meetings[key].dayColor = "cc2864";
+				            		$scope.meetings[key].textColor = "cc2864";
 				            		$scope.meetingExp.push(key);
 				            		if (diffDays == -1) {
 				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
@@ -153,12 +79,13 @@ meetingsApp.controller('MeetingsController', function
 				            		}
 				            	} else if (diffDays == 0) {
 				            		$scope.meetings[key].remainDay = "Today!";
-				            		$scope.meetings[key].dayColor = "#419215";
-				            		$scope.meetings[key].textColor = "#419215";
+				            		$scope.meetings[key].dayColor = "419215";
+				            		$scope.meetings[key].textColor = "419215";
 				            		$rootScope.alarm += 1;
 				            		$scope.meetingAlarm.push(key);
 				            	} else if (diffDays > 2) {
-				            		$scope.meetings[key].remainDay = diffDays + " days";
+				            		$scope.meetings[key].remainDay = diffDays + " days remain";
+				            		$scope.meetings[key].dayColor = "707070";
 				            	}
 
 				            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
@@ -294,7 +221,7 @@ meetingsApp.controller('MeetingsController', function
           controller: function () { this.parent = $scope; },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
-          template: '<md-dialog aria-label="Meeting details">' +
+          template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px">' +
 	          		'<md-toolbar>' +
 				      '<div class="md-toolbar-tools left left">' +
 				        '<span flex><h6>Meeting details</h6></span>' +
@@ -308,7 +235,7 @@ meetingsApp.controller('MeetingsController', function
 				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">alarm</i><b style="color:#e62291;"> Meeting Time: </b> {{ ctrl.parent.dialog.time }} </p>' +
 				      '</div>' +
 				    '</md-dialog-content>' +
-				'</md-dialog>',
+					'</md-dialog>',
           targetEvent: ev,
           clickOutsideToClose:true,
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
@@ -386,7 +313,13 @@ meetingsApp.controller('MeetingsController', function
 	    vibrate: true // vibrate the device when dragging clock hand
 	});
 
-	$(".button-collapse").sideNav();
+	$('.button-collapse').sideNav('destroy');
+	$(".button-collapse").sideNav({
+	    menuWidth: 240, // Default is 240
+	    edge: 'left', // Choose the horizontal origin
+	    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	    draggable: true
+	});
 
 	(function($) {
 	    $(function() {

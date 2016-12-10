@@ -139,6 +139,12 @@ nav .input-field {
   border-radius: 12px !important;
 }
 
+.checkin-navbar {
+  line-height: 46px !important;
+  height: 46px !important;
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
 .input-field input:focus[type=search] {
   background-color: #fff !important;
 
