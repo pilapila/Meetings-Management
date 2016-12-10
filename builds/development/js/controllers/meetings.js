@@ -274,7 +274,7 @@ meetingsApp.controller('MeetingsController', function
 
 	$('input#name, textarea#textarea1').characterCounter();
 	$('input#description, textarea#textarea1').characterCounter();
-    $('.modal').modal();
+    //$('.modal').modal();
 	
 	var inputElement = $('.datepicker').pickadate({
 		//selectMonths: true,
@@ -292,15 +292,27 @@ meetingsApp.controller('MeetingsController', function
 	    format: 'yyyy-mm-dd'
   	});
 
-  	var clearButton = $( '#clearButton' ).on({
-	    click: function() {
-	        $( $(this).data('click') ).trigger('click');
+ //  	var clearButton = $( '#clearButton' ).on({
+	//     click: function() {
+	//         $( $(this).data('click') ).trigger('click');
+	//         $scope.meeting = "";
+	//         $scope.deactiveForm();
+	//         $scope.nameAction = "Add New Meeting";
+	// 		$scope.meetingAction = "add";
+	//     }
+	// });
+
+	$scope.clearButton =  function() {
+	        $( $( '#clearButton' ).data('click') ).trigger('click');
 	        $scope.meeting = "";
-	        $scope.deactiveForm();
 	        $scope.nameAction = "Add New Meeting";
 			$scope.meetingAction = "add";
-	    }
-	});
+			$("#name").val("");
+			$("#name").next().removeClass("active");
+			$("#description").val("");
+			$("#description").next().removeClass("active");
+	        $scope.deactiveForm();
+	    };
 
   	$('.collapsible').collapsible({});
   	$('.tooltipped').tooltip({delay: 50});

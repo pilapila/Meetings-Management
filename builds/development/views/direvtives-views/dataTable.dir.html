@@ -41,7 +41,7 @@ style="border-radius: 12px !important;">
                        ng-model="meeting.time" placeholder="Time">
             </div>
             <div>
-                <a class="waves-effect Default btn-flat right" 
+                <a class="waves-effect Default btn-flat right" ng-click="clearButton()"
                    id="clearButton" data-click=".collapsible .collapsible-header:first">
                   Cancel
                 </a>
@@ -215,7 +215,9 @@ style="border-radius: 12px !important;">
           </ul> 
     </div>
     <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
-        <a class='dropdown-button' href='javascript:void(0);' data-activates='demoDropdown'   dropdown data-hover="true" style="color:#5a5a5a">
+        <a class='dropdown-button-directive' href='javascript:void(0);' 
+           data-activates='dropdownDirective' dropdown data-hover="true" 
+           style="color:#5a5a5a">
               rows:  
               &nbsp&nbsp&nbsp  {{pageSize}}
               <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
@@ -224,7 +226,7 @@ style="border-radius: 12px !important;">
     </div>
 </div>
 
-<ul id='demoDropdown' class='dropdown-content'>
+<ul id='dropdownDirective' class='dropdown-content'>
     <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
       style="font-size:0.85rem!important;">5</a></li>
     <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
@@ -234,3 +236,18 @@ style="border-radius: 12px !important;">
 </ul>
 
 </div>
+
+<script type="text/javascript">
+  (function($) {
+      
+        $('.dropdown-button-directive').dropdown({
+              inDuration: 300,
+              outDuration: 300,
+              hover: false, // Activate on hover
+              belowOrigin: false, // Displays dropdown below the button
+              alignment: 'left', // Displays dropdown with edge aligned to the left of button
+              gutter: 0,
+            });
+      
+  })(jQuery); // End of jQuery name space
+</script>

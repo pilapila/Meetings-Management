@@ -85,8 +85,10 @@ meetingsApp.directive("datatableDirective", function() {
 
         	$scope.sort.field = 'name';
         	$scope.sort.order = false;  // ordering for meetings
+
         	
-  };
+        	
+  }; //dataTableController
 
 });
 
