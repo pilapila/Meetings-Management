@@ -45,7 +45,7 @@
 
       <li ng-show="currentUser && expiredDate">
         <a ng-href="#/expired">
-          <i class="fa fa-calendar-times-o fa-lg fa-icon" aria-hidden="true"></i>
+          <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
         Expired! 
         <span class="new badge red" data-badge-caption="exp">
           {{expiredDate}}
@@ -55,7 +55,8 @@
 
       <li ng-show="currentUser && alarm">
         <a ng-href="#/alarm">
-          <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
+          <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 
+             aria-hidden="true"></i>
           Alarm
           <span class="new badge" data-badge-caption="new">
             {{alarm}}

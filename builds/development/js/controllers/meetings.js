@@ -119,12 +119,16 @@ meetingsApp.controller('MeetingsController', function
 		        }).then(function() {
 	            	$scope.showToast('Added Meeting');
 	            	$scope.meeting = "";
-	            	$scope.deactiveForm();
 	            	$(".collapsible-header").removeClass(function(){
 					    return "active";
 					});
 					$(".collapsible").collapsible({accordion: true});
 					$(".collapsible").collapsible({accordion: false});
+	            	$("#name").val("");
+					$("#name").next().removeClass("active");
+					$("#description").val("");
+					$("#description").next().removeClass("active");
+					inputElement.data( 'pickadate' ).clear();
 		        }); // if action is add statement
 		      } else if ($scope.meetingAction === "edit") {
 		      	RefServices.meetData(firebaseUser, $scope.key).update({
@@ -135,7 +139,7 @@ meetingsApp.controller('MeetingsController', function
 	               'time':         		$('.timepicker').val()
 	            }).then(function() {
 	            	$scope.showToast('Edited Meeting');
-	            	$scope.deactiveForm();
+	            	$scope.meeting = "";
 	            	$scope.nameAction = "Add New Meeting";
 					$scope.meetingAction = "add";
 					$(".collapsible-header").removeClass(function(){
@@ -143,6 +147,11 @@ meetingsApp.controller('MeetingsController', function
 					});
 					$(".collapsible").collapsible({accordion: true});
 					$(".collapsible").collapsible({accordion: false});
+					$("#name").val("");
+					$("#name").next().removeClass("active");
+					$("#description").val("");
+					$("#description").next().removeClass("active");
+					inputElement.data( 'pickadate' ).clear();
 		        }); // if action is edit statement
 		      }
 		    }, 0);
@@ -264,13 +273,13 @@ meetingsApp.controller('MeetingsController', function
     
 
 
-  $scope.deactiveForm = function() {
-	inputElement.data( 'pickadate' ).clear();
-	$("#name").val("");
-	$("#name").next().removeClass("active");
-	$("#description").val("");
-	$("#description").next().removeClass("active");
-  };
+ //  $scope.deactiveForm = function() {
+	// inputElement.data( 'pickadate' ).clear();
+	// $("#name").val("");
+	// $("#name").next().removeClass("active");
+	// $("#description").val("");
+	// $("#description").next().removeClass("active");
+ //  };
 
 	$('input#name, textarea#textarea1').characterCounter();
 	$('input#description, textarea#textarea1').characterCounter();
@@ -311,7 +320,7 @@ meetingsApp.controller('MeetingsController', function
 			$("#name").next().removeClass("active");
 			$("#description").val("");
 			$("#description").next().removeClass("active");
-	        $scope.deactiveForm();
+			inputElement.data( 'pickadate' ).clear();
 	    };
 
   	$('.collapsible').collapsible({});
