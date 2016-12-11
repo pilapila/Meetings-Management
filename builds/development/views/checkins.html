@@ -40,41 +40,43 @@
                   <i class="material-icons" style="margin-top:3px">menu</i>
                 </a>
                 <ul class="left hide-on-med-and-down">
-                  <li class="sidenav-li">
-                    <a ng-href="">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a class="modal-trigger waves-effect waves-light" 
+                       data-target="modal1">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                       &nbsp Add Checkin
                     </a>
                   </li>
-                  <li class="sidenav-li">
-                    <a ng-href="">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="" class="waves-effect waves-light">
                       <i class="fa fa-bars" aria-hidden="true"></i>
                       &nbsp Meeting Details
                     </a>
                   </li>
-                  <li class="sidenav-li">
-                    <a ng-href="#/meetings">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
                       &nbsp Back to Meetings
                     </a>
                   </li>
                 </ul>
-
+<!-- -------------------------------Phone view -------------------------------- -->
                 <ul id="slide-out" class="side-nav">
-                  <li class="sidenav-li">
-                    <a ng-href="">
+                  <li class="sidenav-li" style="margin-top:-2px">
+                    <a class="modal-trigger waves-effect waves-light" 
+                       data-target="modal1">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                       &nbsp Add Checkin
                     </a>
                   </li>
                   <li class="sidenav-li">
-                    <a ng-href="">
+                    <a ng-href="" class="waves-effect waves-light">
                       <i class="fa fa-bars" aria-hidden="true"></i>
                       &nbsp Meeting Details
                     </a>
                   </li>
                   <li class="sidenav-li">
-                    <a ng-href="#/meetings">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
                       &nbsp Back to Meetings
                     </a>
@@ -88,46 +90,6 @@
     </span>
   </div>
 </div>
-
-<!-- <nav class="search right right z-depth-0" 
-  style="height:35px;background-color:#2ea6c8;margin-top:15px;margin-right:7px;width:200px;">
-    <div class="nav-wrapper">
-      <form>
-        <div class="input-field">
-          <input type="search" ng-model="query" placeholder="search your term">
-          <label for="search">
-            <i class="material-icons" style="font-size:24px;">search</i>
-          </label>
-            <i class="material-icons" style="font-size:15px;" ng-click="query = ''">close</i>
-        </div>
-      </form>
-    </div>
-</nav> -->
-
-<!--     <nav class="checkin-navbar right right z-depth-0" 
-      style="background-color:#2ea6c8;margin-top:9px;margin-right:0px;width:140px;">
-        <div class="nav-wrapper">
-            <div class="input-field">
-              <a ng-href="#/meetings">
-                  <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                  &nbsp Back to Meetings
-              </a>
-            </div>
-        </div>
-    </nav>
-
-    <nav class="checkin-navbar right right z-depth-0" 
-      style="background-color:#2ea6c8;margin-top:9px;margin-right:0px;width:140px;">
-        <div class="nav-wrapper">
-            <div class="input-field">
-              <a ng-href="#">
-                  <i class="fa fa-bars" aria-hidden="true"></i>
-                  &nbsp Meeting Details
-              </a>
-            </div>
-        </div>
-    </nav> -->
-
 
 
 <div class="col s12" style="margin-top:-10px">
@@ -154,7 +116,9 @@
       </div>
 
       <div class="card-action" style="color: #6d6d6d">
-          {{ meetingChecked.description }}
+          <div ng-repeat="checked in checkedList" >
+            {{ checked.firstname }} {{ checked.lastname }}
+          </div>
       </div>
 
       <div class="card-action">
@@ -168,8 +132,62 @@
 </div>
 
 
+<!-- Modal Structure -->
+<form ng-submit="addCheckin()">
+<div id="modal1" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:550px;max-height:400px;">
+  <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color:#26a69a">
+        <h2>Checkin your invitees</h2>
+        <span flex></span>
+        <a class="modal-action modal-close waves-effect waves-green">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+    </md-toolbar>
 
+  <div class="modal-content">
 
+    <div style="margin-bottom:-12px">
+      <div class="row" style="margin-bottom:-12px">
+        <div class="col s12" style="margin-bottom:-12px"
+             ng-repeat="(key, user) in users" class="user" id="{{user.regUser}}">
+
+          <div class="col s5">
+            <input type="checkbox" class="filled-in"
+                   ng-change="sync(bool, user)" 
+                   ng-model="bool" 
+                   ng-checked="isChecked(user.regUser)" 
+                   id="{{$index}}" />
+            <label for="{{$index}}">
+              {{user.firstname}} {{user.lastname}}
+            </label>
+          </div>
+
+          <div class="col s7">
+            <input id="description{{$index+1}}" type="text" 
+                   ng-readonly="!bool"
+                   placeholder="description" style="margin-top:-11px"
+                   ng-model="description">
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div>
+      <pre ng-repeat="show in data">{{ show | json}}</pre>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat"> 
+      Agree
+    </button>
+  </div>
+
+</div>
+</form>
 
 
 
@@ -178,3 +196,9 @@
 </div> <!-- End of html -->
 
 
+<script type="text/javascript">
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+</script>

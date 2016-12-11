@@ -91,9 +91,10 @@ md-toolbar {
 }
 
 md-dialog .md-dialog-content {
-    padding: 14px !important;
+    padding: 10px !important;
     font-size: 14px !important;
     min-width: 400px !important;
+    max-height: 300px !important;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */

@@ -58,8 +58,13 @@ style="border-radius: 12px !important;">
 </ul>
 </div>
 
+<div class="center" ng-hide="meetingsInfo">
+  <p><h6 style="color:#777"><br><br>
+    You have nothing now, click add new meeting...
+  </h6></p>
+</div>
 
-
+<div ng-show="meetingsInfo">
 <table class="bordered highlight card" style="margin-top:-8px">
   <thead>
     <tr class="meeting-data-table meeting-table-title">
@@ -235,6 +240,7 @@ style="border-radius: 12px !important;">
       style="font-size:0.85rem!important;">15</a></li>
 </ul>
 
+</div>
 </div>
 
 <script type="text/javascript">

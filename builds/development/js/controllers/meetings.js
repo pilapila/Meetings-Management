@@ -21,6 +21,11 @@ meetingsApp.controller('MeetingsController', function
 					    // });
 
 			            var count = $rootScope.howManyMeetings;
+			            if(count == 0) {
+			            	$scope.meetingsInfo = false;
+			            } else {
+			            	$scope.meetingsInfo = true;
+			            }
 
 			        	$scope.meetings.$loaded().then(function (list) { // asynchronous data in AngularFire
 
@@ -227,7 +232,12 @@ meetingsApp.controller('MeetingsController', function
     $scope.showMeetDialog = function(ev, key, meeting) {
      	$scope.dialog = meeting;
         $mdDialog.show({
-          controller: function () { this.parent = $scope; },
+          controller: function () { 
+          	this.parent = $scope; 
+          	$scope.cancel = function() {
+		      $mdDialog.cancel();
+		    };
+          },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
           template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px">' +
@@ -244,6 +254,11 @@ meetingsApp.controller('MeetingsController', function
 				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">alarm</i><b style="color:#e62291;"> Meeting Time: </b> {{ ctrl.parent.dialog.time }} </p>' +
 				      '</div>' +
 				    '</md-dialog-content>' +
+				    '<md-dialog-actions layout="row">' +
+					    '<md-button ng-click="ctrl.parent.cancel()">' +
+					       'Ok' +
+					   ' </md-button>' +
+				    '</md-dialog-actions>' +
 					'</md-dialog>',
           targetEvent: ev,
           clickOutsideToClose:true,
@@ -254,21 +269,7 @@ meetingsApp.controller('MeetingsController', function
          }, function() {
           
         });
-    }
-
-    function DialogController($scope, $mdDialog) {
-      $scope.hide = function() {
-        $mdDialog.hide();
-      };
-
-      $scope.cancel = function() {
-        $mdDialog.cancel();
-      };
-
-      $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-      };
-    }// Show Advanced
+    };
 
     
 

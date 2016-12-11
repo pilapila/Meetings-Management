@@ -3,6 +3,9 @@
     
     meetingsApp.factory('RefServices', [ function($firebase) {
         return {
+            refUser: function() {
+                return firebase.database().ref().child('users/'); 
+            },
             refData: function(firebaseUser) {
                 return firebase.database().ref().child('users/' + firebaseUser.uid + '/meetings'); 
             },
