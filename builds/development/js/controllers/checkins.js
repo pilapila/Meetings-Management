@@ -35,41 +35,85 @@ meetingsApp.controller('CheckinsController', function
         $timeout(function () {
           $scope.meetingChecked = snap.val();
         }, 0);
-      });
+      }); // Ref to ckeckin click to show meeting's information  
+
+    const checkedListRef =  RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+      checkedListRef.on('value', function (snap) {
+          $timeout(function () {
+            $scope.checkedList = $firebaseArray(checkedListRef);
+            $scope.checkedList.$loaded().then(function (list) {
+              if (snap.val()) {
+                //console.log($scope.checkedList);
+              }
+            }.bind(this));
+          }, 0);
+      });  // ref to all checkin list   
 
     const checkinUserRef = RefServices.refUser();
       checkinUserRef.on('value', function (snap) {
         $timeout(function () {
           $scope.users = $firebaseArray(checkinUserRef);
           $scope.users.$loaded().then(function (list) { 
-
-            for (var i = 0; i < snap.numChildren(); i++) {
-             // console.log($scope.users[i]);
+            $scope.usersShort = [];
+            for (var i = 0; i < $scope.users.length; i++) {
+              if($scope.users[i].regUser !== $scope.whichuser) {
+                $scope.usersShort.push({
+                  "regUser":   $scope.users[i].regUser,
+                  "firstname": $scope.users[i].firstname,
+                  "lastname":  $scope.users[i].lastname
+                });
+              }
             };
-
+          
+            for (var j = 0; j < $scope.checkedList.length; j++) {
+              for (var i = 0; i < $scope.usersShort.length; i++) {
+                if ($scope.usersShort[i].regUser === $scope.checkedList[j].regUser) {
+                  $scope.usersShort.splice(i,1);
+                }
+              }
+            }
           }.bind(this));
         }, 0);
-      });
-
-    
-
-  const checkinsList = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
-  $scope.checkedList = $firebaseArray(checkinsList);
-  $scope.checkedList.$loaded().then(function (list) {
-    console.log($scope.checkedList);
-  }.bind(this));   
+      });  // Ref to all user and short them
 
 
-  $scope.addCheckin = function(ev) {
+  $scope.addCheckin = function() {
     $timeout(function () {
       for (var i = 0; i < $scope.data.length; i++) {
         RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
           'firstname':  $scope.data[i].firstname,
-          'lastname':  $scope.data[i].lastname
-        })
+          'lastname':   $scope.data[i].lastname,
+          'regUser':    $scope.data[i].regUser
+        }).then(function() {
+          $scope.data = [];
+        });
       };
     }, 0);
-  };
+  };  // Add new Checkin
+
+  $scope.deleteCheckin = function(event, key, checkin) {
+    var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete ' +  checkin  + ' ?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+      $mdDialog.show(confirm).then(function(){
+        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, key).remove();
+        $scope.showToast('Checkin Deleted!');
+      }, function(){
+
+      });
+  }
+
+  $scope.showToast = function(message) {
+      $mdToast.show(
+        $mdToast.simple()
+          .toastClass('md-toast-error')
+          .content(message)
+          .position('top, right')
+          .hideDelay(3000)
+      );
+    }; // Show Toast
 
   $scope.isChecked = function(id){
       var match = false;
@@ -82,7 +126,7 @@ meetingsApp.controller('CheckinsController', function
   };
     
   $scope.data = [];
-
+  
   $scope.sync = function(bool, item){
     if(bool){
       // add item

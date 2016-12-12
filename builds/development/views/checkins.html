@@ -118,6 +118,9 @@
       <div class="card-action" style="color: #6d6d6d">
           <div ng-repeat="checked in checkedList" >
             {{ checked.firstname }} {{ checked.lastname }}
+            <a href="" ng-click="deleteCheckin($event, checked.$id, checked.firstname)">
+              delete
+            </a>
           </div>
       </div>
 
@@ -151,7 +154,7 @@
     <div style="margin-bottom:-12px">
       <div class="row" style="margin-bottom:-12px">
         <div class="col s12" style="margin-bottom:-12px"
-             ng-repeat="(key, user) in users" class="user" id="{{user.regUser}}">
+             ng-repeat="(key, user) in usersShort" class="user" id="{{user.regUser}}">
 
           <div class="col s5">
             <input type="checkbox" class="filled-in"
@@ -174,9 +177,6 @@
 
         </div>
       </div>
-    </div>
-    <div>
-      <pre ng-repeat="show in data">{{ show | json}}</pre>
     </div>
   </div>
 

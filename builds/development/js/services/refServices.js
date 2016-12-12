@@ -17,6 +17,9 @@
             },
             refCheckin: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/checkins')
+            },
+            refCheckedPerson: function(checkUser, keyMeet, keyCheck) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + keyMeet + '/checkins/' + keyCheck)
             }
 
         };
