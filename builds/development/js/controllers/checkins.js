@@ -34,17 +34,16 @@ meetingsApp.controller('CheckinsController', function
       .on('value', function (snap) {
         $timeout(function () {
           $scope.meetingChecked = snap.val();
+          console.log($scope.meetingChecked);
         }, 0);
       }); // Ref to ckeckin click to show meeting's information  
-
+      
     const checkedListRef =  RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
       checkedListRef.on('value', function (snap) {
           $timeout(function () {
             $scope.checkedList = $firebaseArray(checkedListRef);
             $scope.checkedList.$loaded().then(function (list) {
-              if (snap.val()) {
-                //console.log($scope.checkedList);
-              }
+              
             }.bind(this));
           }, 0);
       });  // ref to all checkin list   

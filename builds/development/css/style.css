@@ -84,10 +84,15 @@ md-toolbar {
     -webkit-flex-direction: row !important;
     flex-direction: row !important;
     width: 100% !important;
-    height: 34px !important;
-    max-height: 34px !important;
+    height: 40px !important;
+    max-height: 40px !important;
     padding: 0 16px !important;
     margin: 0 !important;
+}
+
+.md-toolbar-tools.checkinUser {
+    height: 45px !important;
+    max-height: 45px !important;
 }
 
 md-dialog .md-dialog-content {
