@@ -4,6 +4,7 @@ meetingsApp.controller('CheckinsController', function
 
     $scope.checkinNameAction = "Add New Checkin";
     $scope.checkinAction = "add";
+    $scope.isThereOne = false;
 
   	$scope.whichmeeting = $routeParams.mId;
   	$scope.whichuser = $routeParams.uId;
@@ -43,7 +44,11 @@ meetingsApp.controller('CheckinsController', function
           $timeout(function () {
             $scope.checkedList = $firebaseArray(checkedListRef);
             $scope.checkedList.$loaded().then(function (list) {
-              
+              if ($scope.checkedList.length == 0) {
+                $scope.isThereOne = false;
+              } else {
+                $scope.isThereOne = true;
+              }
             }.bind(this));
           }, 0);
       });  // ref to all checkin list   
@@ -59,7 +64,8 @@ meetingsApp.controller('CheckinsController', function
                 $scope.usersShort.push({
                   "regUser":   $scope.users[i].regUser,
                   "firstname": $scope.users[i].firstname,
-                  "lastname":  $scope.users[i].lastname
+                  "lastname":  $scope.users[i].lastname,
+                  "image":     $scope.users[i].image
                 });
               }
             };
@@ -82,6 +88,8 @@ meetingsApp.controller('CheckinsController', function
         RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
           'firstname':  $scope.data[i].firstname,
           'lastname':   $scope.data[i].lastname,
+          'date':       firebase.database.ServerValue.TIMESTAMP,
+          'image':      $scope.data[i].image,
           'regUser':    $scope.data[i].regUser
         }).then(function() {
           $scope.data = [];
@@ -90,19 +98,37 @@ meetingsApp.controller('CheckinsController', function
     }, 0);
   };  // Add new Checkin
 
-  $scope.deleteCheckin = function(event, key, checkin) {
+  $scope.deleteAllCheckin = function() {
+      var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete all invitees ?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+      $mdDialog.show(confirm).then(function(){
+        RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).remove();
+        $scope.showToast('All Deleted!');
+      }, function(){
+
+      });
+  };
+  
+  $scope.clearData = function() {
+    $scope.data = [];
+  };
+
+  $scope.deleteCheckin = function(event, key, firstname, lastname) {
     var confirm = $mdDialog.confirm()
-        .title('Are you sure you want to delete ' +  checkin  + ' ?')
+        .title('Are you sure you want to delete ' +  firstname  + ' ' + lastname + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, key).remove();
-        $scope.showToast('Checkin Deleted!');
+        $scope.showToast(firstname  + ' ' + lastname + ' Deleted!');
       }, function(){
 
       });
-  }
+  };
 
   $scope.showToast = function(message) {
       $mdToast.show(
@@ -112,7 +138,7 @@ meetingsApp.controller('CheckinsController', function
           .position('top, right')
           .hideDelay(3000)
       );
-    }; // Show Toast
+  }; // Show Toast
 
   $scope.isChecked = function(id){
       var match = false;

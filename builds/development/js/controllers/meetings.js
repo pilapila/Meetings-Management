@@ -240,7 +240,7 @@ meetingsApp.controller('MeetingsController', function
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
-          template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px">' +
+          template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;max-width:450px;max-height:350px;">' +
 	          		'<md-toolbar>' +
 				      '<div class="md-toolbar-tools left left">' +
 				        '<span flex><h6>Meeting details</h6></span>' +
@@ -248,10 +248,10 @@ meetingsApp.controller('MeetingsController', function
 				    '</md-toolbar>' +
 			        '<md-dialog-content>' +
 				     ' <div class="md-dialog-content">' +
-				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">people</i><b style="color:#e62291;"> Meeting Name: </b> {{ ctrl.parent.dialog.name }} </p>' +
-				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">description</i><b style="color:#e62291;"> Meeting Description: </b> {{ ctrl.parent.dialog.description }} </p>' +
-				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">today</i><b style="color:#e62291;"> Meeting Date: </b> {{ ctrl.parent.dialog.dateMeeting }} </p>' +
-				        '<p><i class="material-icons md-dark" style="color: #c2c2c2;padding-right: 10px;">alarm</i><b style="color:#e62291;"> Meeting Time: </b> {{ ctrl.parent.dialog.time }} </p>' +
+				        '<p><i class="fa fa-users" aria-hidden="true"></i><b> Meeting Name: </b> {{ ctrl.parent.dialog.name }} </p>' +
+				        '<p style="margin-top:-10px;color:#2ea6c8"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> <b style="color:#2ea6c8"> Meeting Time: </b> {{ ctrl.parent.dialog.time | limitTo:5 }} </p>' +
+				        '<p style="font-size:0.9rem;color:#747474">{{ ctrl.parent.dialog.description }} </p>' +
+				        '<p style="margin-top:-10px;color:#2ea6c8"><i class="fa fa-calendar-o" aria-hidden="true"></i> <b style="color:#2ea6c8"> Meeting Date: </b> {{ ctrl.parent.dialog.dateMeeting | date }} </p>' +
 				      '</div>' +
 				    '</md-dialog-content>' +
 				    '<md-dialog-actions layout="row">' +
