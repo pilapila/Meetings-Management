@@ -20,6 +20,15 @@
             },
             refCheckedPerson: function(checkUser, keyMeet, keyCheck) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + keyMeet + '/checkins/' + keyCheck)
+            },
+            refCheckedDescription: function(checkUser, keyMeet, keyCheck) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + keyMeet + '/checkins/' + keyCheck + '/descriptions')
+            },
+            refDeleteDescription: function(checkUser, keyMeet, keyCheck, keyDes) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + keyMeet + '/checkins/' + keyCheck + '/descriptions/' + keyDes)
+            },
+            refInvitations: function(checkUser) {
+                return firebase.database().ref('users/' + checkUser + '/invitations/')
             }
 
         };

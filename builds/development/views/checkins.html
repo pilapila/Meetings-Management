@@ -54,16 +54,16 @@
                       &nbsp Meeting Details
                     </a>
                   </li>
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a ng-href="#/meetings" class="waves-effect waves-light">
-                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                      &nbsp Back to Meetings
-                    </a>
-                  </li>
                   <li class="sidenav-li" style="margin-top:-3px" ng-show="isThereOne">
                     <a class="waves-effect waves-light" ng-click="deleteAllCheckin()">
                       <i class="fa fa-minus-circle" aria-hidden="true"></i>
                       &nbsp Delete All Invitees
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      &nbsp Back to Meetings
                     </a>
                   </li>
                 </ul>
@@ -126,10 +126,10 @@
       </div>
       <div class="card-action" style="color: #6d6d6d" ng-show="isThereOne">
 
-        <ul class="userlist cf" style="margin-left:5px">
-          <li ng-repeat="checked in checkedList | filter:query"
-              ng-class="checked.userState" class="delayAnimate">
-            <div class="checkin">
+        <ul class="userlist cf" style="margin-left:5px;">
+          <li ng-repeat="checked in checkedList | filter:query" class="delayAnimate hoverable" 
+              style="">
+            <div class="checkin" style="position:relative;z-index:100">
 
                 <div class="col s12 m7">
                   <div class="card horizontal">
@@ -147,26 +147,29 @@
                       </div>
 
                       <div class="card-action">
-                        <a href="" ng-click="addDescription()" 
-                           style="margin-right:-8px;">
+                        <a href="" style="margin-right:-8px;" 
+                           ng-click="showDescription(checked)">
                             <span class="fa-stack fa-lg" style="margin-top:2px">
                               <i class="fa fa-square-o fa-stack-2x" 
                                  style="color:#bcebf8;"></i>
-                              <i class="fa fa-plus fa-stack-1x" 
+                              <i ng-hide="checked.show" class="fa fa-plus fa-stack-1x" 
+                                 style="font-size:18px;color:#19a7ce;"></i>
+                              <i ng-show="checked.show" class="fa fa-minus fa-stack-1x" 
                                  style="font-size:18px;color:#19a7ce;"></i>
                               <md-tooltip md-direction="top">
-                                DESCRIPTION
+                                ADD DESCRIPTION
                               </md-tooltip>
                             </span>
                         </a>
 
                         <a href="" id="editLink" style="margin-right:-8px"
-                             ng-click="showEditCheckin($event, currentUser.regUser, checked.$id)">
+                           ng-click="sendOneInvitation($event, checked)"
+                           ng-hide="{{checked.send}}">
                             <span class="fa-stack fa-lg" style="margin-top:2px">
                               <i class="fa fa-square-o fa-stack-2x" 
                                  style="color:#c7ebb7;"></i>
-                              <i class="fa fa-paper-plane-o fa-stack-1x" 
-                                 style="font-size:18px;color:#65b13b;margin-top:-1px;margin-left:-1px"></i>
+                              <i class="fa fa-envelope-o fa-stack-1x" 
+                                 style="font-size:18px;color:#65b13b;margin-top:-2px;"></i>
                               <md-tooltip md-direction="top">
                                 SEND INVITATION
                               </md-tooltip>
@@ -179,15 +182,14 @@
                               <i class="fa fa-square-o fa-stack-2x" 
                                  style="color:#eaa8be;"></i>
                               <i class="fa fa-trash-o fa-stack-1x" 
-                                 style="font-size:20px;color:#d44977;"></i>
+                                 style="font-size:20px;color:#d44977;margin-top:-2px"></i>
                               <md-tooltip md-direction="top">
                                 DELETE INVITATION
                               </md-tooltip>
                             </span>
                         </a>
 
-                        <a class="fontawesome-color right right" href=""
-                             ng-click="deleteCheckin($event, checked.$id, checked.firstname)">
+                        <a ng-show="{{checked.send}}" class="fontawesome-color right right">
                             <span class="fa-stack fa-lg" 
                                   style="margin-top:2px;margin-right:-15px">
                               <i class="fa fa-check fa-stack-1x" 
@@ -198,94 +200,94 @@
                             </span>
                         </a>
 
+                        <a ng-hide="{{checked.send}}" class="fontawesome-color right right">
+                            <span class="fa-stack fa-lg" 
+                                  style="margin-top:2px;margin-right:-15px">
+                              <i class="fa fa-pause fa-stack-1x" 
+                                 style="font-size:20px;color:#d81b60;"></i>
+                              <md-tooltip md-direction="top">
+                                NOT SENDED
+                              </md-tooltip>
+                            </span>
+                        </a>
+
                       </div>
+
+
                     </div>
                   </div>
                 </div>
 
-              <!-- <div class="buttons">
-                
-                <a href="" ng-click="addDescription()" style="margin-right:-8px;">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-square-o fa-stack-2x" 
-                         style="color:#bcebf8;"></i>
-                      <i class="fa fa-plus fa-stack-1x" 
-                         style="font-size:18px;color:#19a7ce;"></i>
-                      <md-tooltip md-direction="top">
-                        DESCRIPTION
-                      </md-tooltip>
-                    </span>
-                </a>
-
-                <a href="" id="editLink" style="margin-right:-8px"
-                     ng-click="showEditCheckin($event, currentUser.regUser, checked.$id)">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-square-o fa-stack-2x" 
-                         style="color:#c7ebb7;"></i>
-                      <i class="fa fa-paper-plane-o fa-stack-1x" 
-                         style="font-size:18px;color:#65b13b;margin-top:-1px;margin-left:-1px"></i>
-                      <md-tooltip md-direction="top">
-                        SEND INVITATION
-                      </md-tooltip>
-                    </span>
-                </a> 
-
-                <a class="fontawesome-color" href=""
-                     ng-click="deleteCheckin($event, checked.$id, checked.firstname)">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-square-o fa-stack-2x" 
-                         style="color:#eaa8be;"></i>
-                      <i class="fa fa-trash-o fa-stack-1x" 
-                         style="font-size:20px;color:#d44977;"></i>
-                      <md-tooltip md-direction="top">
-                        DELETE INVITATION
-                      </md-tooltip>
-                    </span>
-                </a>
-
-              </div>
-
-              <div class="info">
-                <b style="font-size:1em">
-                  {{ checked.firstname | capitalize }} {{ checked.lastname | capitalize }}
-                </b>
-                <div class="date">{{ checked.date | date }}</div>
-              </div> -->
-
-              <!-- <div>
-                  <form class="cf" ng-submit="giveLove(checked, checked.giftText)" novalidate>
-                     <input type="text" name="giftText" ng-required="true" 
-                            ng-model="checked.giftText" placeholder="What are you giving them?">
-                     <a href="" class="waves-green" type="submit" 
-                             ng-disabled="myform.$invalid">Add
-                     </a>
-                  </form>
-                  
-
-                  <ul class="awardslist cf">
-                    <li class="cf" ng-repeat="(key, award) in checked.awards">
-                       <div class="award">{{award.name}}
-                          <a class="btn btn-delete tooltip" 
-                             ng-click="showConfirmLove($event, checked.$id, key)">
-                            <span>Delete this love</span>
-                          </a>
-                       </div>
-                    </li>
-                  </ul>
-              </div> -->
-
             </div>
+
+            <div ng-show="checked.show" style="margin-top:-10px;" 
+                 ng-class="checked.userState" style="position:relative;z-index:-100">
+              <form name="myform">
+                <div class="col s12 m7">
+                  <div class="card horizontal">
+                    <div class="card-stacked">
+
+                      <div class="card-content" style="margin-top:-1px;padding:10px">
+                        <div class="input-field col s12">
+                        <input type="text" name="text" ng-model="myDescription" 
+                               class="validate" id="text"
+                               style="width:230px;margin-top:0px;height: 2rem;font-size:0.9rem">
+                        <label for="text" data-error="wrong"
+                               style="font-size:0.9rem">
+                          Add description for your invitee
+                        </label>
+                        <a href="" ng-click="giveDescription(checked, myDescription)">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-square-o fa-stack-2x" 
+                                 style="font-size:32px;color:#bcebf8;margin-top:10px"></i>
+                              <i class="fa fa-plus fa-stack-1x" 
+                                 style="font-size:18px;color:#19a7ce;margin-top:6px"></i>
+                            </span>
+                        </a>
+                        </div>
+                      </div>
+
+                      <ul class="awardslist cf" style="margin-top:-20px;padding:5px">
+                          <li class="cf center-align" ng-repeat="(key, des) in checked.descriptions">
+                            <div class="award">
+                              <span style="font-size:0.8rem;margin-left:0px">
+                                {{des.description}}
+                              </span>
+                              <a class="fontawesome-color" href=""
+              ng-click="deleteCheckinDescription($event, checked.$id, key, des.description)">
+                                  <span class="fa-stack fa-lg" style="padding-left:12px">
+                                    <i class="fa fa-times" aria-hidden="true" 
+                                       style="color:#1b9085;margin-top:10px;font-size:0.9rem">
+                                    </i>
+                                  </span>
+                              </a>
+                            </div>
+                          </li>
+                      </ul>
+                      
+                    </div>
+                  </div>
+                </div>
+            </div>
+            
+
           </li>
         </ul>
 
       </div>
 
-      <div class="card-action">
-        <a href=""></a>
+      <div ng-show="sendAllInvitationsButton" class="card-action right-align" 
+           style="margin-right:-45px">
+        <a class="waves-effect btn-flat" style="color:#0889af"
+           ng-click="sendAllInvitations($event)">
+          <i class="material-icons left">email</i>
+          Send All Invitations
+        </a>
         <a href=""></a>
         <a href=""></a>
       </div>
 
+    </form>
     </div>
   </div>
 </div>
@@ -349,6 +351,7 @@
                    ng-model="description">
             
           </div>
+
         </div>
       <!-- </div> -->
     </div>
@@ -356,10 +359,10 @@
 
   <div class="modal-footer">
     <button ng-click="clearData()" 
-            class="modal-action modal-close waves-effect waves-green btn-flat"> 
+            class="modal-action modal-close waves-effect btn-flat"> 
       Cancel
     </button>
-    <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat"> 
+    <button type="submit" class="modal-action modal-close waves-effect btn-flat"> 
       Agree
     </button>
   </div>
@@ -414,9 +417,46 @@
       Ok
     </button>
   </div>
-
 </div>
 
+
+<!-- <form ng-submit="addDescriptionCheckin()">
+<div id="modal3" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:450px;max-height:170px;">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools checkinUser" style="background-color:#26a69a;height:80px">
+      <i class="fa fa-comments-o fa-lg" style="margin-right:10px" aria-hidden="true"></i>
+        <h2>Add description for your invitee</h2>
+        <span flex></span>
+    </div>
+  </md-toolbar>
+
+  <div class="modal-content">
+
+    <div style="margin-bottom:-20px">
+      <div class="row" style="margin-bottom:-10px">
+        <div>
+          <input style="color:#666" name="checkinDescription" 
+                 type="text" ng-model="checkinDescription"
+                 placeholder="What do you want to give them?">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button ng-click="clearData()" 
+            class="modal-action modal-close waves-effect waves-green btn-flat"> 
+      Cancel
+    </button>
+    <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat"> 
+      Agree
+    </button>
+  </div>
+
+</div>
+</form> -->
 
 
 </div> <!-- ng-show="signIn()" -->

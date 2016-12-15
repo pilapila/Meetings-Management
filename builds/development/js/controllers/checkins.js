@@ -35,11 +35,27 @@ meetingsApp.controller('CheckinsController', function
       .on('value', function (snap) {
         $timeout(function () {
           $scope.meetingChecked = snap.val();
-          console.log($scope.meetingChecked);
         }, 0);
-      }); // Ref to ckeckin click to show meeting's information  
+      }); // Ref to ckeckin click to show meeting's information
+
+    const checkInvitationRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+      checkInvitationRef.on('value', function (snap) {
+        $timeout(function () {
+          $scope.checkinSendPosition = $firebaseArray(checkInvitationRef);
+          $scope.checkinSendPosition.$loaded().then(function (list) {
+
+          $scope.sendAllInvitationsButton = false;
+          for (var i = 0; i < snap.numChildren(); i++) {
+              if ($scope.checkinSendPosition[i].send !== true) {
+                $scope.sendAllInvitationsButton = true;
+              }
+          }
+
+         }); // sync
+        }, 0);
+      }); // Ref to ckeckin to find any waiting invitation  
       
-    const checkedListRef =  RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+    const checkedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
       checkedListRef.on('value', function (snap) {
           $timeout(function () {
             $scope.checkedList = $firebaseArray(checkedListRef);
@@ -90,9 +106,10 @@ meetingsApp.controller('CheckinsController', function
           'lastname':   $scope.data[i].lastname,
           'date':       firebase.database.ServerValue.TIMESTAMP,
           'image':      $scope.data[i].image,
-          'regUser':    $scope.data[i].regUser
+          'regUser':    $scope.data[i].regUser,
         }).then(function() {
           $scope.data = [];
+          $scope.showToast('Added invitees');
         });
       };
     }, 0);
@@ -108,12 +125,34 @@ meetingsApp.controller('CheckinsController', function
         RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).remove();
         $scope.showToast('All Deleted!');
       }, function(){
-
+        
       });
   };
   
   $scope.clearData = function() {
     $scope.data = [];
+    $scope.checkinDescription = '';
+  };
+
+  $scope.showDescription = function(myItem) {
+    myItem.show = !myItem.show;
+    if (myItem.show == 'animated fadeInDown delayAnimate') {
+      myItem.userState = 'animated fadeOutUp delayAnimate';
+    } else {
+      myItem.userState = 'animated fadeInDown delayAnimate';
+    }
+  };
+
+  $scope.giveDescription = function(myItem, myDescription) {
+    $scope.myDescription = '';
+    $("#text").val("");
+    RefServices.refCheckedDescription($scope.whichuser, $scope.whichmeeting, myItem.$id).push().set({
+          'description':  myDescription,
+          'date':       firebase.database.ServerValue.TIMESTAMP,
+        }).then(function() {
+          $scope.showToast( 'Added description!' );
+        });
+
   };
 
   $scope.deleteCheckin = function(event, key, firstname, lastname) {
@@ -128,6 +167,88 @@ meetingsApp.controller('CheckinsController', function
       }, function(){
 
       });
+  };
+
+  $scope.deleteCheckinDescription = function(event, idChecked, key, des) {
+    var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete ' +  des  + '?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+      $mdDialog.show(confirm).then(function(){
+        RefServices.refDeleteDescription($scope.whichuser, $scope.whichmeeting, idChecked, key).remove();
+        $scope.showToast( 'Description deleted!' );
+      }, function(){
+
+      });
+  };
+
+  $scope.sendOneInvitation = function(event, checkinKey) {
+    var confirm = $mdDialog.confirm()
+        .title('Sure you want to send invitation to ' +  checkinKey.firstname + ' ' + checkinKey.lastname + '?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+      $mdDialog.show(confirm).then(function(){
+        RefServices.refInvitations(checkinKey.regUser).push().set({
+          'dateMeeting':  $scope.meetingChecked.dateMeeting,
+          'name':         $scope.meetingChecked.name,
+          'description':  $scope.meetingChecked.description,
+          'time':         $scope.meetingChecked.time,
+          'whichUser':    $scope.whichuser,
+          'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+          }).then(function() {
+              $scope.showToast( 'Sended invitation to ' + checkinKey.firstname );
+              RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checkinKey.$id)
+                .update({
+                  "send": true
+                });
+          });
+        });
+  };
+
+  $scope.sendAllInvitations = function(event) {
+    var countSended = $scope.checkedList.length;
+    var confirm = $mdDialog.confirm()
+        .title('Sure you want to send all invitations?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+    $mdDialog.show(confirm).then(function(){
+
+       for (var i = 0; i < $scope.checkedList.length; i++) {
+        if ($scope.checkedList[i].send !== true) {
+            RefServices.refInvitations($scope.checkedList[i].regUser)
+              .push().set({
+                'dateMeeting':  $scope.meetingChecked.dateMeeting,
+                'name':         $scope.meetingChecked.name,
+                'description':  $scope.meetingChecked.description,
+                'time':         $scope.meetingChecked.time,
+                'whichUser':    $scope.whichuser,
+                'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+              }).then(function() {
+                
+              });
+        } else {
+          countSended -= 1;
+        }
+       } // end for
+
+      if (countSended == 0) {
+        $scope.showToast('Nothing New Invitee');
+      } else if (countSended >= 0) {
+        $scope.showToast('Sended ' + countSended + ' New Invitations');
+      }
+      
+      for (var i = 0; i < $scope.checkedList.length; i++) {
+        if ($scope.checkedList[i].send !== true) {
+        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.checkedList[i].$id)
+          .update({
+            "send": true
+          });
+        } // end if
+      } // end for
+    }); // end confirm
   };
 
   $scope.showToast = function(message) {
