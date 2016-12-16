@@ -30,21 +30,21 @@
     <ul class="right hide-on-med-and-down">
       
       <li ng-hide="currentUser">
-        <a ng-href="#/login">
+        <a ng-href="#/login" style="font-size:0.9rem">
           <i class="fa fa-lock fa-lg fa-icon" aria-hidden="true"></i>
           Login
         </a>
       </li>
 
       <li ng-hide="currentUser">
-        <a ng-href="#/register" >
+        <a ng-href="#/register" style="font-size:0.9rem">
           <i class="fa fa-sign-in fa-lg fa-icon" aria-hidden="true"></i>
           Register
         </a>
       </li>
 
       <li ng-show="currentUser && expiredDate">
-        <a ng-href="#/expired">
+        <a ng-href="#/expired" style="font-size:0.9rem">
           <i class="fa fa-clock-o fa-lg fa-icon" aria-hidden="true"></i>
         Expired! 
         <span class="new badge red" data-badge-caption="exp">
@@ -54,7 +54,7 @@
       </li>
 
       <li ng-show="currentUser && alarm">
-        <a ng-href="#/alarm">
+        <a ng-href="#/alarm" style="font-size:0.9rem">
           <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 
              aria-hidden="true"></i>
           Alarm
@@ -64,8 +64,19 @@
         </a>
       </li>
 
+      <li ng-show="currentUser&& invitationShow">
+        <a ng-href="#/invitations" style="font-size:0.9rem">
+          <i class="fa fa-address-card-o fa-lg fa-icon" 
+             aria-hidden="true"></i>
+          Invitations
+          <span class="new badge" data-badge-caption="new">
+            {{ invitationNum }}
+          </span>
+        </a>
+      </li>
+
       <li ng-show="currentUser">
-        <a ng-href="#/meetings">
+        <a ng-href="#/meetings" style="font-size:0.9rem">
           <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"></i>
       	   Meetings
            <span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">
@@ -74,12 +85,21 @@
         </a>
       </li>
 
-      <li ng-show="currentUser">
-      	<a class="dropdown-button" href="#!" 
-           data-activates="dropdown1">
+      <li ng-show="currentUser" style="margin-right:-14px">
+        <a class="dropdown-button" href="#!" 
+           data-activates="dropdown1" style="font-size:0.9rem">
           <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
-      	   Welcome  {{  currentUser.firstname  }}
-           <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
+           Welcome  {{  currentUser.firstname  }}
+          <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
+          
+        </a>
+      </li>
+
+      <li ng-show="currentUser" style="margin-right:35px;margin-top:12px;">
+        <a class="dropdown-button" style="font-size:0.9rem">
+          <div class="crop">
+             <img src="images/personal_pics/{{currentUser.image}}.jpg">
+          </div>
         </a>
       </li>
 

@@ -35,6 +35,10 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				templateUrl: 'views/checkins.html',
 				controller: 'MeetingsController'
 			})
+			.when('/invitations', {
+				templateUrl: 'views/invitations.html',
+				controller: 'MeetingsController'
+			})
 			.otherwise({
 				redirectTo: '/login'
 			});

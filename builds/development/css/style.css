@@ -11,6 +11,14 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+.crop img {
+  border:2px solid #ba1753;
+  position: absolute;
+  clip: rect(0px,40px,40px,0px);
+  width: 40px;
+  height: auto;
+}
+
 ul.awardslist {
   margin-top:-5px;
 }
@@ -40,10 +48,58 @@ ul.awardslist li .btn-delete {
   border: none;
 }
 
+.invitelist {
+  width: 100%;
+  margin: 0 auto;
+  opacity: .999;
+  z-index: 10;
+  margin-top: 15px;
+  padding-left: 15px !important;
+}
+
+.invitelist ul {
+  margin: 0;
+  padding: 0;
+}
+
+.invitelist li {
+  width: 97%;
+  float: left;
+  padding: 4px;
+  /*border: 1px solid #f7f4e8 !important;*/
+  border-radius: 10px;
+  /*margin-bottom: 10px;*/
+  /*margin-right: 9px;*/
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.invitelist li:hover {
+  background-color: #f7f4e9;
+}
+
+.invitelist .info {
+  display: block;
+  float: left;
+  text-align: left;
+}
+
+@media all and (max-width: 600px) {
+  .invitelist li {
+    width: 100%;
+  }
+
+  .invitelist  .info  {
+    width: 70%;
+  }
+}
+/*------------------------------*/
 .userlist {
   width: 100%;
   margin: 0 auto;
-  opacity: .95;
+  opacity: .999;
   z-index: 10;
   margin-top: 0px;
 }

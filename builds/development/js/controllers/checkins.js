@@ -38,6 +38,13 @@ meetingsApp.controller('CheckinsController', function
         }, 0);
       }); // Ref to ckeckin click to show meeting's information
 
+    RefServices.refCaller($scope.whichuser)
+      .on('value', function (snap) {
+        $timeout(function () {
+          $scope.callerInfo = snap.val();
+        }, 0);
+      }); // Ref to users to find picture of caller
+
     const checkInvitationRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
       checkInvitationRef.on('value', function (snap) {
         $timeout(function () {
@@ -51,7 +58,7 @@ meetingsApp.controller('CheckinsController', function
               }
           }
 
-         }); // sync
+         }.bind(this)); // sync
         }, 0);
       }); // Ref to ckeckin to find any waiting invitation  
       
@@ -93,6 +100,14 @@ meetingsApp.controller('CheckinsController', function
                 }
               }
             }
+
+            if ($scope.usersShort.length == 0) {
+              $scope.showCheckinList = false;
+            } else {
+              $scope.showCheckinList = true;
+            }
+             
+
           }.bind(this));
         }, 0);
       });  // Ref to all user and short them
@@ -108,10 +123,11 @@ meetingsApp.controller('CheckinsController', function
           'image':      $scope.data[i].image,
           'regUser':    $scope.data[i].regUser,
         }).then(function() {
-          $scope.data = [];
-          $scope.showToast('Added invitees');
+          
         });
       };
+      $scope.data = [];
+      $scope.showToast('Added invitees');
     }, 0);
   };  // Add new Checkin
 
@@ -127,12 +143,12 @@ meetingsApp.controller('CheckinsController', function
       }, function(){
         
       });
-  };
+  };  // delete all checkin
   
   $scope.clearData = function() {
     $scope.data = [];
     $scope.checkinDescription = '';
-  };
+  }; // clear data
 
   $scope.showDescription = function(myItem) {
     myItem.show = !myItem.show;
@@ -141,7 +157,7 @@ meetingsApp.controller('CheckinsController', function
     } else {
       myItem.userState = 'animated fadeInDown delayAnimate';
     }
-  };
+  };  //show description
 
   $scope.giveDescription = function(myItem, myDescription) {
     $scope.myDescription = '';
@@ -152,8 +168,7 @@ meetingsApp.controller('CheckinsController', function
         }).then(function() {
           $scope.showToast( 'Added description!' );
         });
-
-  };
+  };  // add description
 
   $scope.deleteCheckin = function(event, key, firstname, lastname) {
     var confirm = $mdDialog.confirm()
@@ -167,7 +182,7 @@ meetingsApp.controller('CheckinsController', function
       }, function(){
 
       });
-  };
+  }; // delete checkin invitee
 
   $scope.deleteCheckinDescription = function(event, idChecked, key, des) {
     var confirm = $mdDialog.confirm()
@@ -181,7 +196,7 @@ meetingsApp.controller('CheckinsController', function
       }, function(){
 
       });
-  };
+  };  // delete checkin description
 
   $scope.sendOneInvitation = function(event, checkinKey) {
     var confirm = $mdDialog.confirm()
@@ -191,24 +206,27 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refInvitations(checkinKey.regUser).push().set({
-          'dateMeeting':  $scope.meetingChecked.dateMeeting,
-          'name':         $scope.meetingChecked.name,
-          'description':  $scope.meetingChecked.description,
-          'time':         $scope.meetingChecked.time,
-          'whichUser':    $scope.whichuser,
-          'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+          'dateMeeting':      $scope.meetingChecked.dateMeeting,
+          'name':             $scope.meetingChecked.name,
+          'description':      $scope.meetingChecked.description,
+          'time':             $scope.meetingChecked.time,
+          'whichUser':        $scope.whichuser,
+          'imageCaller':      $scope.callerInfo.image,
+          'firstnameCaller':  $scope.callerInfo.firstname,
+          'lastnameCaller':   $scope.callerInfo.lastname,
+          'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
           }).then(function() {
-              $scope.showToast( 'Sended invitation to ' + checkinKey.firstname );
+              $scope.showToast( 'Sent invitation to ' + checkinKey.firstname );
               RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checkinKey.$id)
                 .update({
                   "send": true
                 });
           });
         });
-  };
+  };  // send one invitation
 
   $scope.sendAllInvitations = function(event) {
-    var countSended = $scope.checkedList.length;
+    var countSent = $scope.checkedList.length;
     var confirm = $mdDialog.confirm()
         .title('Sure you want to send all invitations?')
         .ok('Yes')
@@ -220,24 +238,27 @@ meetingsApp.controller('CheckinsController', function
         if ($scope.checkedList[i].send !== true) {
             RefServices.refInvitations($scope.checkedList[i].regUser)
               .push().set({
-                'dateMeeting':  $scope.meetingChecked.dateMeeting,
-                'name':         $scope.meetingChecked.name,
-                'description':  $scope.meetingChecked.description,
-                'time':         $scope.meetingChecked.time,
-                'whichUser':    $scope.whichuser,
-                'dateEnter':    firebase.database.ServerValue.TIMESTAMP,
+                'dateMeeting':      $scope.meetingChecked.dateMeeting,
+                'name':             $scope.meetingChecked.name,
+                'description':      $scope.meetingChecked.description,
+                'time':             $scope.meetingChecked.time,
+                'whichUser':        $scope.whichuser,
+                'imageCaller':      $scope.callerInfo.image,
+                'firstnameCaller':  $scope.callerInfo.firstname,
+                'lastnameCaller':   $scope.callerInfo.lastname,
+                'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
               }).then(function() {
                 
               });
         } else {
-          countSended -= 1;
+          countSent -= 1;
         }
        } // end for
 
-      if (countSended == 0) {
+      if (countSent == 0) {
         $scope.showToast('Nothing New Invitee');
-      } else if (countSended >= 0) {
-        $scope.showToast('Sended ' + countSended + ' New Invitations');
+      } else if (countSent >= 0) {
+        $scope.showToast('Sent ' + countSent + ' New Invitations');
       }
       
       for (var i = 0; i < $scope.checkedList.length; i++) {
@@ -249,7 +270,7 @@ meetingsApp.controller('CheckinsController', function
         } // end if
       } // end for
     }); // end confirm
-  };
+  };  // send all invitations
 
   $scope.showToast = function(message) {
       $mdToast.show(
@@ -269,7 +290,7 @@ meetingsApp.controller('CheckinsController', function
         }
       }
       return match;
-  };
+  };  // checkbox checking
     
   $scope.data = [];
   
@@ -285,7 +306,7 @@ meetingsApp.controller('CheckinsController', function
         }
       }      
     }
-  };
+  };  // pic data from checkbox
 
 
 }); // CheckinsController

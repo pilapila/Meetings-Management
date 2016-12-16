@@ -8,6 +8,18 @@ meetingsApp.controller('MeetingsController', function
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
+			$rootScope.invitationShow = false;
+			RefServices.refInvitations(firebaseUser.uid)
+				.on('value', function (snap) {
+		        	if (snap.numChildren() > 0) {
+		        		$rootScope.invitationShow = true;
+		        		$rootScope.invitationNum = snap.numChildren();
+		        	} else if (snap.numChildren() == 0) {
+		        		$rootScope.invitationShow = false;
+		        		$rootScope.invitationNum = 0;
+		        	}
+	    	});
+
 
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {

@@ -37,13 +37,14 @@
  <script src="js/controllers/registration.js"></script>
  <script src="js/controllers/meetings.js"></script>
  <script src="js/controllers/checkins.js"></script>
+ <script src="js/controllers/invitations.js"></script>
  <script src="js/directives/dataTableDirective.js"></script>
 
 </head>
 <body layout="column" 
 style="background-image: url('images/back.png');">
 
-<!-- <md-content> -->
+<md-content style="background-image: url('images/back.png');">
 		<header>
 			<nav ng-include="'views/nav.html'"></nav>
 		</header>
@@ -52,10 +53,10 @@ style="background-image: url('images/back.png');">
 			<div class="container col s12" ng-view></div>
 		</main>
 		
-		<div ng-include="'views/footer.html'" 
+		<!-- <div class="footerBase" ng-include="'views/footer.html'" 
 			 style="background-image: url('images/back.png');">
-		</div>
-<!-- </md-content> -->
+		</div> -->
+</md-content>
 		
 
 

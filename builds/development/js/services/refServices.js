@@ -6,6 +6,9 @@
             refUser: function() {
                 return firebase.database().ref().child('users/'); 
             },
+            refCaller: function(firebaseUser) {
+                return firebase.database().ref().child('users/' + firebaseUser); 
+            },
             refData: function(firebaseUser) {
                 return firebase.database().ref().child('users/' + firebaseUser.uid + '/meetings'); 
             },

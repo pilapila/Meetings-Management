@@ -195,7 +195,7 @@
                               <i class="fa fa-check fa-stack-1x" 
                                  style="font-size:20px;color:#39ac00;"></i>
                               <md-tooltip md-direction="top">
-                                SENDED
+                                SENT
                               </md-tooltip>
                             </span>
                         </a>
@@ -206,7 +206,7 @@
                               <i class="fa fa-pause fa-stack-1x" 
                                  style="font-size:20px;color:#d81b60;"></i>
                               <md-tooltip md-direction="top">
-                                NOT SENDED
+                                HAS NOT SENT
                               </md-tooltip>
                             </span>
                         </a>
@@ -248,7 +248,8 @@
                       </div>
 
                       <ul class="awardslist cf" style="margin-top:-20px;padding:5px">
-                          <li class="cf center-align" ng-repeat="(key, des) in checked.descriptions">
+                          <li class="cf center-align" 
+                          ng-repeat="(key, des) in checked.descriptions" class="delayAnimate">
                             <div class="award">
                               <span style="font-size:0.8rem;margin-left:0px">
                                 {{des.description}}
@@ -326,7 +327,11 @@
 
   <div class="modal-content">
 
-    <div style="margin-bottom:-12px">
+    <div ng-hide="showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
+      <p class="center-align">All partners have invited...</p>
+    </div>
+
+    <div ng-show="showCheckinList" style="margin-bottom:-12px">
       <!-- <div class="row" style="margin-bottom:-12px"> -->
         <div class="col s12" style="margin-bottom:-12px"
              ng-repeat="(key, user) in usersShort | filter:queryCheck" 
@@ -357,14 +362,20 @@
     </div>
   </div>
 
-  <div class="modal-footer">
-    <button ng-click="clearData()" 
+  <div class="modal-footer" ng-show="showCheckinList">
+    <a ng-click="clearData()" 
             class="modal-action modal-close waves-effect btn-flat"> 
       Cancel
-    </button>
+    </a>
     <button type="submit" class="modal-action modal-close waves-effect btn-flat"> 
       Agree
     </button>
+  </div>
+
+  <div class="modal-footer" ng-hide="showCheckinList">
+    <a href="" class="modal-action modal-close waves-effect btn-flat"> 
+      Ok
+    </a>
   </div>
 
 </div>

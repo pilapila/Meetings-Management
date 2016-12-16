@@ -4,7 +4,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 			register : function(user){
                 return firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                    .then(function(regUser){
-					 var messageListRef = firebase.database().ref('users').child(regUser.uid);
+					 var messageListRef = RefServices.refCaller(regUser.uid);
 								messageListRef.set({
 								  'date': Firebase.ServerValue.TIMESTAMP,
 			                      'regUser': regUser.uid,
@@ -19,7 +19,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 			login : function(user){
 			    firebase.auth().onAuthStateChanged(firebaseUser =>{
                 	if(firebaseUser){
-			          var userData = firebase.database().ref('users/').child(firebaseUser.uid);
+			          var userData = RefServices.refCaller(firebaseUser.uid);
 			          userData.on('value', function (snapshot) {
 			          	$rootScope.currentUser = snapshot.val();
 			          });
