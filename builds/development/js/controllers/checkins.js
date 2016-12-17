@@ -114,6 +114,7 @@ meetingsApp.controller('CheckinsController', function
 
 
   $scope.addCheckin = function() {
+    console.log($scope.bool);
     $timeout(function () {
       for (var i = 0; i < $scope.data.length; i++) {
         RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
@@ -160,11 +161,9 @@ meetingsApp.controller('CheckinsController', function
   };  //show description
 
   $scope.giveDescription = function(myItem, myDescription) {
-    $scope.myDescription = '';
-    $("#text").val("");
-    RefServices.refCheckedDescription($scope.whichuser, $scope.whichmeeting, myItem.$id).push().set({
+        RefServices.refCheckedDescription($scope.whichuser, $scope.whichmeeting, myItem.$id).push().set({
           'description':  myDescription,
-          'date':       firebase.database.ServerValue.TIMESTAMP,
+          'date':         firebase.database.ServerValue.TIMESTAMP,
         }).then(function() {
           $scope.showToast( 'Added description!' );
         });
@@ -296,6 +295,7 @@ meetingsApp.controller('CheckinsController', function
   
   $scope.sync = function(bool, item){
     if(bool){
+      console.log(bool),
       // add item
       $scope.data.push(item);
     } else {

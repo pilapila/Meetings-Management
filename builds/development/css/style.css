@@ -11,6 +11,38 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+.outer {
+  width: 2px;
+  height: 130px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+.inner {
+  position: absolute;
+  width:100%;
+  height: 40%;
+  top: 30%;
+}
+
+.deleteCheckinDes {
+  color:#1b9085;
+  font-size:0.9rem;
+}
+
+.deleteCheckinDes:hover {
+  color:#fff;
+  font-size:0.9rem;
+}
+
+.btn-xs {
+  width: 40px !important;
+  height: 30px !important; 
+  padding: 0px 0px 0px 0px !important;
+  font-size: 14px;
+  line-height: 1.5 !important;
+}
+
 .crop img {
   border:2px solid #ba1753;
   position: absolute;
@@ -275,8 +307,8 @@ footer.page-footer .footer-copyright {
 
 /* This css part is for disable animate.css delay */
 .delayAnimate.ng-animate { 
-  transition:0s none;
-  -webkit-transition:0s none;
+  transition: 0s none;
+  -webkit-transition: 0s none;
   animation: 0s none;
   -webkit-animation: 0s none; 
 }
