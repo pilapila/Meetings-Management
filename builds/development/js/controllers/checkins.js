@@ -63,15 +63,22 @@ meetingsApp.controller('CheckinsController', function
       }); // Ref to ckeckin to find any waiting invitation  
       
     const checkedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
-      checkedListRef.on('value', function (snap) {
+    checkedListRef.on('value', function (snap) {
           $timeout(function () {
+            //$scope.checkedListSync = []
             $scope.checkedList = $firebaseArray(checkedListRef);
             $scope.checkedList.$loaded().then(function (list) {
+
+              // for (var i = 0; i < $scope.checkedList.length; i++) {
+              //   $scope.checkedListSync.push($scope.checkedList[i]);
+              // };
+
               if ($scope.checkedList.length == 0) {
                 $scope.isThereOne = false;
               } else {
                 $scope.isThereOne = true;
               }
+
             }.bind(this));
           }, 0);
       });  // ref to all checkin list   
@@ -114,22 +121,47 @@ meetingsApp.controller('CheckinsController', function
 
 
   $scope.addCheckin = function() {
-    console.log($scope.bool);
-    $timeout(function () {
-      for (var i = 0; i < $scope.data.length; i++) {
-        RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
-          'firstname':  $scope.data[i].firstname,
-          'lastname':   $scope.data[i].lastname,
-          'date':       firebase.database.ServerValue.TIMESTAMP,
-          'image':      $scope.data[i].image,
-          'regUser':    $scope.data[i].regUser,
-        }).then(function() {
+    var dataList = $scope.data;
+    var allList = $scope.checkedList.length + $scope.data.length;
+    var keys = {};
+    $timeout(function () {      
+
+        for (var i = 0; i < dataList.length; i++) {
+
+          RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
+            'firstname':  $scope.data[i].firstname,
+            'lastname':   $scope.data[i].lastname,
+            'date':       firebase.database.ServerValue.TIMESTAMP,
+            'image':      $scope.data[i].image,
+            'regUser':    $scope.data[i].regUser,
+          });
           
-        });
-      };
+          if (dataList[i].value) {
+            const checkedUpdatedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+            checkedUpdatedListRef.on('value', function (snap) {
+                $scope.checkedListSync = $firebaseArray(checkedUpdatedListRef);
+                var dataListSync = dataList[i];
+                $scope.checkedListSync.$loaded().then(function (list) {
+
+                  if (dataListSync && angular.isUndefined(keys[dataListSync.regUser])) {
+                    keys[dataListSync.regUser] = true; // check to send message just one time
+                    for (var j = 0; j < allList; j++) {
+                      if ($scope.checkedListSync[j].regUser == dataListSync.regUser) { // check if dataCheckbox's regUser is equal to all checkedList
+                        $scope.addDescription($scope.checkedList[j], dataListSync.value);
+                        console.log($scope.checkedList[j].$id);
+                        console.log(dataListSync.value);
+                      } //end if
+                    }; // end for
+                  }
+                }.bind(this));
+            });
+          }; // end for
+      }  // end for all
+
       $scope.data = [];
       $scope.showToast('Added invitees');
     }, 0);
+    //console.log("checkedList is: " + $scope.checkedList.length);
   };  // Add new Checkin
 
   $scope.deleteAllCheckin = function() {
@@ -160,13 +192,15 @@ meetingsApp.controller('CheckinsController', function
     }
   };  //show description
 
-  $scope.giveDescription = function(myItem, myDescription) {
+  $scope.addDescription = function(myItem, myDescription) {
+    $timeout(function () {    
         RefServices.refCheckedDescription($scope.whichuser, $scope.whichmeeting, myItem.$id).push().set({
           'description':  myDescription,
           'date':         firebase.database.ServerValue.TIMESTAMP,
         }).then(function() {
-          $scope.showToast( 'Added description!' );
+          //$scope.showToast( 'Added description!' );
         });
+    }, 0);
   };  // add description
 
   $scope.deleteCheckin = function(event, key, firstname, lastname) {
@@ -295,7 +329,6 @@ meetingsApp.controller('CheckinsController', function
   
   $scope.sync = function(bool, item){
     if(bool){
-      console.log(bool),
       // add item
       $scope.data.push(item);
     } else {
