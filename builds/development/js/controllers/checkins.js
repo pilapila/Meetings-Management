@@ -244,6 +244,7 @@ meetingsApp.controller('CheckinsController', function
           'description':      $scope.meetingChecked.description,
           'time':             $scope.meetingChecked.time,
           'whichUser':        $scope.whichuser,
+          'whichMeeting':     $scope.whichmeeting,
           'imageCaller':      $scope.callerInfo.image,
           'firstnameCaller':  $scope.callerInfo.firstname,
           'lastnameCaller':   $scope.callerInfo.lastname,
@@ -276,6 +277,7 @@ meetingsApp.controller('CheckinsController', function
                 'description':      $scope.meetingChecked.description,
                 'time':             $scope.meetingChecked.time,
                 'whichUser':        $scope.whichuser,
+                'whichMeeting':     $scope.whichmeeting,
                 'imageCaller':      $scope.callerInfo.image,
                 'firstnameCaller':  $scope.callerInfo.firstname,
                 'lastnameCaller':   $scope.callerInfo.lastname,
@@ -331,11 +333,13 @@ meetingsApp.controller('CheckinsController', function
     if(bool){
       // add item
       $scope.data.push(item);
+      $scope.showAgree = $scope.data.length;
     } else {
       // remove item
       for(var i=0 ; i < $scope.data.length; i++) {
-        if($scope.data[i].id == item.id){
+        if($scope.data[i].regUser == item.regUser){
           $scope.data.splice(i,1);
+          $scope.showAgree = $scope.data.length;
         }
       }      
     }

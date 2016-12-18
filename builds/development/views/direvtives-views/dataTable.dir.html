@@ -152,7 +152,7 @@ style="border-radius: 12px !important;">
           </span>
         </a>
 
-        <a href="" id="editLink" ng-click="getEdit(meeting.$id)" 
+        <a href="" ng-hide="meeting.invitation" id="editLink" ng-click="getEdit(meeting.$id)" 
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
@@ -166,7 +166,7 @@ style="border-radius: 12px !important;">
         </a>
 
         <a ng-href="#/checkins/{{firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}" 
-           id="editLink" 
+           id="editLink" ng-hide="meeting.invitation"
            data-click=".collapsible .collapsible-header:first">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 

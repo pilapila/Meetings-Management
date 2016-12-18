@@ -4,6 +4,10 @@
 meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
    $mdMedia, $filter, RefServices, productListPageCount) {
+
+   	$scope.pageSize = 5;
+   	$scope.meetingAction = "add";
+   	$scope.nameAction = "Add New Meeting";
   	
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
@@ -226,7 +230,6 @@ meetingsApp.controller('MeetingsController', function
 
 					time.setHours(hours);
 					time.setMinutes(minutes);
-
 		        	$scope.meeting = {
 		        	   'name':         $scope.editMeeting.name,
 		               'description':  $scope.editMeeting.description,
