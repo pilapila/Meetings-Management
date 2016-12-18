@@ -16,7 +16,7 @@ meetingsApp.controller('InvitationsController', function
 		        $scope.invitations = $firebaseArray(invitationsRef);
 		        $scope.invitations.$loaded().then(function (list) {
 		        	if ($scope.invitations) {
-		        		$rootScope.invitationShow = $scope.invitations.length();
+		        		$rootScope.invitationShow = $scope.invitations.length;
 		        	}
 		        }.bind(this));
 	    	});

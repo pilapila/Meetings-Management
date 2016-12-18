@@ -1,13 +1,21 @@
 <div class="row">
-        <form ng-submit="register()" class="col m5 offset-m3 s12 card" 
-              style="padding-left: 30px;padding-right: 30px;">
-          <br><p class="title center">Register to access site features</p>
-          <p class="error formerror" ng-show="message">{{ message }}</p>
-          <div class="row">
+  
+        <form ng-submit="register()" class="col m5 offset-m3 s12">
           
-          <div class="input-field col s12">
+          <br>
+          <p class="title center" style="color:#585858">
+            Register to access site features
+          </p>
+
+          <p class="error formerror" ng-show="message">{{ message }}</p>
+          
+          <div class="row card" style="padding:30px;border:4px solid #fff;background-color:#ecf3f2;color:#05b1c0;">
+
+          <div class="row">
+              <div class="input-field col s12">
                 <i class="small material-icons prefix">person_pin</i>
-                <input name="firstname" id="firstname" type="text" class="validate" required="" 
+                <input name="firstname" id="firstname" type="text" class="validate" 
+                       required="" 
                        aria-required="true" ng-model="user.firstname">
                 <label for="" data-error="Please enter first name." data-success="Perfect!">
                   First Name
@@ -18,8 +26,8 @@
           <div class="row">
               <div class="input-field col s12">
                 <i class="small material-icons prefix">person_pin</i>
-                <input name="lastname" id="lastname" type="text" class="validate" required="" 
-                       aria-required="true" ng-model="user.lastname">
+                <input name="lastname" id="lastname" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="user.lastname">
                 <label for="" data-error="Please enter last name." data-success="Perfect!">
                   Last Name
                 </label>
@@ -61,10 +69,13 @@
                    
         <div class="row">
           <div class="input-field col s12 center">
-            <button class="waves-effect Default btn-flat" type="submit" name="action">
+            <button class="waves-effect waves-light Default btn-flat" type="submit" 
+                    name="action" style="color:#05b1c0">
             	Submit
             </button>
           </div>
+        </div>
+
         </div>
     </form>
 </div>

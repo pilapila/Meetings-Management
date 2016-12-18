@@ -1,0 +1,271 @@
+<div class="col s12">
+  <div class="card horizontal">
+    <div class="card-stacked">
+
+      <div class="card-content">
+        <div style="margin-top:-5px">
+          <b>Title</b>
+        </div>
+        <b class="right" style="color:#{{whichcolor}};margin-top:-20px">
+          <div style="margin-top:2px;">
+          <i class="fa fa-check animated bounce delayAnimate" 
+             aria-hidden="true"></i>
+          </div>
+          <div style="margin-top:-17px;margin-left:12px">
+            &nbsp&nbsp date
+          </div>
+        </b>
+      </div>
+      <div class="card-action center" ng-show="isThereOne">
+        <p class="center" style="color:#b5b5b5;font-size:1.1em">
+          You still have not received an invitation...
+        </p>
+      </div>
+      <div class="card-action" style="color: #6d6d6d">
+
+        <ul class="invitelist cf" style="margin-left:5px;">
+          <li ng-repeat="invitation in invitationsList | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+              class="animated fadeIn delayAnimate">
+            <div class="checkin">
+
+                <div class="col s12 m7">
+                  <div class="card horizontal">
+                    <div class="card-image">
+                      <a href="">
+                            <span>
+                              <img style="border-top-left-radius:12px;border-bottom-left-radius:12px;width:80px;max-width:80px;" 
+                       src="images/personal_pics/{{invitation.imageCaller}}.jpg">
+                              <md-tooltip md-direction="top" style="font-size:0.9rem">
+                                {{invitation.firstnameCaller}}
+                                {{invitation.lastnameCaller}} 
+                              </md-tooltip>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="card-stacked">
+
+                      <div class="card-content">
+                        <b style="font-size:1em">
+                          {{invitation.name}}
+                        </b>
+                        <div class="date">{{invitation.description}}</div>  
+                        <div class="date">{{invitation.dateMeeting | date}}</div> 
+                      </div>
+
+                      <div class="card-action">
+                         card action
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            
+
+          </li>
+        </ul>
+      </div>
+
+      <div ng-show="sendAllInvitationsButton" class="card-action right-align" 
+           style="margin-right:-45px">
+        <a class="waves-effect btn-flat" style="color:#0889af"
+           ng-click="sendAllInvitations($event)">
+          <i class="material-icons left">email</i>
+          Send All Invitations
+        </a>
+        <a href=""></a>
+        <a href=""></a>
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="row"> 
+    <div class="col s7">
+          <ul class="pagination right">
+            <li class="{{activationPre}}" ng-click="selectPrePage()">
+              <a href="">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
+            <li ng-repeat="page in invitationsList | filter:query | pageCount:pageSize"
+                ng-click="selectPage($index + 1)" class="waves-effect"
+                ng-class="getPageClass($index + 1)" style="font-size:12px;">
+                <a href="">{{$index+1}}</a>
+            </li>
+            <li class="{{activationNext}}" ng-click="selectNextPage()">
+              <a href="">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul> 
+    </div>
+    <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
+        <a class='dropdown-button-directive' 
+           data-activates='dropdownDirective' dropdown 
+           style="color:#5a5a5a" href="">
+              rows: {{pageSize}} &nbsp
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              style="margin-left:-10px;"></i>
+        </a>
+    </div>
+</div>
+
+<ul id='dropdownDirective' class='dropdown-content'>
+    <li><a ng-click="selectRowNum(3)" 
+      style="font-size:0.85rem!important;">3</a></li>
+    <li><a ng-click="selectRowNum(5)" 
+      style="font-size:0.85rem!important;">5</a></li>
+    <li><a ng-click="selectRowNum(7)" 
+      style="font-size:0.85rem!important;">7</a></li>
+</ul>
+
+
+<!-- Modal Structure -->
+<!-- <form ng-submit="addCheckin()">
+<div id="modal1" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:550px;max-height:400px;">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools checkinUser" style="background-color:#26a69a;height:80px">
+        <h2>Checkin your invitees</h2>
+        <span flex></span>
+        <nav class="search left left z-depth-0" 
+             style="height:20px;max-height:20px;margin-right:0px;width:220px;
+                    margin-top:-15px;background-color:#26a69a">
+          <div class="nav-wrapper">
+            <form>
+              <div class="input-field">
+                <input type="search" ng-model="queryCheck" id="queryCheck" 
+                       placeholder="search your invitee">
+                <label for="search">
+                  <i class="material-icons" style="font-size:24px;">search</i>
+                </label>
+                  <i class="material-icons" style="font-size:15px;" ng-click="queryCheck = ''">
+                    close
+                  </i>
+              </div>
+            </form>
+          </div>
+        </nav>
+    </div>
+  </md-toolbar>
+
+  <div class="modal-content">
+
+    <div style="margin-bottom:-12px">
+      
+        <div class="col s12" style="margin-bottom:-12px"
+             ng-repeat="(key, user) in usersShort | filter:queryCheck" 
+             class="user" 
+             id="{{user.regUser}}">
+
+          <div class="col s5">
+            <input type="checkbox" class="filled-in"
+                   ng-change="sync(bool, user)" 
+                   ng-model="bool" 
+                   ng-checked="isChecked(user.regUser)" 
+                   id="{{$index}}" />
+            <label for="{{$index}}">
+              {{user.firstname | capitalize }} {{user.lastname | capitalize }}
+            </label>
+          </div>
+
+          <div class="col s7">
+            <input id="description{{$index+1}}" type="text" 
+                   ng-readonly="!bool"
+                   placeholder="description" style="margin-top:-11px"
+                   ng-model="description">
+            
+          </div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button ng-click="clearData()" 
+            class="modal-action modal-close waves-effect btn-flat"> 
+      Cancel
+    </button>
+    <button type="submit" class="modal-action modal-close waves-effect btn-flat"> 
+      Agree
+    </button>
+  </div>
+
+</div>
+</form>
+
+
+<div id="modal2" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:450px;max-height:350px;">
+  <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color:#26a69a">
+        <h2>Meeting Details</h2>
+        <span flex></span>
+        <a class="modal-action modal-close waves-effect waves-green">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+    </md-toolbar>
+
+  <div class="modal-content">
+
+      <div class="row">
+        <div class="col s12">
+
+          
+          <p>
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <b>Name: </b>{{ meetingChecked.name }}
+          </p>
+
+          <p style="font-size:0.9rem;margin-top:-10px;color:#2ea6c8">
+            <i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>            
+            <b>Time: {{ meetingChecked.time | limitTo:5 }}</b>
+          </p>
+          
+          <p style="font-size:0.9rem;color:#747474">
+
+            {{ meetingChecked.description }}
+          </p>
+          <p style="margin-top:-10px;color:#2ea6c8">
+            <i class="fa fa-calendar-o" aria-hidden="true"></i> 
+            <b>Date: {{ meetingChecked.dateMeeting | date }}</b>
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+  <div class="modal-footer">
+    <button class="modal-action modal-close waves-effect waves-green btn-flat"> 
+      Ok
+    </button>
+  </div>
+</div> -->
+
+
+
+
+<script type="text/javascript">
+  (function($) {
+      $(".dropdown-button").dropdown();
+      $('.dropdown-button-directive').dropdown({
+            inDuration: 300,
+            outDuration: 300,
+            hover: false, // Activate on hover
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+            gutter: 0, 
+          });
+      $('.modal').modal();
+      $('.tooltipped').tooltip({delay: 50});
+      
+  })(jQuery); // End of jQuery name space
+</script>
