@@ -32,6 +32,9 @@
             },
             refInvitations: function(checkUser) {
                 return firebase.database().ref('users/' + checkUser + '/invitations/')
+            },
+            refDeleteInvitation: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/invitations/' + key)
             }
 
         };

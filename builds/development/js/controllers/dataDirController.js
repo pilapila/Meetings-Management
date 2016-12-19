@@ -1,11 +1,9 @@
-(function(){
- 'use strict';
-
 meetingsApp.controller("dataDirController", function ($scope, $rootScope, $filter) {
 
 			$scope.activationNext = "active waves-effect grey lighten-2";
 			$scope.activationPre = "disabled";
 			$scope.selectedPage = 1;
+			$scope.pageSize = 5;
 
 		    $scope.selectRowNum = function(num) {
 		    	$scope.pageSize = num;
@@ -74,5 +72,3 @@ meetingsApp.controller("dataDirController", function ($scope, $rootScope, $filte
         	
         	
   }); //dataTableController
-
-}());

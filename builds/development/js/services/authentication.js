@@ -1,7 +1,7 @@
 meetingsApp.factory('Authentication', function($rootScope, $firebase, $location){
 
 		var myObject = {
-			register : function(user){
+			register : function(user) {
                 return firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                    .then(function(regUser){
 					 var messageListRef = RefServices.refCaller(regUser.uid);
@@ -16,7 +16,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
                    });
             },
 
-			login : function(user){
+			login : function(user) {
 			    firebase.auth().onAuthStateChanged(firebaseUser =>{
                 	if(firebaseUser){
 			          var userData = RefServices.refCaller(firebaseUser.uid);
@@ -30,17 +30,22 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 
 			}, //login
 
-			logout : function(){
-				return firebase.auth().signOut();
+			logout : function() {
+				return firebase.auth().signOut().then(function() {
+						  console.log("Sign Out success");
+						}, function(error) {
+						  console.log("Sign Out erro", error);
+						});
 			}, //logout
 
-			signedIn : function(){
+			signedIn : function() {
+				//console.dir($rootScope.currentUser.firstname);
 				return firebase.auth().currentUser != null;
 			} // singnedIn
 
 		} //myObject
 		
-		$rootScope.signedIn = function(){
+		$rootScope.signedIn = function() {
 			return myObject.signedIn();
 		} // add function to rootScope to find it in every where
 

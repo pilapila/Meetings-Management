@@ -1,5 +1,5 @@
 meetingsApp.controller('statusController', 
-  function($scope, $rootScope, $firebase, $firebaseAuth, $location, Authentication, RefServices){
+  function($scope, $rootScope, $firebase, $firebaseAuth, $location, $firebaseObject, Authentication, RefServices){
       
       $scope.logout = function(){
          Authentication.logout();
@@ -7,12 +7,11 @@ meetingsApp.controller('statusController',
       }
 
 
-      $rootScope.$on(firebase.auth().onAuthStateChanged(firebaseUser => {
+      $rootScope.$on($firebaseAuth().$onAuthStateChanged( function(firebaseUser) {
         if(firebaseUser){
-          var userData = RefServices.refCaller(firebaseUser.uid);
-          userData.on('value', function (snapshot) {
-            $rootScope.currentUser = snapshot.val();
-          });
+          
+            $rootScope.currentUser = $firebaseObject(firebase.database().ref('/users/' + firebaseUser.uid));
+          
           
         } else{
           $rootScope.currentUser = null;

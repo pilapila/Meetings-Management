@@ -5,7 +5,7 @@ meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
    $mdMedia, $filter, RefServices, productListPageCount) {
 
-   	$scope.pageSize = 5;
+   	
    	$scope.meetingAction = "add";
    	$scope.nameAction = "Add New Meeting";
   	
@@ -216,7 +216,6 @@ meetingsApp.controller('MeetingsController', function
 
 			RefServices.meetData(firebaseUser, key).on('value', function (snap) {
 		        	$scope.editMeeting = snap.val();
-
 		        	var $inputDate = $('.datepicker').pickadate();
 					var pickerDate = $inputDate.pickadate('picker');
 					var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
@@ -230,6 +229,7 @@ meetingsApp.controller('MeetingsController', function
 
 					time.setHours(hours);
 					time.setMinutes(minutes);
+					
 		        	$scope.meeting = {
 		        	   'name':         $scope.editMeeting.name,
 		               'description':  $scope.editMeeting.description,
