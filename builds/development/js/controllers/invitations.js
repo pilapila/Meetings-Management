@@ -1,9 +1,12 @@
 meetingsApp.controller('InvitationsController', function
-  ( $scope, $rootScope, $firebase, $timeout, $firebaseArray, 
-  	$mdToast, $mdDialog, $routeParams, $mdMedia, $location, RefServices) {
+  ( $scope, $rootScope, $firebase, $timeout, $firebaseArray,
+  	$mdToast, $mdDialog, $routeParams, $mdMedia, $location, RefServices, passDataService) {
 
   firebase.auth().onAuthStateChanged(firebaseUser =>{
     if(firebaseUser !== null){
+
+    $scope.meetingListBase = passDataService.getProducts(); // get sync data from meetingsController
+    $scope.meetingList = $scope.meetingListBase[0];
 
   	const userRef = RefServices.refData(firebaseUser);
 	  userRef.on('value', function (snap) {
@@ -14,8 +17,10 @@ meetingsApp.controller('InvitationsController', function
 	    	  invitationsRef.on('value', function (snap) {
 		        $scope.invitations = $firebaseArray(invitationsRef);
 		        $scope.invitations.$loaded().then(function (list) {
-		        	if ($scope.invitations) {
-		        		$rootScope.invitationShow = $scope.invitations.length;
+		        	if ($rootScope.currentUser.$id === firebaseUser.uid) { // maybe solve showing other invitations list problem
+                if ($scope.invitations) {
+                  $rootScope.invitationShow = $scope.invitations.length;
+                }
 		        	}
 		        }.bind(this));
 	    	  }); // Ref to All invitations list
@@ -30,7 +35,7 @@ meetingsApp.controller('InvitationsController', function
           .cancel('Cancel')
           .targetEvent(event);
         $mdDialog.show(confirm).then(function(){
-
+          $timeout(function () {
             RefServices.refData(firebaseUser).push().set({
               'name':            invitation.name,
               'description':     invitation.description,
@@ -47,52 +52,51 @@ meetingsApp.controller('InvitationsController', function
 
         }).then(function() {
 
-            const refFindInviteeId = RefServices.refData(firebaseUser);
-            refFindInviteeId.on('value', function (snap) {
-              $scope.meetingList = $firebaseArray(refFindInviteeId);
-              $scope.meetingList.$loaded().then(function (list) {
-                  for (var i = 0; i < $scope.meetingList.length; i++) {
-                    if ($scope.meetingList[i].invitation) {
-                      if ($scope.meetingList[i].whichMeeting == invitation.whichMeeting) {
+            for (var i = 0; i < $scope.meetingList.length; i++) {
 
-                        $scope.inviteeId = $scope.meetingList[i].$id;
-                        const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
-                        refFindWhichCheckin.on('value', function (snap) {
-                            $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
-                            $scope.allCheckin.$loaded().then(function (list) {
-                              for (var i = 0; i < $scope.allCheckin.length; i++) {
-                                if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
-                                  RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
-                                    .update({
-                                      "inviteeId":  $scope.inviteeId, 
-                                      "accept":     true,
-                                      "send":       true,
-                                      "reject":     false,
-                                    });
-                                }
-                              };
-                            }.bind(this));
-                        }); // ref to insert response from invitee
+              if ($scope.meetingList[i].invitation) {
+                if ($scope.meetingList[i].whichMeeting == invitation.whichMeeting) {
+                  var inviteeId = $scope.meetingList[i].$id;
+                }
+              }
 
-                      }
+            };  // end for // find inviteeId
+            
+            const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
+            refFindWhichCheckin.on('value', function (snap) {
+              $timeout(function () {
+                $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
+                $scope.allCheckin.$loaded().then(function (list) {
+                  for (var i = 0; i < $scope.allCheckin.length; i++) {
+                    if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
+                      RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
+                        .update({
+                          "inviteeId":  inviteeId, 
+                          "accept":     true,
+                          "send":       true,
+                          "reject":     false,
+                        });
                     }
                   };
-              }.bind(this));
-            }); // ref to find invitee id
+                }.bind(this));
+              }, 0);
+            }); // ref to insert response from invitee
+
              
             RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
-            // ref to delete invitation
+            //ref to delete invitation
             RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
-              if (snap.numChildren() == 0 ) {
-                $scope.currentPath = $location.path('/meetings');
-              }
+              $timeout(function () {
+                if (snap.numChildren() == 0 ) {
+                  $scope.currentPath = $location.path('/meetings');
+                }
+              }, 0);
             });
-            // if there is not any invitation then go to meeting page
+            //if there is not any invitation then go to meeting page
             $scope.showToast( 'Invitation accepted');
 
-
-        });
-        
+        }, 0);
+      }); // Confirm
     }; // Accept invitation
 
 
@@ -103,37 +107,36 @@ meetingsApp.controller('InvitationsController', function
           .cancel('Cancel')
           .targetEvent(event);
         $mdDialog.show(confirm).then(function(){
+          $timeout(function () {
+            const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
+            refFindWhichCheckin.on('value', function (snap) {
+                $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
+                $scope.allCheckin.$loaded().then(function (list) {
+                  for (var i = 0; i < $scope.allCheckin.length; i++) {
+                    if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
+                      RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
+                        .update({
+                          "reject": true,
+                          "send":   false,
+                          "accept": false,
+                        });
+                    }
+                  };
+                }.bind(this));
+              });
+            }).then(function() {
 
-          const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
-          refFindWhichCheckin.on('value', function (snap) {
-              $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
-              $scope.allCheckin.$loaded().then(function (list) {
-                for (var i = 0; i < $scope.allCheckin.length; i++) {
-                  if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
-                    RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
-                      .update({
-                        "reject": true,
-                        "send":   false,
-                        "accept": false,
-                      });
-                  }
-                };
-              }.bind(this));
-          });
+              RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
+                // ref to delete invitation
+              RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
+                if (snap.numChildren() == 0 ) {
+                  $scope.currentPath = $location.path('/meetings');
+                }
+              });
+              $scope.showToast( 'Invitation rejected');
 
-        }).then(function() {
-
-          RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
-            // ref to delete invitation
-          RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
-            if (snap.numChildren() == 0 ) {
-              $scope.currentPath = $location.path('/meetings');
-            }
-          });
-          $scope.showToast( 'Invitation rejected');
-
-        });
-        
+        }, 0);
+      }); // Confirm
     }; // Reject invitation
 
 

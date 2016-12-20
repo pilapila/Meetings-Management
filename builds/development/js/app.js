@@ -1,8 +1,6 @@
-var meetingsApp = angular.module("meetingsApp", 
-	["ngMaterial", "ngRoute", "firebase", "ngMessages"])
-		.constant("productListPageCount", 5)
-	
-meetingsApp.config(["$routeProvider", "$mdThemingProvider",
+var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "firebase", "ngMessages"])
+	.constant("productListPageCount", 5)
+    .config(["$routeProvider", "$mdThemingProvider",
 	function($routeProvider, $mdThemingProvider) {
 		
 		$mdThemingProvider
@@ -35,12 +33,24 @@ meetingsApp.config(["$routeProvider", "$mdThemingProvider",
 				templateUrl: 'views/checkins.html',
 				controller: 'MeetingsController'
 			})
-			.when('/invitations', {
+			.when('/invitations/:userId', {
 				templateUrl: 'views/invitations.html',
-				controller: 'MeetingsController'
+				controller: passDataController,
+				resolve: {
+					meetingsList: function($firebaseArray, RefServices, $route) {
+
+						return $firebaseArray(RefServices.refSync($route.current.params.userId)).$loaded();
+						
+					}
+				}
 			})
 			.otherwise({
 				redirectTo: '/login'
 			});
 
 	}]);
+
+
+	function passDataController(meetingsList, passDataService) {
+		passDataService.addProduct(meetingsList); 
+	};  // pass sync data from resolve to passDataService for invitation controller

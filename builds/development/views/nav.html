@@ -1,4 +1,5 @@
-<ul id="dropdown1" class="dropdown-content" ng-controller="statusController">
+<div ng-controller="statusController">
+<ul id="dropdown1" class="dropdown-content">
   <li><a ng-href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
   <li><a ng-href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
   <li>
@@ -9,16 +10,6 @@
   </li>
 </ul>
 
-<ul id="dropdown2" class="dropdown-content" ng-controller="statusController">
-  <li><a ng-href="#/profile"><i class="material-icons left">perm_identity</i>Profile</a></li>
-  <li><a ng-href="#/settings"><i class="material-icons left">settings</i>Settings</a></li>
-  <li>
-    <a href="" ng-click="logout()">
-      <i class="material-icons left">power_settings_new</i>
-      Sign out
-    </a>
-</li>
-</ul>
 
 <nav ng-controller="statusController">
   <div class="nav-wrapper pink darken-1">
@@ -64,8 +55,8 @@
         </a>
       </li>
 
-      <li ng-show="currentUser&& invitationShow">
-        <a ng-href="#/invitations" style="font-size:0.9rem">
+      <li ng-show="currentUser && invitationShow">
+        <a ng-href="#/invitations/{{currentUser.$id}}" style="font-size:0.9rem">
           <i class="fa fa-address-card-o fa-lg fa-icon" 
              aria-hidden="true"></i>
           Invitations
@@ -91,7 +82,6 @@
           <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
            Welcome  {{  currentUser.firstname  }}
           <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
-          
         </a>
       </li>
 
@@ -126,7 +116,7 @@
           <i class="fa fa-calendar-times-o fa-lg fa-icon" 
           style="margin-top:7px;margin-right:5px;" aria-hidden="true"></i>
           Expired Meeting!
-        <span class="new badge red" data-badge-caption="exp">
+        <span class="new badge red" data-badge-caption="exp" style="margin-left:20px">
           {{expiredDate}}
         </span> 
         </a>
@@ -137,10 +127,21 @@
           <i class="fa fa-clock-o fa-lg fa-icon" 
           style="margin-top:7px;margin-right:5px;" aria-hidden="true"></i>
           Alarm
-          <span class="new badge orange" data-badge-caption="new">
+          <span class="new badge orange" data-badge-caption="new"
+                style="margin-left:96px">
             {{alarm}}
           </span>
-          
+        </a>
+      </li>
+
+      <li ng-show="currentUser && invitationShow">
+        <a ng-href="#/invitations">
+          <i class="fa fa-address-card-o fa-lg fa-icon" 
+             aria-hidden="true" style="margin-top:7px;margin-right:5px;"></i>
+          Invitations
+          <span class="new badge blue" data-badge-caption="new" style="margin-left:69px">
+            {{ invitationNum }}
+          </span>
         </a>
       </li>
 
@@ -149,7 +150,8 @@
           <i class="fa fa-users fa-lg fa-icon" 
           style="margin-top:7px;margin-right:5px;" aria-hidden="true"></i>
           Meetings Available
-           <span ng-if="howManyMeetings>0" class="new badge blue" data-badge-caption="">
+           <span ng-if="howManyMeetings>0" class="new badge blue" data-badge-caption=""
+                  style="margin-left:20px">
             {{ howManyMeetings }} 
            </span>
         </a>
@@ -168,3 +170,5 @@
 
   </div>
 </nav>
+
+</div>

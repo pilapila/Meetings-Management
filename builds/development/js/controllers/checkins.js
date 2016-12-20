@@ -127,19 +127,8 @@ meetingsApp.controller('CheckinsController', function
     $timeout(function () {      
 
         for (var i = 0; i < dataList.length; i++) {
-
-          RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
-            'firstname':  $scope.data[i].firstname,
-            'lastname':   $scope.data[i].lastname,
-            'date':       firebase.database.ServerValue.TIMESTAMP,
-            'image':      $scope.data[i].image,
-            'regUser':    $scope.data[i].regUser,
-            "send":       false,
-            "reject":     false,
-            "accept":     false,
-          });
           
-          if (dataList[i].value) {
+          if (dataList[i].value) { 
             const checkedUpdatedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
             checkedUpdatedListRef.on('value', function (snap) {
                 $scope.checkedListSync = $firebaseArray(checkedUpdatedListRef);
@@ -159,6 +148,18 @@ meetingsApp.controller('CheckinsController', function
                 }.bind(this));
             });
           }; // end for
+
+          RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
+            'firstname':  $scope.data[i].firstname,
+            'lastname':   $scope.data[i].lastname,
+            'date':       firebase.database.ServerValue.TIMESTAMP,
+            'image':      $scope.data[i].image,
+            'regUser':    $scope.data[i].regUser,
+            "send":       false,
+            "reject":     false,
+            "accept":     false,
+          });
+
       }  // end for all
 
       $scope.data = [];

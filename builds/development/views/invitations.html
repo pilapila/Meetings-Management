@@ -5,13 +5,13 @@
   <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
 </div>
 
-<div ng-show="signedIn()" ng-controller="InvitationsController">
+<div ng-show="signedIn()" ng-controller="MeetingsController">
 
 <div class="center" ng-hide="invitationShow">
   <p style="color:#7a7a7a;font-size:1.2rem">You have not any invitation...</p>
 </div>
 
-<div ng-show="invitationShow">
+<div ng-show="invitationShow" ng-controller="InvitationsController">
 <h5>Invitations</h5>
 <p style="margin-top:-10px;color:#999">You've been invited by colleagues</p>
 

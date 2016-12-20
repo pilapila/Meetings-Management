@@ -66,6 +66,14 @@ body {
   height: auto;
 }
 
+.cropInfo img {
+  border-radius: 0px !important;
+  /*position: relative;*/
+  clip: rect(0px,40px,40px,0px);
+  width: 40px;
+  height: auto;
+}
+
 ul.awardslist {
   margin-top:-5px;
 }

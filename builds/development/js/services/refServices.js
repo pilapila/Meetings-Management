@@ -4,13 +4,16 @@
     meetingsApp.factory('RefServices', [ function($firebase) {
         return {
             refUser: function() {
-                return firebase.database().ref().child('users/'); 
+                return firebase.database().ref('users/'); 
             },
             refCaller: function(firebaseUser) {
-                return firebase.database().ref().child('users/' + firebaseUser); 
+                return firebase.database().ref('users/' + firebaseUser); 
             },
             refData: function(firebaseUser) {
-                return firebase.database().ref().child('users/' + firebaseUser.uid + '/meetings'); 
+                return firebase.database().ref('users/' + firebaseUser.uid + '/meetings'); 
+            },
+            refSync: function(firebaseUser) {
+                return firebase.database().ref('users/' + firebaseUser + '/meetings'); 
             },
             meetData: function(firebaseUser, key) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/meetings/' + key)
