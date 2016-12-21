@@ -94,20 +94,71 @@ meetingsApp.controller('InvitationsController', function
             });
             //if there is not any invitation then go to meeting page
             $scope.showToast( 'Invitation accepted');
-
+            //console.error("wrong thing happened");
         }, 0);
       }); // Confirm
     }; // Accept invitation
 
 
     $scope.rejectInvitation = function(event, invitation) {
-      var confirm = $mdDialog.confirm()
-          .title('Sure you want to reject this invitation from ' +  invitation.firstnameCaller + ' ' + invitation.lastnameCaller + '?')
-          .ok('Yes')
-          .cancel('Cancel')
-          .targetEvent(event);
-        $mdDialog.show(confirm).then(function(){
-          $timeout(function () {
+
+        $scope.dialog = invitation;
+        $mdDialog.show({
+          controller: function () { 
+            this.parent = $scope; 
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+            $scope.delete = function(myExcuse) {
+              $scope.sendRejectToCaller(myExcuse, $scope.dialog);
+              $mdDialog.cancel();
+            };
+          },
+          controllerAs: 'ctrl',
+          parent: angular.element(document.body),
+          template: 
+          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+                '<md-toolbar>' +
+              '<div class="md-toolbar-tools left left" style="background-color:#26a69a">' +
+                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+                '<span flex><h6>Are you sure you want to delete this invitation</h6></span>' +
+              '</div>' +
+            '</md-toolbar>' +
+              '<md-dialog-content>' +
+               '<div class="md-dialog-content">' +
+                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
+                              ' class="validate" id="text" required="" aria-required="true" ' +
+                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse..."> ' +
+                    ' <label for="text" style="font-size:0.8rem" ' +
+                    ' data-error="Please enter your excuse."> ' +
+                     '' +
+                    ' </label> ' +
+              '</div>' +
+            '</md-dialog-content>' +
+            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+              '<md-button ng-click="ctrl.parent.cancel()">' +
+                 'Cancel' +
+             ' </md-button>' +
+             '<md-button type="submit">' +
+                 'delete' +
+             ' </md-button>' +
+            '</md-dialog-actions>' +
+          '</md-dialog>'+
+          '</form>',
+          targetEvent: event,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+         
+         }, function() {
+          
+        });
+    }; // Reject invitation
+
+    $scope.sendRejectToCaller = function(myExcuse, invitation) {
+        $timeout(function () {
             const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
             refFindWhichCheckin.on('value', function (snap) {
                 $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
@@ -119,6 +170,7 @@ meetingsApp.controller('InvitationsController', function
                           "reject": true,
                           "send":   false,
                           "accept": false,
+                          "responceMessage": myExcuse,
                         });
                     }
                   };
@@ -126,20 +178,17 @@ meetingsApp.controller('InvitationsController', function
               });
             }).then(function() {
 
-              RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
-                // ref to delete invitation
-              RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
-                if (snap.numChildren() == 0 ) {
-                  $scope.currentPath = $location.path('/meetings');
-                }
-              });
-              $scope.showToast( 'Invitation rejected');
+            RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
+              // ref to delete invitation
+            RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
+              if (snap.numChildren() == 0 ) {
+                $scope.currentPath = $location.path('/meetings');
+              }
+            });
+            $scope.showToast( 'Invitation rejected');
 
         }, 0);
-      }); // Confirm
-    }; // Reject invitation
-
-
+    }; // sendRejectToCaller
 
 
     $scope.showToast = function(message) {
@@ -148,7 +197,7 @@ meetingsApp.controller('InvitationsController', function
             .toastClass('md-toast-error')
             .content(message)
             .position('top, right')
-            .hideDelay(3000)
+            .hideDelay(2000)
         );
     }; // Show Toast
 

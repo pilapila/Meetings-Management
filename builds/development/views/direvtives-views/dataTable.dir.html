@@ -179,6 +179,24 @@ style="border-radius: 12px !important;">
           </span>
         </a>
 
+        <a ng-show="meeting.invitation">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#f3f3f3;margin-top:-7px;"></i>
+            <i class="fa fa-pencil fa-stack-1x" 
+               style="font-size:18px;color:#e5e5e5;margin-top:-7px;"></i>
+          </span>
+        </a>
+
+        <a ng-show="meeting.invitation">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#f3f3f3;margin-top:-7px;"></i>
+            <i class="fa fa-check fa-stack-1x" 
+               style="font-size:18px;color:#e5e5e5;margin-top:-7px;"></i>
+          </span>
+        </a>
+
         <a class="fontawesome-color" href="" 
            ng-click="deleteMeeting($event, meeting.$id, meeting.name)">
           <span class="fa-stack fa-lg">

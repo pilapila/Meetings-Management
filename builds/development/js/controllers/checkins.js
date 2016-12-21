@@ -243,25 +243,27 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         $timeout(function () {
-            RefServices.refInvitations(checkinKey.regUser).push().set({
-              'dateMeeting':      $scope.meetingChecked.dateMeeting,
-              'name':             $scope.meetingChecked.name,
-              'description':      $scope.meetingChecked.description,
-              'time':             $scope.meetingChecked.time,
-              'whichUser':        $scope.whichuser,
-              'whichMeeting':     $scope.whichmeeting,
-              'imageCaller':      $scope.callerInfo.image,
-              'firstnameCaller':  $scope.callerInfo.firstname,
-              'lastnameCaller':   $scope.callerInfo.lastname,
-              'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
-              }).then(function() {
-                  $scope.showToast( 'Sent invitation to ' + checkinKey.firstname );
-                  RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checkinKey.$id)
-                    .update({
-                      "send":       true,
-                      "reject":     false,
-                      "accept":     false,
-              });
+          RefServices.refInvitations(checkinKey.regUser).push().set({
+            'dateMeeting':      $scope.meetingChecked.dateMeeting,
+            'name':             $scope.meetingChecked.name,
+            'description':      $scope.meetingChecked.description,
+            'time':             $scope.meetingChecked.time,
+            'whichUser':        $scope.whichuser,
+            'whichMeeting':     $scope.whichmeeting,
+            'imageCaller':      $scope.callerInfo.image,
+            'firstnameCaller':  $scope.callerInfo.firstname,
+            'lastnameCaller':   $scope.callerInfo.lastname,
+            'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
+            }).then(function() {
+               
+                RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checkinKey.$id)
+                  .update({
+                    "send":       true,
+                    "reject":     false,
+                    "accept":     false,
+                });
+                  
+                $scope.showToast( 'Sent invitation to ' + checkinKey.firstname );
             });
         }, 0);
       });
@@ -318,6 +320,48 @@ meetingsApp.controller('CheckinsController', function
       }, 0);
     }); // end confirm
   };  // send all invitations
+
+  $scope.responceMessage = function(event, excuse, color) {
+        $scope.dialog = excuse;
+        $scope.color = color;
+        $mdDialog.show({
+          controller: function () { 
+            this.parent = $scope; 
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+          },
+          controllerAs: 'ctrl',
+          parent: angular.element(document.body),
+          template:
+          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:250px;">' +
+                '<md-toolbar>' +
+              '<div class="md-toolbar-tools left left" style="background-color:{{ctrl.parent.color}}">' +
+                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+                '<span flex><h6>Sorry, I can not be there...</h6></span>' +
+              '</div>' +
+            '</md-toolbar>' +
+              '<md-dialog-content>' +
+               '<div class="md-dialog-content">' +
+                  '{{ctrl.parent.dialog}}' +
+               '</div>' +
+            '</md-dialog-content>' +
+            '<md-dialog-actions layout="row">' +
+              '<md-button ng-click="ctrl.parent.cancel()">' +
+                 'Ok' +
+             ' </md-button>' +
+            '</md-dialog-actions>' +
+          '</md-dialog>',
+          targetEvent: event,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+         
+         }, function() {
+          
+        });
+  }
 
   $scope.showToast = function(message) {
       $mdToast.show(

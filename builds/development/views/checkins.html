@@ -231,6 +231,7 @@
                         </a>
 
                         <a ng-show="checked.accept && !checked.reject && checked.send" 
+                           class="fontawesome-color right right animated bounceIn delayAnimate" 
                            class="fontawesome-color right right">
                             <span class="fa-stack fa-lg" 
                                   style="margin-top:2px;margin-right:-15px">
@@ -245,7 +246,8 @@
                         </a>
 
                         <a ng-show="checked.reject && !checked.send && !checked.accept" 
-                           class="fontawesome-color right right">
+                           class="fontawesome-color right right animated bounceIn delayAnimate" 
+                           ng-click="responceMessage($event, checked.responceMessage, '#dd4481')" href="">
                             <span class="fa-stack fa-lg" 
                                   style="margin-top:2px;margin-right:-15px">
                               <i class="fa fa-circle-thin fa-stack-2x" 

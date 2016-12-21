@@ -1,4 +1,4 @@
-meetingsApp.factory('Authentication', function($rootScope, $firebase, $location){
+meetingsApp.factory('Authentication', function($rootScope, $firebase, $location, $window, $timeout){
 
 		var myObject = {
 			register : function(user) {
@@ -32,9 +32,11 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location)
 
 			logout : function() {
 				return firebase.auth().signOut().then(function() {
-						  console.log("Sign Out success");
+							$timeout(function () {
+						  		$window.location.reload();
+						  	}, 500);
 						}, function(error) {
-						  console.log("Sign Out erro", error);
+						  
 						});
 			}, //logout
 
