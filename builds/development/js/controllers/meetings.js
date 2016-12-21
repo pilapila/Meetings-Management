@@ -259,7 +259,7 @@ meetingsApp.controller('MeetingsController', function
           template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;max-width:450px;max-height:350px;">' +
 	          		'<md-toolbar>' +
 				      '<div class="md-toolbar-tools left left">' +
-				        '<span flex><h6>Meeting details</h6></span>' +
+				        '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Meeting details</h6></span>' +
 				      '</div>' +
 				    '</md-toolbar>' +
 			        '<md-dialog-content>' +

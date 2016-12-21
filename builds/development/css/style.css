@@ -11,6 +11,35 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    border: 2px solid #00ffe7 !important;
+    margin-left: 15px !important;
+}
+
+[type="radio"]:not(:checked)+label:before, [type="radio"]:not(:checked)+label:after {
+    border: 2px solid #07514a !important;
+    margin-left: 10px !important;
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #00ffe7 !important;
+    left: 24px;
+}
+
+.switch label .lever:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 15px !important;
+    height: 15px !important;
+    background-color: #F1F1F1;
+    border-radius: 21px;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,0.4);
+    left: -5px;
+    top: -1px !important;
+    transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease;
+}
+
 .outer {
   width: 2px;
   height: 130px;
@@ -520,9 +549,9 @@ thead th:last-of-type{
 }
 
 .brand-logo-own{
-	font-weight:300;
-  font-size: 1.5rem;
-  margin-left: 20px;
+	font-weight:200;
+  font-size: 1.4rem;
+  margin-left: 0px;
 }
 
 .dropdown-content {

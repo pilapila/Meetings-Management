@@ -13,13 +13,17 @@
 
 <nav ng-controller="statusController">
   <div class="nav-wrapper pink darken-1">
-    <a href="#!" class="brand-logo-own">Meetings Management System</a>
+
+    <a href="#/meetings" class="brand-logo-own">
+      <img src="images/logo.png" style="margin-left:10px;margin-bottom:-14px">
+      Meetings Management System
+    </a>
     <a href="#" data-activates="mobile-demo" class="button-collapse right">
       <i class="material-icons" style="margin-top: 15px;">menu</i>
     </a>
     <!---------------------- Pc view ------------------------>
     <ul class="right hide-on-med-and-down">
-      
+
       <li ng-hide="currentUser">
         <a ng-href="#/login" style="font-size:0.9rem">
           <i class="fa fa-lock fa-lg fa-icon" aria-hidden="true"></i>
