@@ -12,6 +12,9 @@
             refData: function(firebaseUser) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/meetings'); 
             },
+            refSettings: function(firebaseUser) {
+                return firebase.database().ref('users/' + firebaseUser.uid + '/settings'); 
+            },
             refSync: function(firebaseUser) {
                 return firebase.database().ref('users/' + firebaseUser + '/meetings'); 
             },

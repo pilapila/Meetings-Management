@@ -41,24 +41,25 @@
  <script src="js/controllers/checkins.js"></script>
  <script src="js/controllers/invitations.js"></script>
  <script src="js/controllers/dataDirController.js"></script>
+ <script src="js/controllers/settings.js"></script>
  <script src="js/directives/dataTableDirective.js"></script>
  <script src="js/directives/invitationDirective.js"></script>
  
 </head>
 <body layout="column" 
-style="background-image: url('images/back.png');">
+style="background-image: url('images/{{backImage}}');">
 
 <!-- <md-content style="background-image: url('images/back.png');"> -->
 		<header>
 			<nav ng-include="'views/nav.html'"></nav>
 		</header>
 
-		<main style="background-image: url('images/back.png');">
+		<main style="background-image: url('images/{{backImage}}');">
 			<div class="container col s12" ng-view></div>
 		</main>
 		
 		<div class="footerBase" ng-include="'views/footer.html'" 
-			 style="background-image: url('images/back.png');">
+			 style="background-image: url('images/{{backImage}}');">
 		</div>
 <!-- </md-content> -->
 		

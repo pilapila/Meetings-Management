@@ -11,32 +11,34 @@
 <h5>Settings</h5>
 <p style="margin-top:-10px;color:#999">You've been invited by colleagues</p>
 
-
+<form ng-submit="selectSettings(themeSelected, roleAlarm)">
 <div class="row">
+  
+
   <div class="col s12 right">
     <div class="card-panel teal lighten-1" style="border-radius:10px;max-height:20px;">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-desktop" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Theme
       </span>
-      <span class="white-text right">
-        <form action="#" style="margin-top:-12px">
-              <input class="with-gap" name="group1" type="radio" id="test4"  />
-              <label for="test4" style="color:#fff;margin-right:5px;">Pink</label>
+      
+      <span style="margin-top:-11px"
+            class="white-text right" 
+            ng-repeat="valTheme in settingTheme">
+           <input class="with-gap" type="radio" id="theme{{$index}}"
+                  name="valTheme.theme"
+                  data-ng-model="$parent.themeSelected" 
+                  data-ng-value="valTheme.theme" 
+                  ng-init="$index==themeChecked?($parent.themeSelected=valTheme.theme):''">
+                <label for="theme{{$index}}" style="color:#fff;margin-right:5px;">
+                  {{valTheme.name}}
+                </label>
 
-              <input class="with-gap" name="group1" type="radio" id="test3"  />
-              <label for="test3" style="color:#fff;margin-right:5px;">Blue</label>
-
-              <input class="with-gap" name="group1" type="radio" id="test2"  />
-              <label for="test2" style="color:#fff;margin-right:5px;">Green</label>
-
-              <input class="with-gap" name="group1" type="radio" id="test1"  />
-              <label for="test1" style="color:#fff;margin-right:5px;">Dark</label>
-        </form>
       </span>
+      
+      </div>
     </div>
   </div>
-</div>
 
 <div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
@@ -45,26 +47,23 @@
         <i class="fa fa-bell-o" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Alarm
       </span>
-      <span class="white-text right">
-        <form action="#" style="margin-top:-12px">
-              <input class="with-gap" name="group1" type="radio" id="test5"  />
-              <label for="test5" style="color:#fff;margin-right:5px;">One day</label>
-
-              <input class="with-gap" name="group1" type="radio" id="test6"  />
-              <label for="test6" style="color:#fff;margin-right:5px;">Two day</label>
-
-              <input class="with-gap" name="group1" type="radio" id="test7"  />
-              <label for="test7" style="color:#fff;margin-right:5px;">Three day</label>
-
-              <input class="with-gap" name="group1" type="radio" id="test8"  />
-              <label for="test8" style="color:#fff;margin-right:5px;">Four day</label>
-        </form>
+      <span style="margin-top:-11px"
+            class="white-text right" 
+            ng-repeat="valAlarm in settingAlarm">
+              <input  class="with-gap" type="radio" id="alarm{{$index}}"
+                      name="valAlarm.day"
+                      data-ng-model="$parent.roleAlarm" 
+                      data-ng-value="valAlarm.day" 
+                      ng-init="$index==alarmChecked?($parent.roleAlarm=valAlarm.day):''"  />
+                <label for="alarm{{$index}}" style="color:#fff;margin-right:5px;">
+                  {{valAlarm.name}}
+                </label>
       </span>
     </div>
   </div>
 </div>
 
-<div class="row" style="margin-top:-30px">
+<!-- <div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
     <div class="card-panel teal lighten-1" style="border-radius:10px;max-height:20px;">
       <span class="white-text left" style="margin-top:-10px">
@@ -72,9 +71,8 @@
         &nbsp&nbsp Animation
       </span>
       <span class="white-text right">
-        <form action="#" style="margin-top:-12px">
           
-          <div class="switch" style="margin-top:2px">
+          <div class="switch" style="margin-top:-8px">
             <label style="color:#fff">
               Off
               <input type="checkbox">
@@ -86,8 +84,13 @@
       </span>
     </div>
   </div>
+</div> -->
+
+<div class="right">
+  <button class="waves-effect waves-teal btn-flat" type="submit">Submit</button>
 </div>
 
+</form>
 
 </div>
 </div> <!-- ng-show="signIn()" -->

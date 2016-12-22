@@ -1,4 +1,4 @@
-meetingsApp.factory('Authentication', function($rootScope, $firebase, $location, $window, $timeout){
+meetingsApp.factory('Authentication', function($rootScope, $firebase, $location, $window, $timeout, RefServices){
 
 		var myObject = {
 			register : function(user) {
@@ -11,7 +11,14 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location,
 			                      'firstname': user.firstname,
 			                      'lastname': user.lastname,
 			                      'age': user.age,
-			                      'email': user.email
+			                      'email': user.email,
+			                      'settings': {
+			                      	"id": 1,
+			                      	"color1": "pink darken-1",
+	   								"color2": "red lighten-2",
+	   								"image": "back1.png",
+	   								"day": 2
+			                      }
 								});
                    });
             },

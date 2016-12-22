@@ -5,14 +5,27 @@ meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
    $mdMedia, $filter, RefServices, productListPageCount) {
 
-   	
-
+	
    	$scope.meetingAction = "add";
    	$scope.nameAction = "Add New Meeting";
-  	
+
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
+		   	
+
+		   	const settingsRef = RefServices.refSettings(firebaseUser);
+			settingsRef.on('value', function (snap) {
+				$timeout(function () {
+					$rootScope.themeColor1 = snap.val().color1;
+					$rootScope.themeColor2 = snap.val().color2;
+					$rootScope.backImage   = snap.val().image;
+					$scope.dayToAlarm      = snap.val().day;
+					$scope.setAllCount(snap.val().day);
+				}, 0);
+			}); //ref to setting
+
+			
 			$rootScope.invitationShow = false;
 			RefServices.refInvitations(firebaseUser.uid)
 				.on('value', function (snap) {
@@ -23,9 +36,13 @@ meetingsApp.controller('MeetingsController', function
 		        		$rootScope.invitationShow = false;
 		        		$rootScope.invitationNum = 0;
 		        	}
-	    	});
+	    	}); // ref to find number of invitations
 
+		$scope.$on('newSetAllCount', function(event, day){
+			$scope.setAllCount(day);
+		});
 
+		$scope.setAllCount = function(day) {
 			const meetingRef = RefServices.refData(firebaseUser);
 		  		  meetingRef.on('value', function (snap) {
 		            $timeout(function () {
@@ -33,9 +50,6 @@ meetingsApp.controller('MeetingsController', function
 		            	$scope.firebaseUser = firebaseUser.uid;
 		            	$scope.meetings = $firebaseArray(meetingRef);
             			$rootScope.howManyMeetings = snap.numChildren();
-			            // $scope.meetings.$watch(function(event) {
-					    //    $rootScope.howManyMeetings = $scope.meetings.length;
-					    // });
 
 			            var count = $rootScope.howManyMeetings;
 			            if(count == 0) {
@@ -78,17 +92,20 @@ meetingsApp.controller('MeetingsController', function
 
 								var timeDiff = (date2.getTime() - date1.getTime());
 								var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-								
-				            	if(diffDays > 0 && diffDays <= 2){
+
+				            	if(diffDays > 0 && diffDays <= day){
+
 				            		$rootScope.alarm += 1;
 				            		$scope.meetings[key].dayColor = "707070";
 				            		$scope.meetingAlarm.push(key);
 				            		if (diffDays == 1) {
 				            			$scope.meetings[key].remainDay = diffDays + " day remain";
-				            		} else {
+				            		} else if (diffDays > 1) {
 				            			$scope.meetings[key].remainDay = diffDays + " days remain";
 				            		}
+
 				            	} else if (diffDays < 0) {
+
 				            		$scope.meetings[key].remainDay = "expired";
 				            		$rootScope.expiredDate += 1;
 				            		$scope.meetings[key].dayColor = "cc2864";
@@ -99,15 +116,20 @@ meetingsApp.controller('MeetingsController', function
 				            		} else if (diffDays < -1) {
 				            			$scope.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
 				            		}
+
 				            	} else if (diffDays == 0) {
+
 				            		$scope.meetings[key].remainDay = "Today!";
 				            		$scope.meetings[key].dayColor = "419215";
 				            		$scope.meetings[key].textColor = "419215";
 				            		$rootScope.alarm += 1;
 				            		$scope.meetingAlarm.push(key);
-				            	} else if (diffDays > 2) {
+
+				            	} else if (diffDays > day) {
+
 				            		$scope.meetings[key].remainDay = diffDays + " days remain";
 				            		$scope.meetings[key].dayColor = "707070";
+
 				            	}
 
 				            	for (var i = 0; i < $scope.meetingAlarm.length; i++) {
@@ -125,9 +147,10 @@ meetingsApp.controller('MeetingsController', function
 				            	};
 				            });
 
-		           		}.bind(this)); // asynchronous data in AngularFire
-					}, 0);
+		           		}.bind(this)); // asynchronous data in a wrong way actially!
+					}, 100); // it is 100 because this part depends on setting ref
 	       		});  //ref to database
+		};
 						
 	    $scope.addMeeting = function() {
 	    	$timeout(function () {

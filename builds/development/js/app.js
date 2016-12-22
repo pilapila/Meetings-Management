@@ -44,9 +44,9 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 					}
 				}
 			})
-			.when('/settings/', {
+			.when('/settings', {
 				templateUrl: 'views/settings.html',
-				controller: 'MeetingsController'
+				controller: 'SettingsController'
 			})
 			.when('/profile/', {
 				templateUrl: 'views/profile.html',
@@ -62,3 +62,16 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 	function passDataController(meetingsList, passDataService) {
 		passDataService.addProduct(meetingsList); 
 	};  // pass sync data from resolve to passDataService for invitation controller
+
+	// function SyncAllData(syncAllList, passDataService) {
+	// 	passDataService.addProduct(syncAllList); 
+	// };  // pass sync data from resolve to passDataService for meetings controller
+
+
+	// resolve: {
+	// 	syncAllList: function($firebaseObject, RefServices, $route) {
+
+	// 		return $firebaseObject(RefServices.refCaller($route.current.params.userId)).$loaded();
+			
+	// 	}
+	// }
