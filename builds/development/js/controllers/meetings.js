@@ -19,8 +19,11 @@ meetingsApp.controller('MeetingsController', function
 				$timeout(function () {
 					$rootScope.themeColor1 = snap.val().color1;
 					$rootScope.themeColor2 = snap.val().color2;
+					$rootScope.themeColor3 = snap.val().color3;
 					$rootScope.backImage   = snap.val().image;
 					$scope.dayToAlarm      = snap.val().day;
+					$rootScope.animeAction     = snap.val().anime;
+
 					$scope.setAllCount(snap.val().day);
 				}, 0);
 			}); //ref to setting
@@ -281,7 +284,7 @@ meetingsApp.controller('MeetingsController', function
           parent: angular.element(document.body),
           template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;max-width:450px;max-height:350px;">' +
 	          		'<md-toolbar>' +
-				      '<div class="md-toolbar-tools left left">' +
+				      '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
 				        '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Meeting details</h6></span>' +
 				      '</div>' +
 				    '</md-toolbar>' +

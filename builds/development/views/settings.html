@@ -16,7 +16,8 @@
   
 
   <div class="col s12 right">
-    <div class="card-panel teal lighten-1" style="border-radius:10px;max-height:20px;">
+    <div class="card-panel" 
+    style="border-radius:10px;max-height:20px;background-color:{{themeColor3}}">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-desktop" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Theme
@@ -42,7 +43,8 @@
 
 <div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
-    <div class="card-panel teal lighten-1" style="border-radius:10px;max-height:20px;">
+    <div class="card-panel" 
+         style="border-radius:10px;max-height:20px;background-color:{{themeColor3}}">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-bell-o" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Alarm
@@ -63,9 +65,10 @@
   </div>
 </div>
 
-<!-- <div class="row" style="margin-top:-30px">
+<div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
-    <div class="card-panel teal lighten-1" style="border-radius:10px;max-height:20px;">
+    <div class="card-panel" 
+         style="background-color:{{themeColor3}};border-radius:10px;max-height:20px;">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-smile-o" style="font-size:1.2rem" aria-hidden="true"></i>
         &nbsp&nbsp Animation
@@ -75,7 +78,10 @@
           <div class="switch" style="margin-top:-8px">
             <label style="color:#fff">
               Off
-              <input type="checkbox">
+              <input type="checkbox" 
+                     name="position"
+                     ng-model="roleAnime"
+                     ng-change="changeAnime()">
               <span class="lever"></span>
               On
             </label>
@@ -84,7 +90,7 @@
       </span>
     </div>
   </div>
-</div> -->
+</div>
 
 <div class="right">
   <button class="waves-effect waves-teal btn-flat" type="submit">Submit</button>

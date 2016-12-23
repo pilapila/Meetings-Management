@@ -54,24 +54,26 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && alarm">
-        <a ng-href="#/alarm" style="font-size:0.9rem">
-          <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 
-             aria-hidden="true"></i>
-          Alarm
-          <span class="new badge" data-badge-caption="new">
-            {{alarm}}
-          </span>
-        </a>
-      </li>
-
       <li ng-show="currentUser && invitationShow">
-        <a ng-href="#/invitations/{{currentUser.$id}}" style="font-size:0.9rem">
+        <a ng-href="#/invitations/{{currentUser.regUser}}" style="font-size:0.9rem">
           <i class="fa fa-address-card-o fa-lg fa-icon" 
              aria-hidden="true"></i>
           Invitations
           <span class="new badge" data-badge-caption="new">
             {{ invitationNum }}
+          </span>
+        </a>
+      </li>
+
+      <li ng-show="currentUser && alarm">
+        <a ng-href="#/alarm" style="font-size:0.9rem">
+          <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 
+             aria-hidden="true" ng-show="animeAction"></i>
+          <i class="fa fa-bell-o fa-lg fa-icon animated swing delayAnimate" 
+             aria-hidden="true" ng-hide="animeAction"></i>
+          Alarm
+          <span class="new badge" data-badge-caption="new">
+            {{alarm}}
           </span>
         </a>
       </li>
@@ -145,7 +147,7 @@
       </li>
 
       <li ng-show="currentUser && invitationShow">
-        <a ng-href="#/invitations">
+        <a ng-href="#/invitations/{{currentUser.regUser}}">
           <i class="fa fa-address-card-o fa-lg fa-icon" 
              aria-hidden="true" style="margin-top:7px;margin-right:5px;"></i>
           Invitations
@@ -176,8 +178,7 @@
         </a>
       </li>
     </ul>
-
-
+    
   </div>
 </nav>
 

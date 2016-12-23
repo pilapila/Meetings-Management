@@ -15,14 +15,14 @@
 <div class="row">
   <div class="col s12">
     <span class="flow-text">
-      <nav class="sidenav-title1" style="background-color:#26a69a !important">
+      <nav class="sidenav-title1" style="background-color:{{themeColor3}}">
         <div class="nav-wrapper">
 
-            <nav class="sidenav-title1" style="background-color:#26a69a !important">
+            <nav class="sidenav-title1" style="background-color:{{themeColor3}}">
               <div class="nav-wrapper">
 
                 <nav class="search right right z-depth-0" 
-                  style="height:35px;background-color:#26a69a;margin-top:3px;margin-right:3px;width:200px;">
+                  style="height:35px;background-color:{{themeColor3}};margin-top:3px;margin-right:3px;width:200px;">
                     <div class="nav-wrapper">
                       
                         <div class="input-field">
@@ -247,7 +247,7 @@
 
                         <a ng-show="checked.reject && !checked.send && !checked.accept" 
                            class="fontawesome-color right right animated bounceIn delayAnimate" 
-                           ng-click="responceMessage($event, checked.responceMessage, '#dd4481')" href="">
+                           ng-click="responceMessage($event, checked.responceMessage, themeColor3)" href="">
                             <span class="fa-stack fa-lg" 
                                   style="margin-top:2px;margin-right:-15px">
                               <i class="fa fa-circle-thin fa-stack-2x" 
@@ -370,12 +370,13 @@
    style="border-radius:12px;max-width:550px;max-height:400px;">
 
   <md-toolbar>
-    <div class="md-toolbar-tools checkinUser" style="background-color:#26a69a;height:80px">
+    <div class="md-toolbar-tools checkinUser" 
+         style="background-color:{{themeColor3}};height:80px">
         <h2>Checkin your invitees</h2>
         <span flex></span>
         <nav class="search left left z-depth-0" 
              style="height:20px;max-height:20px;margin-right:0px;width:220px;
-                    margin-top:-15px;background-color:#26a69a">
+                    margin-top:-15px;background-color:{{themeColor3}}">
           <div class="nav-wrapper">
             
               <div class="input-field">
@@ -452,7 +453,7 @@
 <div id="modal2" class="modal modal-fixed-footer" 
    style="border-radius:12px;max-width:450px;max-height:350px;">
   <md-toolbar>
-      <div class="md-toolbar-tools" style="background-color:#26a69a">
+      <div class="md-toolbar-tools" style="background-color:{{themeColor3}}">
         <h2>Meeting Details</h2>
         <span flex></span>
         <a class="modal-action modal-close waves-effect waves-green">

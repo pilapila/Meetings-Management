@@ -13,10 +13,13 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location,
 			                      'age': user.age,
 			                      'email': user.email,
 			                      'settings': {
-			                      	"id": 1,
+			                      	"dayId": 1,
+			                      	"themeId": 5,
+			                      	"anime": true,
 			                      	"color1": "pink darken-1",
 	   								"color2": "red lighten-2",
-	   								"image": "back1.png",
+	   								"color3": "#14978a",
+	   								"image": "back2.png",
 	   								"day": 2
 			                      }
 								});

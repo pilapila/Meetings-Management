@@ -100,8 +100,8 @@ meetingsApp.controller('InvitationsController', function
     }; // Accept invitation
 
 
-    $scope.rejectInvitation = function(event, invitation) {
-
+    $scope.rejectInvitation = function(event, invitation, color) {
+      
         $scope.dialog = invitation;
         $mdDialog.show({
           controller: function () { 
@@ -120,7 +120,7 @@ meetingsApp.controller('InvitationsController', function
           '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
           '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
                 '<md-toolbar>' +
-              '<div class="md-toolbar-tools left left" style="background-color:#26a69a">' +
+              '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
                 '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
                 '<span flex><h6>Are you sure you want to delete this invitation</h6></span>' +
               '</div>' +

@@ -8,7 +8,8 @@
 		  invitationsList: '=invitationsList',
 		  firebaseUser: '=firebaseUser',
 		  pageSize: '=pageSize',
-		  query: '=query'
+		  query: '=query',
+		  themeColor: '=themeColor'
 		},
 		controller: 'dataDirController'
 	  }
