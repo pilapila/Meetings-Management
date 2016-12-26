@@ -204,8 +204,8 @@
 
                         <a ng-show="checked.send && !checked.accept && !checked.reject" 
                            class="fontawesome-color right right">
-                            <span class="fa-stack fa-lg" 
-                                  style="margin-top:2px;margin-right:-15px">
+                            <span style="margin-top:2px;margin-right:-15px"
+                            class="fa-stack fa-lg">
                               <i class="fa fa-circle-thin fa-stack-2x" 
                                  style="font-size:30px;color:#daf4fc;margin-top:5px;"></i>
                               <i class="fa fa-envelope fa-stack-1x" 
@@ -231,9 +231,20 @@
                         </a>
 
                         <a ng-show="checked.accept && !checked.reject && checked.send" 
-                           class="fontawesome-color right right animated bounceIn delayAnimate" 
+                           class="fontawesome-color right right" 
                            class="fontawesome-color right right">
-                            <span class="fa-stack fa-lg" 
+                            <span ng-show="animeAction"
+                            class="fa-stack fa-lg animated infinite pulse delayAnimate" 
+                                  style="margin-top:2px;margin-right:-15px">
+                              <i class="fa fa-circle-thin fa-stack-2x" 
+                                 style="font-size:30px;color:#e2f7c0;margin-top:5px;"></i>
+                              <i class="fa fa-check fa-stack-1x" 
+                                 style="font-size:18px;color:#23ba0a;"></i>
+                              <md-tooltip md-direction="top">
+                                ACCEPTED
+                              </md-tooltip>
+                            </span>
+                            <span class="fa-stack fa-lg" ng-hide="animeAction"
                                   style="margin-top:2px;margin-right:-15px">
                               <i class="fa fa-circle-thin fa-stack-2x" 
                                  style="font-size:30px;color:#e2f7c0;margin-top:5px;"></i>
@@ -246,9 +257,19 @@
                         </a>
 
                         <a ng-show="checked.reject && !checked.send && !checked.accept" 
-                           class="fontawesome-color right right animated bounceIn delayAnimate" 
+                           class="fontawesome-color right right" 
                            ng-click="responceMessage($event, checked.responceMessage, themeColor3)" href="">
-                            <span class="fa-stack fa-lg" 
+                            <span class="fa-stack fa-lg animated infinite bounceIn delayAnimate" ng-show="animeAction"
+                                  style="margin-top:2px;margin-right:-15px">
+                              <i class="fa fa-circle-thin fa-stack-2x" 
+                                 style="font-size:30px;color:#f9e1e9;margin-top:5px;"></i>
+                              <i class="fa fa-times fa-stack-1x" 
+                                 style="font-size:18px;color:#e762ad;"></i>
+                              <md-tooltip md-direction="top">
+                                REJECTED
+                              </md-tooltip>
+                            </span>
+                            <span class="fa-stack fa-lg" ng-hide="animeAction"
                                   style="margin-top:2px;margin-right:-15px">
                               <i class="fa fa-circle-thin fa-stack-2x" 
                                  style="font-size:30px;color:#f9e1e9;margin-top:5px;"></i>
@@ -372,6 +393,7 @@
   <md-toolbar>
     <div class="md-toolbar-tools checkinUser" 
          style="background-color:{{themeColor3}};height:80px">
+         <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
         <h2>Checkin your invitees</h2>
         <span flex></span>
         <nav class="search left left z-depth-0" 
@@ -454,6 +476,7 @@
    style="border-radius:12px;max-width:450px;max-height:350px;">
   <md-toolbar>
       <div class="md-toolbar-tools" style="background-color:{{themeColor3}}">
+        <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
         <h2>Meeting Details</h2>
         <span flex></span>
         <a class="modal-action modal-close waves-effect waves-green">

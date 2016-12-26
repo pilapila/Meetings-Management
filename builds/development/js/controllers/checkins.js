@@ -335,7 +335,7 @@ meetingsApp.controller('CheckinsController', function
           parent: angular.element(document.body),
           template:
           '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:250px;">' +
-                '<md-toolbar>' +
+            '<md-toolbar>' +
               '<div class="md-toolbar-tools left left" style="background-color:{{ctrl.parent.color}}">' +
                 '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
                 '<span flex><h6>Sorry, I can not be there...</h6></span>' +

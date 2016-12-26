@@ -11,6 +11,46 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+nav ul a span.badge {
+    display: inline-block !important;
+    float: none !important;
+    margin-left: 4px !important;
+    line-height: 20px !important;
+    height: 20px !important;
+}
+
+span.badge {
+    min-width: 2rem !important;
+    padding: 0 6px !important;
+    margin-left: 14px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: inherit;
+    color: #757575;
+    float: right;
+    box-sizing: border-box;
+}
+
+span.badge.new {
+    background-color: #26a69a !important;
+    border-radius: 6px !important;
+}
+
+span.badge.new.invitation {
+    background-color: #0b9fec !important;
+    border-radius: 6px !important;
+}
+
+span.badge.new.expired {
+    background-color: #ee2252 !important;
+    border-radius: 6px !important;
+}
+
+span.badge.new.alarm {
+    background-color: #32ae11 !important;
+    border-radius: 6px !important;
+}
+
 [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
     border: 2px solid #00ffe7 !important;
     margin-left: 15px !important;
