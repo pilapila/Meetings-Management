@@ -20,14 +20,25 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 	               'image':  		theme.image,
 	               'themeId':       theme.id
 	            }).then(function() {
-	            	//$scope.setAllCount(day);
 	            	$scope.$emit('newSetAllCount', day);
+	            	$scope.showToast('Settings Changed');
 				});
   	}
 
   	$scope.changeAnime = function() {
   		$scope.roleAnime = !$scope.roleAnime;
-  	}
+  	};
+
+	$scope.showToast = function(message) {
+		$mdToast.show(
+			$mdToast.simple()
+				.toastClass('md-toast-error')
+				.content(message)
+				.position('top, right')
+				.hideDelay(2000)
+		);
+	}; // Show Toast		
+  	
 
   	const settingsRef = RefServices.refSettings(firebaseUser);
 	settingsRef.on('value', function (snap) {

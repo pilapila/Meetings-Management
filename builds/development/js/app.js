@@ -50,7 +50,7 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 			})
 			.when('/profile/', {
 				templateUrl: 'views/profile.html',
-				controller: 'MeetingsController'
+				controller: 'ProfileController'
 			})
 			.otherwise({
 				redirectTo: '/login'

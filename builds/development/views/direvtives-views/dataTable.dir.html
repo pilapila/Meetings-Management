@@ -121,7 +121,7 @@ style="border-radius: 12px !important;">
     <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
         style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
       <td class="meeting-data-table">
-        <b>{{ $index + 1 }}</b>
+        <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.name | ShortName:15 }}

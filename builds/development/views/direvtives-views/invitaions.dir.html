@@ -60,8 +60,19 @@
 
                       </div>
 
-                      <div class="card-action right-align" style="margin-top:-22px">
+                      <div class="card-action col s12" style="margin-top:-22px">
 
+                        <div class="left-align col s1" style="margin-top:3px;">
+                          <span class="fa-stack">
+                            <i class="fa fa-circle-thin fa-stack-2x" 
+                               style="color:#bcebf8;margin-top:1px;"></i>
+                            <span style="font-size:16px;color:#19a7ce;margin-left:8px;">
+                              {{ ($index + 1) + (pageSize * (selectedPage - 1)) }}
+                            </span>
+                          </span>
+                        </div>
+
+                        <div class="right-align col s11" style="margin-top:-30px">
                           <a class="fontawesome-color" href="" style="margin-right:-5px"
                                ng-click="rejectInvitation($event, invitation, themeColor)">
                               <span class="fa-stack fa-lg" style="margin-top:2px">
@@ -88,17 +99,8 @@
                                 </md-tooltip>
                               </span>
                           </a>
-
-                          <!-- <a ng-hide="{{checked.send}}" class="fontawesome-color right right">
-                              <span class="fa-stack fa-lg" 
-                                    style="margin-top:2px;margin-right:-15px">
-                                <i class="fa fa-pause fa-stack-1x" 
-                                   style="font-size:15px;color:#e762ad;"></i>
-                                <md-tooltip md-direction="top">
-                                  NOT CHECK
-                                </md-tooltip>
-                              </span>
-                          </a> -->
+                        </div>
+                          
                       </div>
                     </div>
 
