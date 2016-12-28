@@ -47,10 +47,10 @@
       <li ng-show="currentUser && expiredDate">
         <a ng-href="#/expired" style="font-size:0.9rem">
           <i class="fa fa-clock-o fa-lg fa-icon animated infinite flash delayAnimate" 
-             ng-show="animeAction"
+             ng-show="animeAction" style="color:#ff4851"
              aria-hidden="true"></i>
           <i class="fa fa-clock-o fa-lg fa-icon animated rubberBand delayAnimate" 
-             ng-hide="animeAction"
+             ng-hide="animeAction" style="color:#ff4851"
              aria-hidden="true"></i>
         Expired! 
         <span class="new badge expired" data-badge-caption="">
@@ -62,9 +62,9 @@
       <li ng-show="currentUser && alarm">
         <a ng-href="#/alarm" style="font-size:0.9rem">
           <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 
-             aria-hidden="true" ng-show="animeAction"></i>
+             aria-hidden="true" style="color:#4be223" ng-show="animeAction"></i>
           <i class="fa fa-bell-o fa-lg fa-icon animated rubberBand delayAnimate" 
-             aria-hidden="true" ng-hide="animeAction"></i>
+             aria-hidden="true" style="color:#4be223" ng-hide="animeAction"></i>
           Alarm
           <span class="alarm new badge" data-badge-caption="">
             {{alarm}}
@@ -75,7 +75,7 @@
       <li ng-show="currentUser && invitationShow">
         <a ng-href="#/invitations/{{currentUser.regUser}}" style="font-size:0.9rem">
           <i class="fa fa-address-card-o fa-lg fa-icon" 
-             aria-hidden="true"></i>
+             aria-hidden="true" style="color:#2dc6ff"></i>
           Invitations
           <span class="invitation new badge" data-badge-caption="">
             {{ invitationNum }}
@@ -85,7 +85,8 @@
 
       <li ng-show="currentUser">
         <a ng-href="#/meetings" style="font-size:0.9rem">
-          <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"></i>
+          <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"
+             style="color:#0cd4c1"></i>
       	   Meetings
            <span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">
             {{ howManyMeetings }} 

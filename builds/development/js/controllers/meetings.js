@@ -165,7 +165,7 @@ meetingsApp.controller('MeetingsController', function
 	               'dateMeeting':  		$('.datepicker').val(),
 	               'time':         		$('.timepicker').val()
 		        }).then(function() {
-	            	$scope.showToast('Added Meeting');
+	            	$scope.showToast('Added Meeting', 'md-toast-add');
 	            	$scope.meeting = "";
 	            	$(".collapsible-header").removeClass(function(){
 					    return "active";
@@ -186,7 +186,7 @@ meetingsApp.controller('MeetingsController', function
 	               'dateMeeting':  		$('.datepicker').val(),
 	               'time':         		$('.timepicker').val()
 	            }).then(function() {
-	            	$scope.showToast('Edited Meeting');
+	            	$scope.showToast('Edited Meeting', 'md-toast-add');
 	            	$scope.meeting = "";
 	            	$scope.nameAction = "Add New Meeting";
 					$scope.meetingAction = "add";
@@ -213,20 +213,20 @@ meetingsApp.controller('MeetingsController', function
 				.targetEvent(event);
 			$mdDialog.show(confirm).then(function(){
 				RefServices.meetData(firebaseUser, key).remove();
-				$scope.showToast('Meeting Deleted!');
+				$scope.showToast('Meeting Deleted!', 'md-toast-delete');
 			}, function(){
 
 			});
 
 		};  // delete Meeting
 
-		$scope.showToast = function(message) {
+		$scope.showToast = function(message, color) {
 			$mdToast.show(
 				$mdToast.simple()
-					.toastClass('md-toast-error')
+					.toastClass(color)
 					.content(message)
 					.position('top, right')
-					.hideDelay(3000)
+					.hideDelay(2000)
 			);
 		}; // Show Toast
 

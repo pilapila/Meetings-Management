@@ -163,7 +163,7 @@ meetingsApp.controller('CheckinsController', function
       }  // end for all
 
       $scope.data = [];
-      $scope.showToast('Added invitees');
+      $scope.showToast('Added invitees', 'md-toast-add');
     }, 0);
     //console.log("checkedList is: " + $scope.checkedList.length);
   };  // Add new Checkin
@@ -176,7 +176,7 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).remove();
-        $scope.showToast('All Deleted!');
+        $scope.showToast('All Deleted!', 'md-toast-delete');
       }, function(){
         
       });
@@ -215,7 +215,7 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, key).remove();
-        $scope.showToast(firstname  + ' ' + lastname + ' Deleted!');
+        $scope.showToast(firstname  + ' ' + lastname + ' Deleted!', 'md-toast-delete');
       }, function(){
 
       });
@@ -229,7 +229,7 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refDeleteDescription($scope.whichuser, $scope.whichmeeting, idChecked, key).remove();
-        $scope.showToast( 'Description deleted!' );
+        $scope.showToast( 'Description deleted!', 'md-toast-delete');
       }, function(){
 
       });
@@ -263,7 +263,7 @@ meetingsApp.controller('CheckinsController', function
                     "accept":     false,
                 });
                   
-                $scope.showToast( 'Sent invitation to ' + checkinKey.firstname );
+                $scope.showToast( 'Sent invitation to ' + checkinKey.firstname, 'md-toast-send');
             });
         }, 0);
       });
@@ -312,9 +312,9 @@ meetingsApp.controller('CheckinsController', function
         } // end for
 
         if (countSent == 0) {
-          $scope.showToast('Nothing New Invitee');
+          $scope.showToast('Nothing New Invitee', 'md-toast-delete');
         } else if (countSent >= 0) {
-          $scope.showToast('Sent ' + countSent + ' New Invitations');
+          $scope.showToast('Sent ' + countSent + ' New Invitations', 'md-toast-send');
         }
       
       }, 0);
@@ -363,13 +363,13 @@ meetingsApp.controller('CheckinsController', function
         });
   }
 
-  $scope.showToast = function(message) {
+  $scope.showToast = function(message, color) {
       $mdToast.show(
         $mdToast.simple()
-          .toastClass('md-toast-error')
+          .toastClass(color)
           .content(message)
           .position('top, right')
-          .hideDelay(3000)
+          .hideDelay(2000)
       );
   }; // Show Toast
 
