@@ -59,6 +59,17 @@
         </a>
       </li>
 
+      <li ng-show="currentUser && cancelShow">
+        <a ng-href="#/suspension" style="font-size:0.9rem">
+          <i class="fa fa-pause-circle-o fa-lg fa-icon"
+             style="color:#ff4851" aria-hidden="true"></i>
+        Suspension 
+        <span class="new badge expired" data-badge-caption="">
+          {{howManyCancel}}
+        </span>
+        </a>
+      </li>
+
       <li ng-show="currentUser && alarm">
         <a ng-href="#/alarm" style="font-size:0.9rem">
           <i class="fa fa-bell-o fa-lg fa-icon animated infinite swing delayAnimate" 

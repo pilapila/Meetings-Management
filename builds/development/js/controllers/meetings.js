@@ -51,17 +51,41 @@ meetingsApp.controller('MeetingsController', function
 		            $timeout(function () {
 
 		            	$scope.firebaseUser = firebaseUser.uid;
-		            	$scope.meetings = $firebaseArray(meetingRef);
-            			$rootScope.howManyMeetings = snap.numChildren();
+		            	$scope.allMeetings = $firebaseArray(meetingRef);
+            			$rootScope.howManyMeetings = 0;
+            			$rootScope.howManyCancel = 0;
+            			$scope.meetings = [];
+            			$scope.cancelMeetings = [];
 
-			            var count = $rootScope.howManyMeetings;
-			            if(count == 0) {
-			            	$scope.meetingsInfo = false;
-			            } else {
-			            	$scope.meetingsInfo = true;
-			            }
+			        	$scope.allMeetings.$loaded().then(function (list) { // asynchronous data in AngularFire
 
-			        	$scope.meetings.$loaded().then(function (list) { // asynchronous data in AngularFire
+			        		for (var i = 0; i < $scope.allMeetings.length; i++) {
+
+			        			if ( $scope.allMeetings[i].pause == false ) {
+			        				$scope.meetings.push($scope.allMeetings[i]);
+			        				$rootScope.howManyMeetings += 1;
+
+			        			} else if ( $scope.allMeetings[i].pause == true ) {
+			        				$scope.cancelMeetings.push($scope.allMeetings[i]);
+			        				$rootScope.howManyCancel += 1;
+			        			}
+
+			        		}; // find pause meetings
+
+			        		var countMeeting = $rootScope.howManyMeetings;
+			        		var countCancel = $rootScope.howManyCancel;
+
+				            if (countMeeting == 0) {
+				            	$scope.meetingsInfo = false;
+				            } else {
+				            	$scope.meetingsInfo = true;
+				            }
+
+				            if (countCancel == 0) {
+				            	$rootScope.cancelShow = false;
+				            } else {
+				            	$rootScope.cancelShow = true;
+				            }
 
 				            var today = new Date();
 							var dd = today.getDate();
@@ -154,16 +178,18 @@ meetingsApp.controller('MeetingsController', function
 					}, 100); // it is 100 because this part depends on setting ref
 	       		});  //ref to database
 		};
+
 						
 	    $scope.addMeeting = function() {
 	    	$timeout(function () {
 		      if ($scope.meetingAction === "add") {
 		        RefServices.refData(firebaseUser).push().set({
-	               'name':         		$scope.meeting.name,
-	               'description':  		$scope.meeting.description,
-	               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
-	               'dateMeeting':  		$('.datepicker').val(),
-	               'time':         		$('.timepicker').val()
+	               'name':         	$scope.meeting.name,
+	               'description':  	$scope.meeting.description,
+	               'dateEnter':    	firebase.database.ServerValue.TIMESTAMP,
+	               'dateMeeting':  	$('.datepicker').val(),
+	               'time':         	$('.timepicker').val(),
+	               'pause':         false 
 		        }).then(function() {
 	            	$scope.showToast('Added Meeting', 'md-toast-add');
 	            	$scope.meeting = "";
@@ -267,11 +293,117 @@ meetingsApp.controller('MeetingsController', function
 	      }, 0); // timeput
 		}; // get edit function
 
+		$scope.pauseMeetingAction = function(excuse, meeting) {
+			const refPauseCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
+			refPauseCheckins.on('value', function (snap) {
+				$timeout(function () {
+					$scope.pauseCheckins = $firebaseArray(refPauseCheckins);
+					$scope.pauseCheckins.$loaded().then(function (list) {
+						for (var i = 0; i < $scope.pauseCheckins.length; i++) {
+							
+							if ( $scope.pauseCheckins[i].send == true && 
+								 $scope.pauseCheckins[i].accept == true && 
+								 $scope.pauseCheckins[i].reject == false ) {
+
+									RefServices.refMeetChecked($scope.pauseCheckins[i].regUser, $scope.pauseCheckins[i].inviteeId)
+										.update({
+							               'pause':  true,
+							               'excuse': excuse
+							            });
+
+							        RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, $scope.pauseCheckins[i].$id)
+										.update({
+							               'pause':  true,
+							               'excuse': excuse
+							            });
+
+							} else if ( $scope.pauseCheckins[i].send == true && 
+										$scope.pauseCheckins[i].accept == false && 
+										$scope.pauseCheckins[i].reject == false ) {
+
+									RefServices.refDeleteInvitation($scope.pauseCheckins[i].regUser, $scope.pauseCheckins[i].whichInvitation)
+										.update({
+							               'pause':  true,
+							               'excuse': excuse
+							            });
+
+							        RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, $scope.pauseCheckins[i].$id)
+										.update({
+							               'pause':  true,
+							               'excuse': excuse
+							            });
+							} // end else if
+
+						};
+					}.bind(this)); // asynchronous data in a wrong way actially!
+				}, 0); // timeout
+			});  // snap val()
+
+				RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).update({
+					'pause':  true,
+					'excuse': excuse
+				});
+
+		} // pauseMeetingAction
+
+		$scope.pauseMeetingDialog = function(event, meeting, color) {
+	        $mdDialog.show({
+	          controller: function () { 
+	            this.parent = $scope; 
+	            $scope.cancel = function() {
+	              $mdDialog.cancel();
+	            };
+	            $scope.delete = function(myExcuse) {
+	              $scope.pauseMeetingAction(myExcuse, meeting);
+	              $mdDialog.cancel();
+	            };
+	          },
+	          controllerAs: 'ctrl',
+	          parent: angular.element(document.body),
+	          template: 
+	          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+	                '<md-toolbar>' +
+	              '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
+	                '<i class="fa fa-pause-circle-o fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+	                '<span flex><h6>Are you sure you want to suspend this meeting?</h6></span>' +
+	              '</div>' +
+	            '</md-toolbar>' +
+	              '<md-dialog-content>' +
+	               '<div class="md-dialog-content">' +
+	                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
+	                              ' class="validate" id="text" required="" aria-required="true" ' +
+	                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse..."> ' +
+	                    ' <label for="text" style="font-size:0.8rem" ' +
+	                    ' data-error="Please enter your excuse."> ' +
+	                     '' +
+	                    ' </label> ' +
+	              '</div>' +
+	            '</md-dialog-content>' +
+	            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+	              '<md-button ng-click="ctrl.parent.cancel()">' +
+	                 'No' +
+	             ' </md-button>' +
+	             '<md-button type="submit">' +
+	                 'Yes' +
+	             ' </md-button>' +
+	            '</md-dialog-actions>' +
+	          '</md-dialog>'+
+	          '</form>',
+	          targetEvent: event,
+	          clickOutsideToClose:true,
+	          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	        })
+	        .then(function(answer) {}, function() {
+	          
+	        });
+		}; // pause meeting
+
 	}   //if statement
   }); //firebaseUser
 
 
-    $scope.showMeetDialog = function(ev, key, meeting) {
+    $scope.showMeetDialog = function(event, key, meeting) {
      	$scope.dialog = meeting;
         $mdDialog.show({
           controller: function () { 
@@ -304,7 +436,7 @@ meetingsApp.controller('MeetingsController', function
 					   ' </md-button>' +
 				    '</md-dialog-actions>' +
 					'</md-dialog>',
-          targetEvent: ev,
+          targetEvent: event,
           clickOutsideToClose:true,
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
@@ -313,7 +445,7 @@ meetingsApp.controller('MeetingsController', function
          }, function() {
           
         });
-    };
+    }; // show meeting dialog
 
     
 

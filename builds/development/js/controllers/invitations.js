@@ -36,19 +36,39 @@ meetingsApp.controller('InvitationsController', function
           .targetEvent(event);
         $mdDialog.show(confirm).then(function(){
           $timeout(function () {
-            RefServices.refData(firebaseUser).push().set({
-              'name':            invitation.name,
-              'description':     invitation.description,
-              'dateEnter':       firebase.database.ServerValue.TIMESTAMP,
-              'dateMeeting':     invitation.dateEnter,
-              'time':            invitation.time,
-              'firstnameCaller': invitation.firstnameCaller,
-              'lastnameCaller':  invitation.lastnameCaller,
-              'imageCaller':     invitation.imageCaller,
-              'whichMeeting':    invitation.whichMeeting,
-              'whichUser':       invitation.whichUser,
-              'invitation':      true,
-            });
+            
+            if (invitation.excuse) {
+              RefServices.refData(firebaseUser).push().set({
+                'name':            invitation.name,
+                'description':     invitation.description,
+                'dateEnter':       firebase.database.ServerValue.TIMESTAMP,
+                'dateMeeting':     invitation.dateEnter,
+                'time':            invitation.time,
+                'firstnameCaller': invitation.firstnameCaller,
+                'lastnameCaller':  invitation.lastnameCaller,
+                'imageCaller':     invitation.imageCaller,
+                'whichMeeting':    invitation.whichMeeting,
+                'whichUser':       invitation.whichUser,
+                'pause':           invitation.pause,
+                'excuse':          invitation.excuse,
+                'invitation':      true,
+              });
+            } else {
+                RefServices.refData(firebaseUser).push().set({
+                  'name':            invitation.name,
+                  'description':     invitation.description,
+                  'dateEnter':       firebase.database.ServerValue.TIMESTAMP,
+                  'dateMeeting':     invitation.dateEnter,
+                  'time':            invitation.time,
+                  'firstnameCaller': invitation.firstnameCaller,
+                  'lastnameCaller':  invitation.lastnameCaller,
+                  'imageCaller':     invitation.imageCaller,
+                  'whichMeeting':    invitation.whichMeeting,
+                  'whichUser':       invitation.whichUser,
+                  'pause':           invitation.pause,
+                  'invitation':      true,
+                });
+            }
 
         }).then(function() {
 
@@ -80,7 +100,7 @@ meetingsApp.controller('InvitationsController', function
                   };
                 }.bind(this));
               }, 0);
-            }); // ref to insert response from invitee
+            }); // ref to response from invitee
 
              
             RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
@@ -98,6 +118,46 @@ meetingsApp.controller('InvitationsController', function
         }, 0);
       }); // Confirm
     }; // Accept invitation
+
+
+    $scope.suspentionDialog = function(event, invitation, color) {
+      $scope.dialog = invitation;
+              $mdDialog.show({
+                controller: function () { 
+                  this.parent = $scope; 
+                  $scope.cancel = function() {
+                $mdDialog.cancel();
+              };
+                },
+                controllerAs: 'ctrl',
+                parent: angular.element(document.body),
+                template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;max-width:450px;max-height:350px;">' +
+                      '<md-toolbar>' +
+                    '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
+                      '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Meeting is suspended</h6></span>' +
+                    '</div>' +
+                  '</md-toolbar>' +
+                    '<md-dialog-content>' +
+                   ' <div class="md-dialog-content">' +
+                      '{{ctrl.parent.dialog.excuse}}' +
+                    '</div>' +
+                  '</md-dialog-content>' +
+                  '<md-dialog-actions layout="row">' +
+                    '<md-button ng-click="ctrl.parent.cancel()">' +
+                       'Ok' +
+                   ' </md-button>' +
+                  '</md-dialog-actions>' +
+                '</md-dialog>',
+                targetEvent: event,
+                clickOutsideToClose:true,
+                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+              })
+              .then(function(answer) {
+               
+               }, function() {
+                
+              });
+    }; // suspentionDialog
 
 
     $scope.rejectInvitation = function(event, invitation, color) {

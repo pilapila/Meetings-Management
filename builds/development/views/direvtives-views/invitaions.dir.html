@@ -43,8 +43,12 @@
                             </span>
                         </a>
                     </div>
-                    <div class="card-stacked" style="font-size:0.85rem">
+                    <div class="card-stacked" 
+                         style="font-size:0.85rem;margin-top:-10px;margin-left:-8px">
                       <div class="card-content">
+                        <span ng-show="invitation.pause" style="color:#d44977">
+                          <b>This meeting is suspended for now</b><br>
+                        </span>
                         <b>Meeting Name: </b>
                         <span>{{invitation.name}}</span>
                         
@@ -65,14 +69,29 @@
                         <div class="left-align col s1" style="margin-top:3px;">
                           <span class="fa-stack">
                             <i class="fa fa-circle-thin fa-stack-2x" 
-                               style="color:#bcebf8;margin-top:1px;"></i>
-                            <span style="font-size:16px;color:#19a7ce;margin-left:8px;">
+                               style="color:#bcebf8;margin-top:1px;margin-left:15px"></i>
+                            <span style="font-size:16px;color:#19a7ce;margin-left:23px;">
                               {{ ($index + 1) + (pageSize * (selectedPage - 1)) }}
                             </span>
                           </span>
                         </div>
 
                         <div class="right-align col s11" style="margin-top:-30px">
+
+                          <a class="fontawesome-color" href="" style="margin-right:-5px"
+                             ng-click="suspentionDialog($event, invitation, themeColor)"
+                             ng-show="invitation.pause">
+                              <span class="fa-stack fa-lg" style="margin-top:2px">
+                                <i class="fa fa-square-o fa-stack-2x" 
+                                   style="color:#eaa8be;"></i>
+                                <i class="fa fa-pause fa-stack-1x" 
+                                   style="font-size:12px;color:#d44977;margin-top:-1px"></i>
+                                <md-tooltip md-direction="top">
+                                  SUSPENDED
+                                </md-tooltip>
+                              </span>
+                          </a>
+
                           <a class="fontawesome-color" href="" style="margin-right:-5px"
                                ng-click="rejectInvitation($event, invitation, themeColor)">
                               <span class="fa-stack fa-lg" style="margin-top:2px">
@@ -181,42 +200,7 @@
 
 </div>
 
-<!-- <div id="modal3" class="modal modal-fixed-footer" 
-   style="border-radius:12px;max-width:450px;max-height:170px;">
-<form ng-submit="">
-  <md-toolbar>
-    <div class="md-toolbar-tools checkinUser" style="background-color:#26a69a;height:80px">
-      <i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>
-        <h2>Are you sure you want to delete this invitation</h2>
-        <span flex></span>
-    </div>
-  </md-toolbar>
 
-  <div class="modal-content">
-
-    <div style="margin-bottom:-20px">
-      <div class="row" style="margin-bottom:-10px">
-        <div>
-          <input style="color:#666" name="checkinDescription" 
-                 type="text" ng-model="checkinDescription"
-                 placeholder="Please explain your excuse...">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-footer">
-    <button ng-click="clearData()" 
-            class="modal-action modal-close waves-effect waves-green btn-flat"> 
-      Cancel
-    </button>
-    <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat"> 
-      Agree
-    </button>
-  </div>
-</form>
-</div>
- -->
 
 <script type="text/javascript">
   (function($) {
