@@ -499,6 +499,92 @@ meetingsApp.controller('MeetingsController', function
         });
     }; // show meeting dialog
 
+
+    $scope.sendRejectToCaller = function(myExcuse, meeting) {
+        $timeout(function () {
+            const refFindWhichCheckin = RefServices.refCheckin(meeting.whichUser, meeting.whichMeeting);
+            refFindWhichCheckin.on('value', function (snap) {
+                $scope.allCheckin = $firebaseArray(refFindWhichCheckin);
+                $scope.allCheckin.$loaded().then(function (list) {
+                  for (var i = 0; i < $scope.allCheckin.length; i++) {
+                    if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
+                      RefServices.refCheckedPerson(meeting.whichUser, meeting.whichMeeting,  $scope.allCheckin[i].$id)
+                        .update({
+                          "reject": true,
+                          "send":   false,
+                          "accept": false,
+                          "responceMessage": myExcuse,
+                        });
+                    }
+                  };
+                }.bind(this));
+              });
+            }).then(function() {
+
+            $scope.showToast( 'Meeting rejected', 'md-toast-delete');
+
+        }, 0);
+    }; // sendRejectToCaller
+
+
+
+    $scope.rejectMeeting = function (event, meeting, color) {
+    	
+    	$scope.dialog = meeting;
+        $mdDialog.show({
+          controller: function () { 
+            this.parent = $scope; 
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+            $scope.delete = function(myExcuse) {
+              $scope.sendRejectToCaller(myExcuse, $scope.dialog);
+              $mdDialog.cancel();
+            };
+          },
+          controllerAs: 'ctrl',
+          parent: angular.element(document.body),
+          template: 
+          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+                '<md-toolbar>' +
+              '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
+                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+                '<span flex><h6>Are you sure you want to reject this meeting</h6></span>' +
+              '</div>' +
+            '</md-toolbar>' +
+              '<md-dialog-content>' +
+               '<div class="md-dialog-content">' +
+                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
+                              ' class="validate" id="text" required="" aria-required="true" ' +
+                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse..."> ' +
+                    ' <label for="text" style="font-size:0.8rem" ' +
+                    ' data-error="Please enter your excuse."> ' +
+                     '' +
+                    ' </label> ' +
+              '</div>' +
+            '</md-dialog-content>' +
+            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+              '<md-button ng-click="ctrl.parent.cancel()">' +
+                 'Cancel' +
+             ' </md-button>' +
+             '<md-button type="submit">' +
+                 'delete' +
+             ' </md-button>' +
+            '</md-dialog-actions>' +
+          '</md-dialog>'+
+          '</form>',
+          targetEvent: event,
+          clickOutsideToClose:true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+         
+         }, function() {
+          
+        });
+    }; //rejectMeeting
+
     
 	}   //if statement
   }); //firebaseUser

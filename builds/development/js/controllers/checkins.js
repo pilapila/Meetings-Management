@@ -140,19 +140,17 @@ meetingsApp.controller('CheckinsController', function
                     for (var j = 0; j < allList; j++) {
                       if ($scope.checkedListSync[j].regUser == dataListSync.regUser) { // check if dataCheckbox's regUser is equal to all checkedList
                         $scope.addDescription($scope.checkedList[j], dataListSync.value);
-                        console.log($scope.checkedList[j].$id);
-                        console.log(dataListSync.value);
                       } //end if
                     }; // end for
                   }
                 }.bind(this));
             });
           }; // end for
-
+          
           RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
             'firstname':         $scope.data[i].firstname,
             'lastname':          $scope.data[i].lastname,
-            'date':              firebase.database.ServerValue.TIMESTAMP,
+            'dateEnter':         firebase.database.ServerValue.TIMESTAMP,
             'image':             $scope.data[i].image,
             'regUser':           $scope.data[i].regUser,
             'whichInvitation':   '',
@@ -167,7 +165,7 @@ meetingsApp.controller('CheckinsController', function
       $scope.data = [];
       $scope.showToast('Added invitees', 'md-toast-add');
     }, 0);
-    //console.log("checkedList is: " + $scope.checkedList.length);
+    
   };  // Add new Checkin
 
   $scope.deleteAllCheckin = function() {
@@ -289,8 +287,9 @@ meetingsApp.controller('CheckinsController', function
       });
   };  // send one invitation
 
-  $scope.sendAllInvitations = function(event) {
-    var countSent = $scope.checkedList.length;
+  $scope.sendAllInvitations = function(event, checkedList) {
+    
+    var countSent = checkedList.length;
     var confirm = $mdDialog.confirm()
         .title('Sure you want to send all invitations?')
         .ok('Yes')
@@ -298,14 +297,17 @@ meetingsApp.controller('CheckinsController', function
         .targetEvent(event);
     $mdDialog.show(confirm).then(function(){
       $timeout(function () {
-         for (var i = 0; i < $scope.checkedList.length; i++) {
-          if ($scope.checkedList[i].send !== true) {
-              RefServices.refInvitations($scope.checkedList[i].regUser)
+
+         for (var i = 0; i < checkedList.length; i++) {
+          
+            if (checkedList[i].send !== true) {
+              RefServices.refInvitations(checkedList[i].regUser)
                 .push().set({
                   'dateMeeting':      $scope.meetingChecked.dateMeeting,
                   'name':             $scope.meetingChecked.name,
                   'description':      $scope.meetingChecked.description,
                   'time':             $scope.meetingChecked.time,
+                  'checkinId':        checkedList[i].$id,
                   'whichUser':        $scope.whichuser,
                   'whichMeeting':     $scope.whichmeeting,
                   'imageCaller':      $scope.callerInfo.image,
@@ -313,43 +315,42 @@ meetingsApp.controller('CheckinsController', function
                   'lastnameCaller':   $scope.callerInfo.lastname,
                   'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
                   'pause':            false
-                }).then(function() {
+                });
+            } else {
+              countSent -= 1;
+            }
+         } // end for
 
-                    for (var i = 0; i < $scope.checkedList.length; i++) {
-                      if ($scope.checkedList[i].send !== true) {
-
-                          const refAllInvitations = RefServices.refInvitations($scope.checkedList[i].regUser);
-                          refAllInvitations.on('value', function (snap) {
-                            $scope.allInvitations = $firebaseArray(refAllInvitations);
-                            $scope.allInvitations.$loaded().then(function (list) {
-
-                              for (var i = 0; i < $scope.allInvitations.length; i++) {
-                                if ( $scope.allInvitations[i].whichUser === $scope.whichuser && 
-                                     $scope.allInvitations[i].whichMeeting === $scope.whichmeeting ) {
-
-                                        var whichInvitation = $scope.allInvitations[i].$id;
-                                        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.checkedList[i].$id)
-                                          .update({
-                                            "whichInvitation":  whichInvitation,
-                                            "send":             true,
-                                            "reject":           false,
-                                            "accept":           false,
-                                        });
-
-                                } // end if
-                              };
-
-                            }.bind(this)); // sync
+        for (var i = 0; i < checkedList.length; i++) {
+          
+          if (checkedList[i].send !== true) {
+              const refAllInvitations = RefServices.refInvitations(checkedList[i].regUser);
+              refAllInvitations.on('value', function (snap) {
+                $timeout(function () {
+                $scope.allInvitations = $firebaseArray(refAllInvitations);
+                $scope.allInvitations.$loaded().then(function (list) {
+                  
+                  for (var j = 0; j < $scope.allInvitations.length; j++) {
+                    if ( $scope.allInvitations[j].whichUser === $scope.whichuser && 
+                         $scope.allInvitations[j].whichMeeting === $scope.whichmeeting ) {
+                            console.log($scope.allInvitations[j]);
+                            var whichInvitation = $scope.allInvitations[j].$id;
                             
-                          }); // ref to find invitation id
+                            RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.allInvitations[j].checkinId)
+                              .update({
+                                "whichInvitation":  whichInvitation,
+                                "send":             true,
+                                "reject":           false,
+                                "accept":           false,
+                            });
 
-                      } // end if
-                    } // end for
+                    } // end if
+                  }; // end for
 
-                }); // end ref
-          } else {
-            countSent -= 1;
-          }
+                }.bind(this)); // sync
+                }, 0);
+              }); // ref to find invitation id
+          } // end if
         } // end for
 
         if (countSent == 0) {

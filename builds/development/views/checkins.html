@@ -156,7 +156,7 @@
                         <b style="font-size:1em">
                         {{ checked.firstname | capitalize }} {{ checked.lastname | capitalize }}
                         </b>
-                        <div class="date">{{ checked.date | date }}</div>
+                        <div class="date">{{ checked.dateEnter | date }}</div>
                       </div>
 
                       <div class="card-action">
@@ -370,7 +370,7 @@
       <div ng-show="sendAllInvitationsButton" class="card-action right-align" 
            style="margin-right:-45px">
         <a class="waves-effect btn-flat" style="color:#0889af"
-           ng-click="sendAllInvitations($event)">
+           ng-click="sendAllInvitations($event, checkedList)">
           <i class="material-icons left">email</i>
           Send All Invitations
         </a>

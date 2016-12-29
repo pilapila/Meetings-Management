@@ -42,7 +42,7 @@ meetingsApp.controller('InvitationsController', function
                 'name':            invitation.name,
                 'description':     invitation.description,
                 'dateEnter':       firebase.database.ServerValue.TIMESTAMP,
-                'dateMeeting':     invitation.dateEnter,
+                'dateMeeting':     invitation.dateMeeting,
                 'time':            invitation.time,
                 'firstnameCaller': invitation.firstnameCaller,
                 'lastnameCaller':  invitation.lastnameCaller,
@@ -58,7 +58,7 @@ meetingsApp.controller('InvitationsController', function
                   'name':            invitation.name,
                   'description':     invitation.description,
                   'dateEnter':       firebase.database.ServerValue.TIMESTAMP,
-                  'dateMeeting':     invitation.dateEnter,
+                  'dateMeeting':     invitation.dateMeeting,
                   'time':            invitation.time,
                   'firstnameCaller': invitation.firstnameCaller,
                   'lastnameCaller':  invitation.lastnameCaller,
@@ -91,10 +91,11 @@ meetingsApp.controller('InvitationsController', function
                     if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
                       RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
                         .update({
-                          "inviteeId":  inviteeId, 
-                          "accept":     true,
-                          "send":       true,
-                          "reject":     false,
+                          "inviteeId":          inviteeId, 
+                          "accept":             true,
+                          "send":               true,
+                          "reject":             false,
+                          "whichInvitation":    ''
                         });
                     }
                   };
