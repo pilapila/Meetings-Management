@@ -32,23 +32,11 @@ meetingsApp.controller('SuspentionController', function
                                    'excuse': ''
                                 });
 
-                            RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, $scope.activeCheckins[i].$id)
-                          .update({
-                                   'pause':  false,
-                                   'excuse': ''
-                                });
-
                     } else if ( $scope.activeCheckins[i].send == true && 
                                 $scope.activeCheckins[i].accept == false && 
                                 $scope.activeCheckins[i].reject == false ) {
 
                         RefServices.refDeleteInvitation($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].whichInvitation)
-                          .update({
-                                   'pause':  false,
-                                   'excuse': ''
-                                });
-
-                            RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, $scope.activeCheckins[i].$id)
                           .update({
                                    'pause':  false,
                                    'excuse': ''

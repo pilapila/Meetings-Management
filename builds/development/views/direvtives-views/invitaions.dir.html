@@ -55,7 +55,12 @@
                         <div><b>Description: </b> 
                           <span>{{invitation.description}}</span>
                         </div>  
-                        <div class="date">{{invitation.dateMeeting | date}}</div> 
+                        <div class="date" style="color:#0e8dcf">
+                          <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                          <b>Date: </b> {{invitation.dateMeeting | date}}  &nbsp&nbsp
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                          <b>Time: </b> {{invitation.time | limitTo:5 }} 
+                        </div> 
 
                         <!-- <div class="right" style="margin-top:-77px;margin-right:-21px">
                           <img src="images/personal_pics/test.jpg" 

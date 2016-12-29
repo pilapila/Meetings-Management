@@ -17,11 +17,11 @@ meetingsApp.controller('MeetingsController', function
 		   	const settingsRef = RefServices.refSettings(firebaseUser);
 			settingsRef.on('value', function (snap) {
 				$timeout(function () {
-					$rootScope.themeColor1 = snap.val().color1;
-					$rootScope.themeColor2 = snap.val().color2;
-					$rootScope.themeColor3 = snap.val().color3;
-					$rootScope.backImage   = snap.val().image;
-					$scope.dayToAlarm      = snap.val().day;
+					$rootScope.themeColor1 	   = snap.val().color1;
+					$rootScope.themeColor2 	   = snap.val().color2;
+					$rootScope.themeColor3 	   = snap.val().color3;
+					$rootScope.backImage   	   = snap.val().image;
+					$scope.dayToAlarm      	   = snap.val().day;
 					$rootScope.animeAction     = snap.val().anime;
 
 					$scope.setAllCount(snap.val().day);
@@ -212,6 +212,7 @@ meetingsApp.controller('MeetingsController', function
 	               'dateMeeting':  		$('.datepicker').val(),
 	               'time':         		$('.timepicker').val()
 	            }).then(function() {
+	            	$scope.editCheckinsMeeting($scope.meeting, $('.datepicker').val(), $('.timepicker').val());
 	            	$scope.showToast('Edited Meeting', 'md-toast-add');
 	            	$scope.meeting = "";
 	            	$scope.nameAction = "Add New Meeting";
@@ -226,10 +227,53 @@ meetingsApp.controller('MeetingsController', function
 					$("#description").val("");
 					$("#description").next().removeClass("active");
 					inputElement.data( 'pickadate' ).clear();
+
 		        }); // if action is edit statement
 		      }
 		    }, 0);
-		}   // add Meeting 
+		};   // add Meeting 
+
+		$scope.editCheckinsMeeting = function(meeting, date, time) {
+			const refEditCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.key);
+	        refEditCheckins.on('value', function (snap) {
+		        // ref to invitees who accepted or just sent in order to edit them
+	            $scope.editCheckins = $firebaseArray(refEditCheckins);
+	            $scope.editCheckins.$loaded().then(function (list) {
+	                for (var i = 0; i < $scope.editCheckins.length; i++) {
+	                    
+	                    if ( $scope.editCheckins[i].send == true && 
+	                         $scope.editCheckins[i].accept == true && 
+	                         $scope.editCheckins[i].reject == false ) {
+	                    	
+	                        RefServices.refMeetChecked($scope.editCheckins[i].regUser, $scope.editCheckins[i].inviteeId)
+	                          .update({
+	                                   'name':         		meeting.name,
+						               'description': 		meeting.description,
+						               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+						               'dateMeeting':  		date,
+						               'time':         		time,
+						               'change':            true
+	                                });
+
+	                    } else if ( $scope.editCheckins[i].send == true && 
+	                                $scope.editCheckins[i].accept == false && 
+	                                $scope.editCheckins[i].reject == false ) {
+
+	                        RefServices.refDeleteInvitation($scope.editCheckins[i].regUser, $scope.editCheckins[i].whichInvitation)
+	                          .update({
+	                                   'name':         		meeting.name,
+						               'description': 		meeting.description,
+						               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+						               'dateMeeting':  		date,
+						               'time':         		time
+	                                });
+	                    } // end else if
+
+	                  };
+	                }.bind(this)); // asynchronous data, but in a wrong way actially!
+		       
+		    });  // snap val()
+		}; // editCheckinsMeeting
 
 		$scope.deleteMeeting = function(event, key, meeting) {
 			var confirm = $mdDialog.confirm()
@@ -287,8 +331,11 @@ meetingsApp.controller('MeetingsController', function
 		        	   'name':         $scope.editMeeting.name,
 		               'description':  $scope.editMeeting.description,
 		               'date':         setDatePicker,
-		               'time':         time
+		               'time':         time,
+		               'key':          key
 		        	}
+
+		        	
 	       	});  //ref to database
 	      }, 0); // timeput
 		}; // get edit function
@@ -399,17 +446,22 @@ meetingsApp.controller('MeetingsController', function
 	        });
 		}; // pause meeting
 
-	}   //if statement
-  }); //firebaseUser
-
 
     $scope.showMeetDialog = function(event, key, meeting) {
+    	
      	$scope.dialog = meeting;
         $mdDialog.show({
           controller: function () { 
           	this.parent = $scope; 
           	$scope.cancel = function() {
 		      $mdDialog.cancel();
+		      if ( meeting.change ) {
+			      RefServices.meetData(firebaseUser, meeting.$id)
+	                  .update({
+				               'change':  false
+	                        });
+              }
+
 		    };
           },
           controllerAs: 'ctrl',
@@ -448,6 +500,9 @@ meetingsApp.controller('MeetingsController', function
     }; // show meeting dialog
 
     
+	}   //if statement
+  }); //firebaseUser
+
 
 
  //  $scope.deactiveForm = function() {

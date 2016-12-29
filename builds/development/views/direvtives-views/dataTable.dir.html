@@ -164,7 +164,8 @@ style="border-radius: 12px !important;">
         </a>
 
         <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
-           class="md-primary md-raised" style="margin-left:-3px">
+           class="md-primary md-raised" style="margin-left:-3px"
+           ng-hide="meeting.change">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#ffe5a0;margin-top:-7px;"></i>
@@ -172,6 +173,30 @@ style="border-radius: 12px !important;">
                style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+           class="md-primary md-raised" style="margin-left:-3px"
+           ng-show="meeting.change">
+          <span class="fa-stack fa-lg" 
+                ng-show="animeAction">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#ffe5a0;margin-top:-7px;"></i>
+            <i class="fa fa-exclamation fa-stack-1x animated infinite rubberBand delayAnimate"
+               style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              MEETING HAS BEEN CHANGED
+            </md-tooltip>
+          </span>
+          <span class="fa-stack fa-lg" ng-hide="animeAction">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#ffe5a0;margin-top:-7px;"></i>
+            <i class="fa fa-exclamation fa-stack-1x" 
+               style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              MEETING HAS BEEN CHANGED
             </md-tooltip>
           </span>
         </a>

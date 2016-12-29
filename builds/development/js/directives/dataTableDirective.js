@@ -9,7 +9,8 @@
 		  firebaseUser: '=firebaseUser',
 		  pageSize: '=pageSize',
 		  query: '=query',
-		  themeColor: '=themeColor'
+		  themeColor: '=themeColor',
+		  animeAction: '=animeAction'
 		},
 		controller: 'dataDirController'
 	  }
