@@ -461,8 +461,11 @@ meetingsApp.controller('MeetingsController', function
 				               'change':  false
 	                        });
               }
-
-		    };
+		    }; // cancel
+		    $scope.reject = function() {
+		      $mdDialog.cancel();
+		      $scope.rejectMeeting(event, meeting, $rootScope.themeColor3);
+		    }; // reject
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
@@ -483,9 +486,12 @@ meetingsApp.controller('MeetingsController', function
 				      '</div>' +
 				    '</md-dialog-content>' +
 				    '<md-dialog-actions layout="row">' +
+					    '<md-button ng-click="ctrl.parent.reject()" ng-show="ctrl.parent.dialog.change">' +
+					       'Reject' +
+					    '</md-button>' +
 					    '<md-button ng-click="ctrl.parent.cancel()">' +
 					       'Ok' +
-					   ' </md-button>' +
+					    '</md-button>' +
 				    '</md-dialog-actions>' +
 					'</md-dialog>',
           targetEvent: event,
@@ -521,7 +527,9 @@ meetingsApp.controller('MeetingsController', function
               });
             }).then(function() {
 
-            $scope.showToast( 'Meeting rejected', 'md-toast-delete');
+            	RefServices.meetData(firebaseUser, meeting.$id).remove();
+
+            	$scope.showToast( 'Meeting rejected', 'md-toast-delete');
 
         }, 0);
     }; // sendRejectToCaller

@@ -114,7 +114,7 @@ meetingsApp.controller('InvitationsController', function
               }, 0);
             });
             //if there is not any invitation then go to meeting page
-            $scope.showToast( 'Invitation accepted');
+            $scope.showToast( 'Invitation accepted', 'md-toast-add');
             //console.error("wrong thing happened");
         }, 0);
       }); // Confirm
@@ -246,20 +246,20 @@ meetingsApp.controller('InvitationsController', function
                 $scope.currentPath = $location.path('/meetings');
               }
             });
-            $scope.showToast( 'Invitation rejected');
+            $scope.showToast( 'Invitation rejected', 'md-toast-delete');
 
         }, 0);
     }; // sendRejectToCaller
 
 
-    $scope.showToast = function(message) {
-        $mdToast.show(
-          $mdToast.simple()
-            .toastClass('md-toast-error')
-            .content(message)
-            .position('top, right')
-            .hideDelay(2000)
-        );
+    $scope.showToast = function(message, color) {
+      $mdToast.show(
+        $mdToast.simple()
+          .toastClass(color)
+          .content(message)
+          .position('top, right')
+          .hideDelay(2000)
+      );
     }; // Show Toast
 
 
