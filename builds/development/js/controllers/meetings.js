@@ -404,7 +404,7 @@ meetingsApp.controller('MeetingsController', function
 					.toastClass(color)
 					.content(message)
 					.position('top, right')
-					.hideDelay(2000)
+					.hideDelay(1000)
 			);
 		}; // Show Toast
 
