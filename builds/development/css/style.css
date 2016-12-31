@@ -11,6 +11,8 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+
+
 md-toast.md-default-theme.md-toast-add .md-toast-content, md-toast .md-toast-content  {
     background-color: #2c711a;
     color: rgb(250,250,250);
@@ -404,8 +406,16 @@ md-toolbar {
 md-dialog .md-dialog-content {
     padding: 10px !important;
     font-size: 14px !important;
-    min-width: 400px !important;
+    min-width: 300px !important;
+    max-width: 500px !important;
     max-height: 300px !important;
+}
+
+.md-title {
+  padding: 10px 5px 0px 5px !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.009em !important;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */

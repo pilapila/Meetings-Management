@@ -207,19 +207,108 @@ meetingsApp.controller('CheckinsController', function
     }, 0);
   };  // add description
 
-  $scope.deleteCheckin = function(event, key, firstname, lastname) {
+  $scope.deleteCheckin = function(event, checked) {
+    
     var confirm = $mdDialog.confirm()
-        .title('Are you sure you want to delete ' +  firstname  + ' ' + lastname + '?')
+        .title('Are you sure you want to delete ' +  checked.firstname  + ' ' + checked.lastname + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
-        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, key).remove();
-        $scope.showToast(firstname  + ' ' + lastname + ' Deleted!', 'md-toast-delete');
+        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
+        $scope.showToast(checked.firstname  + ' ' + checked.lastname + ' Deleted!', 'md-toast-delete');
       }, function(){
 
       });
   }; // delete checkin invitee
+
+  $scope.deleteInvitation = function(event, checked) {
+    
+    var confirm = $mdDialog.confirm()
+        .title('Sure you want to cancel invitation for ' +  checked.firstname  + ' ' + checked.lastname + '?')
+        .ok('Yes')
+        .cancel('Cancel')
+        .targetEvent(event);
+      $mdDialog.show(confirm).then(function(){
+        RefServices.refDeleteInvitation(checked.regUser, checked.whichInvitation).remove();
+        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
+        $scope.showToast('Invitation to ' + checked.firstname  + ' Canceled!', 'md-toast-delete');
+      }, function(){
+
+      });
+  }; // deleteInvitation
+
+  $scope.rejectFromCallerDialog = function(event, checked, color) {
+        $scope.dialog = checked;
+        $mdDialog.show({
+            controller: function () { 
+              this.parent = $scope; 
+              $scope.cancel = function() {
+                $mdDialog.cancel();
+              };
+              $scope.delete = function(myExcuse) {
+                $scope.rejectFromCallerAction(myExcuse, checked);
+                $mdDialog.cancel();
+              };
+            },
+            controllerAs: 'ctrl',
+            parent: angular.element(document.body),
+            template: 
+            '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+            '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+                  '<md-toolbar>' +
+                '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
+                  '<i class="fa fa-pause-circle-o fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+                  '<span flex><h6>Sure you want to reject <b> {{ ctrl.parent.dialog.firstname | capitalize }} </b> from this meeting?</h6></span>' +
+                '</div>' +
+              '</md-toolbar>' +
+                '<md-dialog-content>' +
+                 '<div class="md-dialog-content">' +
+                    ' <input type="text" name="text" ng-model="myExcuse"  ' +
+                                ' class="validate" id="text" required="" aria-required="true" ' +
+                                ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse..."> ' +
+                      ' <label for="text" style="font-size:0.8rem" ' +
+                      ' data-error="Please enter your excuse."> ' +
+                       '' +
+                      ' </label> ' +
+                '</div>' +
+              '</md-dialog-content>' +
+              '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+                '<md-button ng-click="ctrl.parent.cancel()">' +
+                   'No' +
+               ' </md-button>' +
+               '<md-button type="submit">' +
+                   'Yes' +
+               ' </md-button>' +
+              '</md-dialog-actions>' +
+            '</md-dialog>'+
+            '</form>',
+            targetEvent: event,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+          })
+          .then(function(answer) {}, function() {
+            
+          });
+  }; // rejectFromCaller
+
+  $scope.rejectFromCallerAction = function(myExcuse, checked) {
+      RefServices.refMeetChecked(checked.regUser, checked.inviteeId).remove();
+      RefServices.refCancellations(checked.regUser).push().set({
+            'dateMeeting':      $scope.meetingChecked.dateMeeting,
+            'name':             $scope.meetingChecked.name,
+            'description':      $scope.meetingChecked.description,
+            'time':             $scope.meetingChecked.time,
+            'imageCaller':      $scope.callerInfo.image,
+            'firstnameCaller':  $scope.callerInfo.firstname,
+            'lastnameCaller':   $scope.callerInfo.lastname,
+            'excuse':           myExcuse
+          });
+
+      RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
+      $scope.showToast( checked.firstname  + ' ' + checked.lastname + ' Rejected!', 'md-toast-delete');
+
+  }; // rejectFromCallerAction
 
   $scope.deleteCheckinDescription = function(event, idChecked, key, des) {
     var confirm = $mdDialog.confirm()
@@ -333,7 +422,7 @@ meetingsApp.controller('CheckinsController', function
                   for (var j = 0; j < $scope.allInvitations.length; j++) {
                     if ( $scope.allInvitations[j].whichUser === $scope.whichuser && 
                          $scope.allInvitations[j].whichMeeting === $scope.whichmeeting ) {
-                            console.log($scope.allInvitations[j]);
+                            
                             var whichInvitation = $scope.allInvitations[j].$id;
                             
                             RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.allInvitations[j].checkinId)

@@ -12,7 +12,13 @@ meetingsApp.controller('MeetingsController', function
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
-		   	
+		   	const refAllCancelations = RefServices.refCancellations(firebaseUser.uid);
+		   	refAllCancelations.on('value', function (snap) {
+				$timeout(function () {
+					$scope.cancelationList = $firebaseArray(refAllCancelations);
+					$rootScope.cancelationNum = snap.numChildren();
+				}, 0);
+			}); //ref to cancelation
 
 		   	const settingsRef = RefServices.refSettings(firebaseUser);
 			settingsRef.on('value', function (snap) {
@@ -27,6 +33,13 @@ meetingsApp.controller('MeetingsController', function
 					$scope.setAllCount(snap.val().day);
 				}, 0);
 			}); //ref to setting
+
+			RefServices.refCaller(firebaseUser.uid)
+		      .on('value', function (snap) {
+		        $timeout(function () {
+		          $scope.callerMeetingInfo = snap.val();
+		        }, 0);
+		      }); // Ref to users to find picture of caller
 
 			
 			$rootScope.invitationShow = false;
@@ -272,21 +285,116 @@ meetingsApp.controller('MeetingsController', function
 	                  };
 	                }.bind(this)); // asynchronous data, but in a wrong way actially!
 		       
-		    });  // snap val()
+		    }); // snap val()
 		}; // editCheckinsMeeting
 
-		$scope.deleteMeeting = function(event, key, meeting) {
-			var confirm = $mdDialog.confirm()
-				.title('Are you sure you want to delete ' +  meeting  + ' ?')
+		$scope.deleteCheckinsMeetingAction = function(myExcuse, meeting) {
+
+			const refSenddeleteToCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
+			refSenddeleteToCheckins.on('value', function (snap) {
+				$scope.deleteCheckinsList = $firebaseArray(refSenddeleteToCheckins);
+	            $scope.deleteCheckinsList.$loaded().then(function (list) {
+	            for (var i = 0; i < $scope.deleteCheckinsList.length; i++) {
+							
+							if ( $scope.deleteCheckinsList[i].send == true && 
+								 $scope.deleteCheckinsList[i].accept == true && 
+								 $scope.deleteCheckinsList[i].reject == false ) {
+
+								  RefServices.refMeetChecked($scope.deleteCheckinsList[i].regUser, $scope.deleteCheckinsList[i].inviteeId).remove();
+							      RefServices.refCancellations($scope.deleteCheckinsList[i].regUser).push().set({
+							            'dateMeeting':      meeting.dateMeeting,
+							            'name':             meeting.name,
+							            'description':      meeting.description,
+							            'time':             meeting.time,
+							            'imageCaller':      $scope.callerMeetingInfo.image,
+							            'firstnameCaller':  $scope.callerMeetingInfo.firstname,
+							            'lastnameCaller':   $scope.callerMeetingInfo.lastname,
+							            'excuse':           myExcuse
+							          });
+							      
+
+							} else if ( $scope.deleteCheckinsList[i].send == true && 
+										$scope.deleteCheckinsList[i].accept == false && 
+										$scope.deleteCheckinsList[i].reject == false ) {
+								
+								  RefServices.refDeleteInvitation($scope.deleteCheckinsList[i].regUser, $scope.deleteCheckinsList[i].whichInvitation).remove();
+								  
+							} // end else if
+
+						}; // end for
+	            }.bind(this));
+				RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).remove();
+				$scope.showToast( 'Meeting Deleted', 'md-toast-delete');
+			}); // snap val()
+		}; // deleteCheckinsMeetingAction
+
+		$scope.deleteCheckinsMeetingDialog = function(event, meeting) {
+	    $scope.dialog = meeting;
+        $mdDialog.show({
+          controller: function () { 
+            this.parent = $scope; 
+            $scope.cancel = function() {
+              $mdDialog.cancel();
+            };
+            $scope.delete = function(myExcuse) {
+              $scope.deleteCheckinsMeetingAction(myExcuse, $scope.dialog);
+              $mdDialog.cancel();
+            };
+          },
+          controllerAs: 'ctrl',
+          parent: angular.element(document.body),
+          template: 
+	          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+	                '<md-toolbar>' +
+	              '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
+	                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+	                '<span flex><h6>Are you sure you want to delete this meeting</h6></span>' +
+	              '</div>' +
+	            '</md-toolbar>' +
+	              '<md-dialog-content>' +
+	               '<div class="md-dialog-content">' +
+	                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
+	                              ' class="validate" id="text" required="" aria-required="true" ' +
+	                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse to your checkins"> ' +
+	                    ' <label for="text" style="font-size:0.8rem" ' +
+	                    ' data-error="Please enter your excuse."> ' +
+	                     '' +
+	                    ' </label> ' +
+	              '</div>' +
+	            '</md-dialog-content>' +
+	            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+	              '<md-button ng-click="ctrl.parent.cancel()">' +
+	                 'Cancel' +
+	             ' </md-button>' +
+	             '<md-button type="submit">' +
+	                 'delete' +
+	             ' </md-button>' +
+	            '</md-dialog-actions>' +
+	          '</md-dialog>'+
+	          '</form>',
+	          targetEvent: event,
+	          clickOutsideToClose:true,
+	          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	        })
+	        .then(function(answer) {
+	         
+	         }, function() {
+	          
+	        });
+		}; // deleteCheckinsMeetingDialog
+
+		$scope.deleteMeeting = function(event, meeting) {
+
+				var confirm = $mdDialog.confirm()
+				.title('Are you sure you want to delete ' +  meeting.name  + ' ?')
 				.ok('Yes')
 				.cancel('Cancel')
 				.targetEvent(event);
-			$mdDialog.show(confirm).then(function(){
-				RefServices.meetData(firebaseUser, key).remove();
-				$scope.showToast('Meeting Deleted!', 'md-toast-delete');
-			}, function(){
-
-			});
+				$mdDialog.show(confirm).then(function(){
+					RefServices.meetData(firebaseUser, meeting.$id).remove();
+					$scope.showToast('Meeting Deleted!', 'md-toast-delete');
+				});
 
 		};  // delete Meeting
 
@@ -381,7 +489,7 @@ meetingsApp.controller('MeetingsController', function
 							            });
 							} // end else if
 
-						};
+						}; // end for
 					}.bind(this)); // asynchronous data in a wrong way actially!
 				}, 0); // timeout
 			});  // snap val()
@@ -390,6 +498,8 @@ meetingsApp.controller('MeetingsController', function
 					'pause':  true,
 					'excuse': excuse
 				});
+
+				$scope.showToast( 'Meeting Suspended', 'md-toast-delete');
 
 		} // pauseMeetingAction
 
@@ -400,7 +510,7 @@ meetingsApp.controller('MeetingsController', function
 	            $scope.cancel = function() {
 	              $mdDialog.cancel();
 	            };
-	            $scope.delete = function(myExcuse) {
+	            $scope.suspend = function(myExcuse) {
 	              $scope.pauseMeetingAction(myExcuse, meeting);
 	              $mdDialog.cancel();
 	            };
@@ -408,12 +518,12 @@ meetingsApp.controller('MeetingsController', function
 	          controllerAs: 'ctrl',
 	          parent: angular.element(document.body),
 	          template: 
-	          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+	          '<form ng-submit="ctrl.parent.suspend(myExcuse)">' +
 	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
 	                '<md-toolbar>' +
 	              '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
-	                '<i class="fa fa-pause-circle-o fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
-	                '<span flex><h6>Are you sure you want to suspend this meeting?</h6></span>' +
+	                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+	                '<span flex><h6>Are you sure you want to suspend this meeting</h6></span>' +
 	              '</div>' +
 	            '</md-toolbar>' +
 	              '<md-dialog-content>' +
@@ -429,10 +539,10 @@ meetingsApp.controller('MeetingsController', function
 	            '</md-dialog-content>' +
 	            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
 	              '<md-button ng-click="ctrl.parent.cancel()">' +
-	                 'No' +
+	                 'Cancel' +
 	             ' </md-button>' +
 	             '<md-button type="submit">' +
-	                 'Yes' +
+	                 'delete' +
 	             ' </md-button>' +
 	            '</md-dialog-actions>' +
 	          '</md-dialog>'+

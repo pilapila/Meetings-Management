@@ -1,0 +1,33 @@
+<div  ng-controller="MeetingsController">
+<br>
+<div ng-hide="signedIn()" class="center">
+  <h3>Sorry</h3>
+  <p>Only registered users can create and manage meetings.</p>
+  <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
+</div>
+
+<div ng-show="signedIn()">
+  
+<div ng-hide="cancelationNum" class="center">
+  <h4 style="color: #555;">Hi there</h4>
+  <p style="color: #777;">You have not any cancelation...</p>
+</div>
+
+
+<div ng-show="cancelationNum">
+
+<h5>Cancelation, </h5>These meetings are canceled for you...
+
+
+<cancelation-directive 
+           datameetings="cancelationList"
+           page-size="pageSize"
+           theme-color="themeColor3"
+           firebase-user="firebaseUser">
+</cancelation-directive>
+
+
+
+</div>  
+</div>
+</div>

@@ -8,7 +8,8 @@ meetingsApp.controller('SuspentionController', function
   firebase.auth().onAuthStateChanged(firebaseUser =>{
     if(firebaseUser !== null){
 
-    $scope.activeMeeting = function(event, meeting, color) {
+    $scope.unpauseMeeting = function(event, meeting, color) {
+      console.log("Error");
         var confirm = $mdDialog.confirm()
           .title('Are you sure you want to active ' +  meeting.name  + ' ?')
           .ok('Yes')
@@ -52,23 +53,79 @@ meetingsApp.controller('SuspentionController', function
                 });
 
                 $scope.showToast('Meeting Activated!', 'md-toast-add');
-
-                }, function(){
-
-                });
-        }, 0); // timeout
-      });  // snap val()
+                
+          }, 0); // timeout
+        });  // snap val()
+      }); // confirm
     }; // activeMeeting
+
+
+    $scope.unpauseAllMeetings = function(event, datameetings, color) {
+      
+        var confirm = $mdDialog.confirm()
+          .title('Are you sure you want to active all meetings ?')
+          .ok('Yes')
+          .cancel('Cancel')
+          .targetEvent(event);
+        $mdDialog.show(confirm).then(function(){
+
+          for (var j = 0; j < datameetings.length; j++) {
+            if (!datameetings[j].invitation) {
+                const refActiveCheckins = RefServices.refCheckin(firebaseUser.uid, datameetings[j].$id);
+                refActiveCheckins.on('value', function (snap) {
+                      $scope.activeCheckins = $firebaseArray(refActiveCheckins);
+                      $scope.activeCheckins.$loaded().then(function (list) {
+                        for (var i = 0; i < $scope.activeCheckins.length; i++) {
+                          
+                          if ( $scope.activeCheckins[i].send == true && 
+                               $scope.activeCheckins[i].accept == true && 
+                               $scope.activeCheckins[i].reject == false ) {
+
+                              RefServices.refMeetChecked($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].inviteeId)
+                                .update({
+                                         'pause':  false,
+                                         'excuse': ''
+                                      });
+
+                          } else if ( $scope.activeCheckins[i].send == true && 
+                                      $scope.activeCheckins[i].accept == false && 
+                                      $scope.activeCheckins[i].reject == false ) {
+
+                              RefServices.refDeleteInvitation($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].whichInvitation)
+                                .update({
+                                         'pause':  false,
+                                         'excuse': ''
+                                      });
+                          } // end else if
+
+                        } // end for
+                      }.bind(this)); // asynchronous data in a wrong way actially!
+
+                      RefServices.refMeetChecked(firebaseUser.uid, datameetings[j].$id).update({
+                        'pause':  false,
+                        'excuse': ''
+                      });
+
+            });  // snap val()
+          } // end if
+        }; // end for
+
+        $scope.showToast('All Meetings Activated!', 'md-toast-add');
+
+      }); // confirm
+    }; // activeAllMeeting
+
+
 
     $scope.suspentionDialog = function(event, meeting, color) {
       
-      $scope.dialog = meeting;
+              $scope.suspentionDialog = meeting;
               $mdDialog.show({
                 controller: function () { 
                   this.parent = $scope; 
                   $scope.cancel = function() {
-                $mdDialog.cancel();
-              };
+                  $mdDialog.cancel();
+                  };
                 },
                 controllerAs: 'ctrl',
                 parent: angular.element(document.body),
@@ -80,7 +137,7 @@ meetingsApp.controller('SuspentionController', function
                   '</md-toolbar>' +
                     '<md-dialog-content>' +
                    ' <div class="md-dialog-content">' +
-                      '{{ctrl.parent.dialog.excuse}}' +
+                      '{{ctrl.parent.suspentionDialog.excuse}}' +
                     '</div>' +
                   '</md-dialog-content>' +
                   '<md-dialog-actions layout="row">' +

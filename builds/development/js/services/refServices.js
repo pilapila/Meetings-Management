@@ -12,6 +12,12 @@
             refData: function(firebaseUser) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/meetings'); 
             },
+            refCancellations: function(firebaseUser) {
+                return firebase.database().ref('users/' + firebaseUser + '/cancellations'); 
+            },
+            refDeleteCancellations: function(firebaseUser, key) {
+                return firebase.database().ref('users/' + firebaseUser + '/cancellations/' + key); 
+            },
             refSettings: function(firebaseUser) {
                 return firebase.database().ref('users/' + firebaseUser.uid + '/settings'); 
             },

@@ -189,8 +189,23 @@
                             </span>
                         </a> 
 
-                        <a class="fontawesome-color" href=""
-                             ng-click="deleteCheckin($event, checked.$id, checked.firstname, checked.lastname)">
+                        <a class="fontawesome-color" href="" 
+                           ng-show="!checked.accept && !checked.send"
+                             ng-click="deleteCheckin($event, checked)">
+                            <span class="fa-stack fa-lg" style="margin-top:2px">
+                              <i class="fa fa-square-o fa-stack-2x" 
+                                 style="color:#eaa8be;"></i>
+                              <i class="fa fa-trash-o fa-stack-1x" 
+                                 style="font-size:20px;color:#d44977;margin-top:-2px"></i>
+                              <md-tooltip md-direction="top">
+                                DELETE CHECKIN
+                              </md-tooltip>
+                            </span>
+                        </a>
+
+                        <a class="fontawesome-color" href="" 
+                           ng-show="!checked.accept && checked.send && !checked.reject"
+                             ng-click="deleteInvitation($event, checked)">
                             <span class="fa-stack fa-lg" style="margin-top:2px">
                               <i class="fa fa-square-o fa-stack-2x" 
                                  style="color:#eaa8be;"></i>
@@ -198,6 +213,20 @@
                                  style="font-size:20px;color:#d44977;margin-top:-2px"></i>
                               <md-tooltip md-direction="top">
                                 DELETE INVITATION
+                              </md-tooltip>
+                            </span>
+                        </a>
+
+                        <a class="fontawesome-color" href="" 
+                           ng-show="checked.accept && checked.send && !checked.reject"
+                             ng-click="rejectFromCallerDialog($event, checked, themeColor3)">
+                            <span class="fa-stack fa-lg" style="margin-top:2px">
+                              <i class="fa fa-square-o fa-stack-2x" 
+                                 style="color:#eaa8be;"></i>
+                              <i class="fa fa-trash-o fa-stack-1x" 
+                                 style="font-size:20px;color:#d44977;margin-top:-2px"></i>
+                              <md-tooltip md-direction="top">
+                                REJECT {{ checked.firstname | uppercase }}
                               </md-tooltip>
                             </span>
                         </a>
@@ -488,7 +517,7 @@
   <div class="modal-content">
 
       <div class="row">
-        <div class="col s12">
+        <div class="col s12" style="margin-top:-15px">
 
           
           <p>

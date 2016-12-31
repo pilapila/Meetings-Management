@@ -1,4 +1,4 @@
-<div ng-controller="SuspentionController">
+<div ng-controller="CancelationController">
 <div ng-controller="MeetingsController">
 <div class="row">
   <div class="col s12">
@@ -31,9 +31,9 @@
                 <ul class="left hide-on-med-and-down">
                   <li class="sidenav-li" style="margin-top:-3px">
                     <a class="waves-effect waves-light" 
-                       ng-click="unpauseAllMeetings($event, datameetings, themeColor)">
+                       ng-click="deleteAllCancelations(datameetings)">
                       <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-                      &nbsp Active Your All Meetings
+                      &nbsp Delete All Cancelation
                     </a>
                   </li>
                   <li class="sidenav-li" style="margin-top:-3px">
@@ -49,7 +49,7 @@
                     <a class="waves-effect waves-light" ng-click="activeAllMeetings()">
                       <i class="fa fa-play-circle-o" aria-hidden="true"
                       style="margin-top:7px;margin-right:5px;"></i>
-                      &nbsp Activation All Meetings
+                      &nbsp Delete All Cancelation
                     </a>
                   </li>
                   <li class="sidenav-li" style="margin-top:-3px">
@@ -115,9 +115,9 @@
         Time 
       </th>
       <th>
-        Remain Day 
+        
       </th>
-      <th style="padding-left:50px">Actions</th>
+      <th class="right-align" style="padding-right:40px">Actions</th>
     </tr>
   </thead>
 
@@ -134,41 +134,18 @@
         {{ meeting.description | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        ---
+        {{ meeting.dateMeeting | date }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        ---
+        {{ meeting.time | limitTo:5 }}
       </td>
       <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
-        ---
+        
       </td>
       <td class="right meeting-data-table">
 
-        <a href="" id="editLink"
-           ng-click="unpauseMeeting($event, meeting, themeColor)"
-           class="md-primary md-raised" ng-hide="meeting.invitation">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#a6e483;margin-top:-7px;"></i>
-            <i class="fa fa-play fa-stack-1x" 
-               style="font-size:12px;color:#4ba918;margin-top:-7px;"></i>
-            <md-tooltip md-direction="top">
-              ACTIVE MEETING
-            </md-tooltip>
-          </span>
-        </a>
-
-        <a ng-show="meeting.invitation">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#f3f3f3;margin-top:-7px;"></i>
-            <i class="fa fa-play fa-stack-1x" 
-               style="font-size:12px;color:#e5e5e5;margin-top:-7px;"></i>
-          </span>
-        </a>
-
-        <a href="" id="editLink" ng-click="suspentionDialog($event, meeting, themeColor)"
-           class="md-primary md-raised" style="margin-left:-3px">
+        <a href="" id="editLink" ng-click="cancelationDialog($event, meeting, themeColor)"
+           class="md-primary md-raised">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#bcebf8;margin-top:-7px;"></i>
@@ -189,6 +166,19 @@
                style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a class="fontawesome-color" href="" style="margin-left:-3px"
+           ng-click="deleteCancelation($event, meeting)">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#eaa8be;margin-top:-7px;"></i>
+            <i class="fa fa-trash-o fa-stack-1x" 
+               style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              DELETE
             </md-tooltip>
           </span>
         </a>

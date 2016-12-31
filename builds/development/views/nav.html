@@ -1,20 +1,4 @@
 <div ng-controller="statusController">
-<ul id="dropdown1" class="dropdown-content">
-  <li>
-    <a ng-href="#/profile">
-      <i class="material-icons left">perm_identity</i>Profile
-    </a>
-  </li>
-  <li><a ng-href="#/settings">
-    <i class="material-icons left">settings</i>Settings</a>
-  </li>
-  <li>
-    <a href="" ng-click="logout()">
-      <i class="material-icons left">power_settings_new</i>
-      Sign out
-    </a>
-  </li>
-</ul>
 
 
 <nav ng-controller="statusController">
@@ -44,29 +28,12 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && expiredDate">
-        <a ng-href="#/expired" style="font-size:0.9rem">
-          <i class="fa fa-clock-o fa-lg fa-icon animated infinite flash delayAnimate" 
-             ng-show="animeAction" style="color:#ff4851"
-             aria-hidden="true"></i>
-          <i class="fa fa-clock-o fa-lg fa-icon animated rubberBand delayAnimate" 
-             ng-hide="animeAction" style="color:#ff4851"
-             aria-hidden="true"></i>
-        Expired! 
-        <span class="new badge expired" data-badge-caption="">
-          {{expiredDate}}
-        </span>
-        </a>
-      </li>
-
-      <li ng-show="currentUser && cancelShow">
-        <a ng-href="#/suspension" style="font-size:0.9rem">
-          <i class="fa fa-pause-circle-o fa-lg fa-icon"
-             style="color:#ff4851" aria-hidden="true"></i>
-        Suspension 
-        <span class="new badge expired" data-badge-caption="">
-          {{howManyCancel}}
-        </span>
+      <li ng-show="currentUser">
+        <a class="dropdown-button" href="#!" 
+           data-activates="dropdown3" style="font-size:0.9rem">
+          <i class="fa fa-user-times fa-lg fa-icon" aria-hidden="true" style="color:#ff024f"></i>
+           Cancelation
+          <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
         </a>
       </li>
 
@@ -191,12 +158,86 @@
            data-activates="dropdown2">
           <i class="fa fa-unlock fa-lg fa-icon" style="margin-top: 6px;" aria-hidden="true">
           </i>
-           Welcome  {{  currentUser.firstname  }}
+           Welcome {{  currentUser.firstname  }}
         </a>
       </li>
+
     </ul>
     
   </div>
 </nav>
 
+<ul id="dropdown1" class="dropdown-content">
+  <li>
+    <a ng-href="#/profile">
+      <i class="material-icons left">perm_identity</i>Profile
+    </a>
+  </li>
+  <li><a ng-href="#/settings">
+    <i class="material-icons left">settings</i>Settings</a>
+  </li>
+  <li>
+    <a href="" ng-click="logout()">
+      <i class="material-icons left">power_settings_new</i>
+      Sign out
+    </a>
+  </li>
+</ul>
+
+<ul id="dropdown2" class="dropdown-content">
+  <li>
+    <a ng-href="#/profile">
+      <i class="material-icons left">perm_identity</i>Profile
+    </a>
+  </li>
+  <li><a ng-href="#/settings">
+    <i class="material-icons left">settings</i>Settings</a>
+  </li>
+  <li>
+    <a href="" ng-click="logout()">
+      <i class="material-icons left">power_settings_new</i>
+      Sign out
+    </a>
+  </li>
+</ul>
+
+<ul id="dropdown3" class="dropdown-content" style="min-width:180px">
+
+    <li ng-show="currentUser && cancelationNum">
+      <a ng-href="#/cancelation" style="font-size:0.9rem">
+        <i class="material-icons left" style="margin-top:-6px">not_interested</i>
+      <span style="margin-left:-5px;margin-right:8px">Cancelation</span>  
+      <span class="new badge expired" data-badge-caption="">
+        {{cancelationNum}}
+      </span>
+      </a>
+    </li>
+
+    <li ng-show="currentUser && expiredDate">
+      <a ng-href="#/expired" style="font-size:0.9rem">
+        <i class="material-icons left" style="margin-top:-6px">alarm_off</i>
+      <span style="margin-left:-5px;margin-right:27px">Expired!</span>  
+      <span class="new badge expired" data-badge-caption="">
+        {{expiredDate}}
+      </span>
+      </a>
+    </li>
+
+    <li ng-show="currentUser && cancelShow">
+      <a ng-href="#/suspension" style="font-size:0.9rem">
+        <i class="material-icons left" style="margin-top:-6px">snooze</i>
+      <span style="margin-left:-5px;margin-right:7px">Suspension </span> 
+      <span class="new badge expired" data-badge-caption="">
+        {{howManyCancel}}
+      </span>
+      </a>
+    </li>
+
+</ul>
+
+
+
+
 </div>
+
+
