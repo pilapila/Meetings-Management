@@ -69,7 +69,7 @@ meetingsApp.controller('CheckinsController', function
             $scope.checkedList = $firebaseArray(checkedListRef);
             $scope.checkedList.$loaded().then(function (list) {
               $scope.deleteAllModel = false;
-              console.log($scope.checkedList);
+              
               for (var i = 0; i < $scope.checkedList.length; i++) {
                  if ($scope.checkedList[i].accept) {
                     $scope.deleteAllModel = true;
@@ -498,13 +498,13 @@ meetingsApp.controller('CheckinsController', function
         $timeout(function() {
         $scope.allInvitations = $firebaseArray(refAllInvitations);
         $scope.allInvitations.$loaded().then(function (list) {
-          console.log($scope.allInvitations);
+          
           for (var j = 0; j < $scope.allInvitations.length; j++) {
 
             if ( $scope.allInvitations[j].checkinId === checkedList.$id &&
                  $scope.allInvitations[j].whichUser === $scope.whichuser && 
                  $scope.allInvitations[j].whichMeeting === $scope.whichmeeting ) {
-                    console.log(checkedList.$id);
+                    
                     var whichInvitation = $scope.allInvitations[j].$id;
 
                     RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.allInvitations[j].checkinId)

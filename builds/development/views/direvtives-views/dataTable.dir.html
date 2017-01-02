@@ -262,8 +262,9 @@ style="border-radius: 12px !important;">
           </span>
         </a>
 
+        <span ng-show="meeting.checkins">
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteCheckinsMeetingDialog($event, meeting)" ng-if="meeting.checkins"
+           ng-click="deleteCheckinsMeetingDialog($event, meeting)"
            ng-hide="meeting.invitation">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
@@ -275,9 +276,11 @@ style="border-radius: 12px !important;">
             </md-tooltip>
           </span>
         </a>
+        </span>
 
+        <span ng-hide="meeting.checkins">
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteMeeting($event, meeting)" ng-if="!meeting.checkins"
+           ng-click="deleteMeeting($event, meeting)" 
            ng-hide="meeting.invitation">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
@@ -289,6 +292,7 @@ style="border-radius: 12px !important;">
             </md-tooltip>
           </span>
         </a>
+        </span>
 
         <a class="fontawesome-color" href="" style="margin-left:-3px"
            ng-click="rejectMeeting($event, meeting, themeColor)"
