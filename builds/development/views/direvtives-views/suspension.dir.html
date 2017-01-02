@@ -123,7 +123,7 @@
 
   <tbody>
     <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
-        style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
+        style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
         <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
       </td>

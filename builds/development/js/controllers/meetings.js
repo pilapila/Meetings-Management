@@ -133,10 +133,14 @@ meetingsApp.controller('MeetingsController', function
 								var timeDiff = (date2.getTime() - date1.getTime());
 								var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+								if ( !$scope.meetings[key].dateMeeting ) {
+				            		$scope.meetings[key].dayColor = "b4b4b4";
+								}
+
 				            	if(diffDays > 0 && diffDays <= day){
 
 				            		$rootScope.alarm += 1;
-				            		$scope.meetings[key].dayColor = "707070";
+				            		$scope.meetings[key].dayColor = "3f3f3f";
 				            		$scope.meetingAlarm.push(key);
 				            		if (diffDays == 1) {
 				            			$scope.meetings[key].remainDay = diffDays + " day remain";
@@ -168,7 +172,7 @@ meetingsApp.controller('MeetingsController', function
 				            	} else if (diffDays > day) {
 
 				            		$scope.meetings[key].remainDay = diffDays + " days remain";
-				            		$scope.meetings[key].dayColor = "707070";
+				            		$scope.meetings[key].dayColor = "3f3f3f";
 
 				            	}
 
@@ -421,19 +425,27 @@ meetingsApp.controller('MeetingsController', function
 
 			RefServices.meetData(firebaseUser, key).on('value', function (snap) {
 		        	$scope.editMeeting = snap.val();
-		        	var $inputDate = $('.datepicker').pickadate();
-					var pickerDate = $inputDate.pickadate('picker');
-					var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
-					
-					var spliceTime = $scope.editMeeting.time.slice(0, 5);
-					var time = new Date(),
-					    s = spliceTime + " AM",
-					    parts = s.match(/(\d+)\:(\d+) (\w+)/),
-					    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
-					    minutes = parseInt(parts[2], 10);
+		        	if ($scope.editMeeting.dateMeeting) {
+		        		var $inputDate = $('.datepicker').pickadate();
+						var pickerDate = $inputDate.pickadate('picker');
+						var setDatePicker = pickerDate.set("select", new Date($scope.editMeeting.dateMeeting));
+		        	} else {
+		        		var setDatePicker = '';
+		        	};
 
-					time.setHours(hours);
-					time.setMinutes(minutes);
+		        	if ($scope.editMeeting.time) {
+						var spliceTime = $scope.editMeeting.time.slice(0, 5);
+						var time = new Date(),
+						    s = spliceTime + " AM",
+						    parts = s.match(/(\d+)\:(\d+) (\w+)/),
+						    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
+						    minutes = parseInt(parts[2], 10);
+
+						time.setHours(hours);
+						time.setMinutes(minutes);
+		        	} else {
+		        		var time = '';
+		        	};
 					
 		        	$scope.meeting = {
 		        	   'name':         $scope.editMeeting.name,
@@ -542,7 +554,7 @@ meetingsApp.controller('MeetingsController', function
 	                 'Cancel' +
 	             ' </md-button>' +
 	             '<md-button type="submit">' +
-	                 'delete' +
+	                 'Suspend' +
 	             ' </md-button>' +
 	            '</md-dialog-actions>' +
 	          '</md-dialog>'+
@@ -784,7 +796,7 @@ meetingsApp.controller('MeetingsController', function
 	            inDuration: 300,
 	            outDuration: 225,
 	            hover: false, // Activate on hover
-	            belowOrigin: false, // Displays dropdown below the button
+	            belowOrigin: true, // Displays dropdown below the button
 	            alignment: 'left', // Displays dropdown with edge aligned to the left of button
 	          });
 	    }); // End Document Ready

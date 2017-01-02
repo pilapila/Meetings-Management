@@ -29,7 +29,7 @@
       </li>
 
       <li ng-show="currentUser">
-        <a class="dropdown-button" href="#!" 
+        <a class="dropdown-button" href="" 
            data-activates="dropdown3" style="font-size:0.9rem">
           <i class="fa fa-user-times fa-lg fa-icon" aria-hidden="true" style="color:#ff024f"></i>
            Cancelation
@@ -50,30 +50,18 @@
         </a>
       </li>
 
-      <li ng-show="currentUser && invitationShow">
-        <a ng-href="#/invitations/{{currentUser.regUser}}" style="font-size:0.9rem">
-          <i class="fa fa-address-card-o fa-lg fa-icon" 
-             aria-hidden="true" style="color:#2dc6ff"></i>
-          Invitations
-          <span class="invitation new badge" data-badge-caption="">
-            {{ invitationNum }}
-          </span>
-        </a>
-      </li>
-
       <li ng-show="currentUser">
-        <a ng-href="#/meetings" style="font-size:0.9rem">
+        <a class="dropdown-button" href="" 
+           data-activates="dropdown4" style="font-size:0.9rem">
           <i class="fa fa-users fa-lg fa-icon" aria-hidden="true"
              style="color:#0cd4c1"></i>
-      	   Meetings
-           <span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">
-            {{ howManyMeetings }} 
-           </span>
+           Meetings
+          <i class="fa fa-angle-down fa-icon-right" aria-hidden="true"></i>
         </a>
       </li>
 
       <li ng-show="currentUser" style="margin-right:-14px">
-        <a class="dropdown-button" href="#!" 
+        <a class="dropdown-button" href="" 
            data-activates="dropdown1" style="font-size:0.9rem">
           <i class="fa fa-unlock fa-lg fa-icon" aria-hidden="true"></i>
            Welcome  {{  currentUser.firstname | capitalize }}
@@ -167,7 +155,7 @@
   </div>
 </nav>
 
-<ul id="dropdown1" class="dropdown-content">
+<ul id="dropdown1" class="dropdown-content dropdown-menu-right">
   <li>
     <a ng-href="#/profile">
       <i class="material-icons left">perm_identity</i>Profile
@@ -201,7 +189,7 @@
   </li>
 </ul>
 
-<ul id="dropdown3" class="dropdown-content" style="min-width:180px">
+<ul id="dropdown3" class="dropdown-content dropdown-menu-right" style="min-width:180px">
 
     <li ng-show="currentUser && cancelationNum">
       <a ng-href="#/cancelation" style="font-size:0.9rem">
@@ -216,7 +204,7 @@
     <li ng-show="currentUser && expiredDate">
       <a ng-href="#/expired" style="font-size:0.9rem">
         <i class="material-icons left" style="margin-top:-6px">alarm_off</i>
-      <span style="margin-left:-5px;margin-right:27px">Expired!</span>  
+      <span style="margin-left:-5px;margin-right:29px">Expired!</span>  
       <span class="new badge expired" data-badge-caption="">
         {{expiredDate}}
       </span>
@@ -226,12 +214,37 @@
     <li ng-show="currentUser && cancelShow">
       <a ng-href="#/suspension" style="font-size:0.9rem">
         <i class="material-icons left" style="margin-top:-6px">snooze</i>
-      <span style="margin-left:-5px;margin-right:7px">Suspension </span> 
+      <span style="margin-left:-5px;margin-right:9px">Suspension </span> 
       <span class="new badge expired" data-badge-caption="">
         {{howManyCancel}}
       </span>
       </a>
     </li>
+
+</ul>
+
+
+<ul id="dropdown4" class="dropdown-content dropdown-menu-right" style="min-width:180px">
+
+    <li ng-show="currentUser">
+        <a ng-href="#/meetings" style="font-size:0.9rem">
+          <i class="material-icons left" style="margin-top:-6px">supervisor_account</i>
+          <span style="margin-left:-5px;margin-right:19px">Meetings </span>
+           <span ng-if="howManyMeetings>0" class="new badge" data-badge-caption="">
+            {{ howManyMeetings }} 
+           </span>
+        </a>
+      </li>
+
+    <li ng-show="currentUser && invitationShow">
+        <a ng-href="#/invitations/{{currentUser.regUser}}" style="font-size:0.9rem">
+          <i class="material-icons left" style="margin-top:-6px">open_in_browser</i>
+          <span style="margin-left:-5px;margin-right:12px">Invitations </span>
+          <span class="invitation new badge" data-badge-caption="">
+            {{ invitationNum }}
+          </span>
+        </a>
+      </li>
 
 </ul>
 

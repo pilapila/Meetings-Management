@@ -119,7 +119,7 @@ style="border-radius: 12px !important;">
 
   <tbody>
     <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
-        style="border-color: #e4e4e4" class="animated fadeIn delayAnimate">
+        style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
         <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
       </td>
@@ -129,14 +129,29 @@ style="border-radius: 12px !important;">
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
         {{ meeting.description | ShortName:15 }}
       </td>
-      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table"
+          ng-show="meeting.dateMeeting">
         {{ meeting.dateMeeting | date }}
       </td>
-      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+      <td style="color: #{{meeting.dayColor}};" class="meeting-data-table"
+          ng-hide="meeting.dateMeeting">
+        not set
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table"
+          ng-show="meeting.time">
         {{ meeting.time | limitTo:5 }}
       </td>
-      <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
+      <td style="color: #{{meeting.dayColor}};" class="meeting-data-table"
+          ng-hide="meeting.time">
+        not set
+      </td>
+      <td class="meeting-data-table" style="color: #{{meeting.textColor}};"
+          ng-show="meeting.remainDay">
         {{ meeting.remainDay }} {{ meeting.diffDays }}
+      </td>
+      <td class="meeting-data-table" style="color: #{{meeting.dayColor}};"
+          ng-hide="meeting.remainDay">
+        not set
       </td>
       <td class="right meeting-data-table">
 

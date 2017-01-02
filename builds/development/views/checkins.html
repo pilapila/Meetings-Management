@@ -527,7 +527,8 @@
 
           <p style="font-size:0.9rem;margin-top:-10px;color:#2ea6c8">
             <i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>            
-            <b>Time: {{ meetingChecked.time | limitTo:5 }}</b>
+            <b ng-show="meetingChecked.time">Time: {{ meetingChecked.time | limitTo:5 }}</b>
+            <b ng-hide="meetingChecked.time">Time: not set</b>
           </p>
           
           <p style="font-size:0.9rem;color:#747474">
@@ -536,7 +537,10 @@
           </p>
           <p style="margin-top:-10px;color:#2ea6c8">
             <i class="fa fa-calendar-o" aria-hidden="true"></i> 
-            <b>Date: {{ meetingChecked.dateMeeting | date }}</b>
+            <b ng-show="meetingChecked.dateMeeting">
+              Date: {{ meetingChecked.dateMeeting | date }}</b>
+            <b ng-hide="meetingChecked.dateMeeting">
+              Date: not set</b>
           </p>
 
         </div>
