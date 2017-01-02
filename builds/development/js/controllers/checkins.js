@@ -98,7 +98,7 @@ meetingsApp.controller('CheckinsController', function
                   "regUser":   $scope.users[i].regUser,
                   "firstname": $scope.users[i].firstname,
                   "lastname":  $scope.users[i].lastname,
-                  "image":     $scope.users[i].image
+                  "image":     $scope.users[i].image,
                 });
               }
             };
@@ -166,6 +166,7 @@ meetingsApp.controller('CheckinsController', function
       }  // end for all
 
       $scope.data = [];
+      $scope.showAgree = 0;
       $scope.showToast('Added invitees', 'md-toast-add');
     }, 0);
     
@@ -277,12 +278,6 @@ meetingsApp.controller('CheckinsController', function
         
       });
   };  // delete all checkin
-
-  
-  $scope.clearData = function() {
-    $scope.data = [];
-    $scope.checkinDescription = '';
-  }; // clear data
 
 
   $scope.showDescription = function(myItem) {
@@ -624,6 +619,25 @@ meetingsApp.controller('CheckinsController', function
   }; // Show Toast
 
 
+  $scope.data = [];
+
+  $scope.clearData = function() {
+    //$scope.data = [];
+    //$scope.checkinDescription = '';
+    if ($scope.data.length) {
+      $scope.showAgree = $scope.data.length;
+    } else {
+      $scope.showAgree = 0;
+    }
+
+    // for(var i=0 ; i < $scope.data.length; i++) {
+    //   $scope.isChecked($scope.data.regUser);
+    //   $scope.sync(false, $scope.data);
+    // } 
+
+  }; // clear data
+
+
   $scope.isChecked = function(id){
       var match = false;
       for(var i=0 ; i < $scope.data.length; i++) {
@@ -633,9 +647,6 @@ meetingsApp.controller('CheckinsController', function
       }
       return match;
   };  // checkbox checking
-
-    
-  $scope.data = [];
   
   $scope.sync = function(bool, item){
     if(bool){
