@@ -54,8 +54,18 @@
                       &nbsp Meeting Details
                     </a>
                   </li>
-                  <li class="sidenav-li" style="margin-top:-3px" ng-show="isThereOne">
-                    <a class="waves-effect waves-light" ng-click="deleteAllCheckin()">
+                  <li class="sidenav-li" style="margin-top:-3px" 
+                      ng-show="isThereOne && !deleteAllModel">
+                    <a class="waves-effect waves-light" 
+                       ng-click="deleteAllCheckins(checkedList)">
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                      &nbsp Delete All Invitees
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px" 
+                      ng-show="isThereOne && deleteAllModel">
+                    <a class="waves-effect waves-light" 
+                       ng-click="deleteAllCheckinsExplainDialog($event, checkedList, themeColor3)">
                       <i class="fa fa-minus-circle" aria-hidden="true"></i>
                       &nbsp Delete All Invitees
                     </a>
@@ -176,7 +186,7 @@
                         </a>
 
                         <a href="" id="editLink" style="margin-right:-8px"
-                           ng-click="sendOneInvitation($event, checked)"
+                           ng-click="sendOneInvitationDialog($event, checked)"
                            ng-show="!checked.accept && !checked.send">
                             <span class="fa-stack fa-lg" style="margin-top:2px">
                               <i class="fa fa-square-o fa-stack-2x" 
