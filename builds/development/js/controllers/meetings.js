@@ -294,17 +294,15 @@ meetingsApp.controller('MeetingsController', function
 
 	
 	$scope.deleteCheckinsMeetingAction = function(myExcuse, meeting) {
-		console.log(meeting);
+		
 		const refSenddeleteToCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
 		refSenddeleteToCheckins.on('value', function (snap) {
 		  
 			$scope.deleteCheckinsList = $firebaseArray(refSenddeleteToCheckins);
             $scope.deleteCheckinsList.$loaded().then(function (list) {
-			console.log($scope.deleteCheckinsList);
-			console.log($scope.deleteCheckinsList.length);
 
             for (var i = 0; i < $scope.deleteCheckinsList.length; i++) {
-					console.log("console "+ i + " " + $scope.deleteCheckinsList[i] );	
+
 						if ( $scope.deleteCheckinsList[i].send == true && 
 							 $scope.deleteCheckinsList[i].accept == true && 
 							 $scope.deleteCheckinsList[i].reject == false ) {
@@ -340,59 +338,96 @@ meetingsApp.controller('MeetingsController', function
 	}; // deleteCheckinsMeetingAction
 
 	$scope.deleteCheckinsMeetingDialog = function(event, meeting) {
-        $mdDialog.show({
-          controller: function () { 
-            this.parent = $scope; 
-            $scope.cancel = function() {
-              $mdDialog.cancel();
-            };
-            $scope.delete = function(myExcuse) {
-              $scope.deleteCheckinsMeetingAction(myExcuse, meeting);
-              $mdDialog.cancel();
-            };
-          },
-          controllerAs: 'ctrl',
-          parent: angular.element(document.body),
-          template: 
-	          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
-	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
-	                '<md-toolbar>' +
-	              '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
-	                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
-	                '<span flex><h6>Are you sure you want to delete this meeting</h6></span>' +
-	              '</div>' +
-	            '</md-toolbar>' +
-	              '<md-dialog-content>' +
-	               '<div class="md-dialog-content">' +
-	                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
-	                              ' class="validate" id="text" required="" aria-required="true" ' +
-	                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse to your checkins"> ' +
-	                    ' <label for="text" style="font-size:0.8rem" ' +
-	                    ' data-error="Please enter your excuse."> ' +
-	                     '' +
-	                    ' </label> ' +
-	              '</div>' +
-	            '</md-dialog-content>' +
-	            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
-	              '<md-button ng-click="ctrl.parent.cancel()">' +
-	                 'Cancel' +
-	             ' </md-button>' +
-	             '<md-button type="submit">' +
-	                 'delete' +
-	             ' </md-button>' +
-	            '</md-dialog-actions>' +
-	          '</md-dialog>'+
-	          '</form>',
-	          targetEvent: event,
-	          clickOutsideToClose:true,
-	          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-	        })
-	        .then(function(answer) {
-	         
-	         }, function() {
-	          
-	        });
+		var firstCheck = true;
+		const refFindAcceptedCheckin = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
+		refFindAcceptedCheckin.on('value', function (snap) {
+			
+			$scope.acceptedCheckin = $firebaseArray(refFindAcceptedCheckin);
+            $scope.acceptedCheckin.$loaded().then(function (list) {
+            $timeout(function() {
+            	var checkExplain = false;
+            	var valNot = meeting.$id;
+            	var keys = {};
+            	for (var i = 0; i < $scope.acceptedCheckin.length; i++) {
+            		if ($scope.acceptedCheckin[i].accept) {
+            			checkExplain = true;
+            			var valExp = $scope.acceptedCheckin[i].$id;
+            		}
+            	};
+            	
+		        if (checkExplain && firstCheck) {
+		        	firstCheck = false;
+						$mdDialog.show({
+				          controller: function () { 
+				            this.parent = $scope; 
+				            $scope.cancel = function() {
+				              $mdDialog.cancel();
+				            };
+				            $scope.delete = function(myExcuse) {
+				              $scope.deleteCheckinsMeetingAction(myExcuse, meeting);
+				              $mdDialog.cancel();
+				            };
+				          },
+				          controllerAs: 'ctrl',
+				          parent: angular.element(document.body),
+				          template: 
+					          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
+					          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+					                '<md-toolbar>' +
+					              '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
+					                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
+					                '<span flex><h6>Are you sure you want to delete this meeting</h6></span>' +
+					              '</div>' +
+					            '</md-toolbar>' +
+					              '<md-dialog-content>' +
+					               '<div class="md-dialog-content">' +
+					                  ' <input type="text" name="text" ng-model="myExcuse"  ' +
+					                              ' class="validate" id="text" required="" aria-required="true" ' +
+					                              ' style="height:2.3rem;font-size:0.9rem" placeholder="Please explain your excuse to your checkins"> ' +
+					                    ' <label for="text" style="font-size:0.8rem" ' +
+					                    ' data-error="Please enter your excuse."> ' +
+					                     '' +
+					                    ' </label> ' +
+					              '</div>' +
+					            '</md-dialog-content>' +
+					            '<md-dialog-actions layout="row" style="margin-top:-20px">' +
+					              '<md-button ng-click="ctrl.parent.cancel()">' +
+					                 'Cancel' +
+					             ' </md-button>' +
+					             '<md-button type="submit">' +
+					                 'delete' +
+					             ' </md-button>' +
+					            '</md-dialog-actions>' +
+					          '</md-dialog>'+
+					          '</form>',
+					          targetEvent: event,
+					          clickOutsideToClose:true,
+					          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+					        });
+
+						return false;
+
+		        } else if (!checkExplain && firstCheck) {
+		        		firstCheck = false;
+							var confirm = $mdDialog.confirm()
+							.title('Are you sure you want to delete ' +  meeting.name  + ' ?')
+							.ok('Yes')
+							.cancel('Cancel')
+							.targetEvent(event);
+							$mdDialog.show(confirm).then(function(){
+								$scope.deleteCheckinsMeetingAction('nothing', meeting);
+							});
+
+						return false;
+
+		        } // end if else
+		    
+		        }, 0);
+			  }.bind(this));
+			}); // snap val()
+		  
 		}; // deleteCheckinsMeetingDialog
+
 
 		$scope.deleteMeeting = function(event, meeting) {
 
@@ -407,6 +442,7 @@ meetingsApp.controller('MeetingsController', function
 				});
 
 		};  // delete Meeting
+
 
 		$scope.showToast = function(message, color) {
 			$mdToast.show(
