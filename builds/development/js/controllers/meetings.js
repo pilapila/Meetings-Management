@@ -372,7 +372,7 @@ meetingsApp.controller('MeetingsController', function
 				          parent: angular.element(document.body),
 				          template: 
 					          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
-					          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+					          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;min-width:400px;max-height:150px;height:150px;">' +
 					                '<md-toolbar>' +
 					              '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
 					                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
@@ -573,7 +573,7 @@ meetingsApp.controller('MeetingsController', function
 	          parent: angular.element(document.body),
 	          template: 
 	          '<form ng-submit="ctrl.parent.suspend(myExcuse)">' +
-	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;min-width:400px;max-height:150px;height:150px;">' +
 	                '<md-toolbar>' +
 	              '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
 	                '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +
@@ -633,7 +633,7 @@ meetingsApp.controller('MeetingsController', function
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
-          template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;max-width:450px;max-height:350px;">' +
+          template: '<md-dialog aria-label="Meeting details" style="border-radius: 12px;min-width:400px;max-width:450px;max-height:350px;">' +
 	          		'<md-toolbar>' +
 				      '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
 				        '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Meeting details</h6></span>' +
@@ -718,7 +718,7 @@ meetingsApp.controller('MeetingsController', function
           parent: angular.element(document.body),
           template: 
           '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
-          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
+          '<md-dialog aria-label="Meeting details" style="border-radius:12px;min-width:400px;max-width:500px;max-height:150px;height:150px;">' +
                 '<md-toolbar>' +
               '<div class="md-toolbar-tools left left" style="background-color:'+ color +'">' +
                 '<i class="fa fa-ban fa-lg" style="margin-right:10px" aria-hidden="true"></i>' +

@@ -153,9 +153,9 @@ style="border-radius: 12px !important;">
           ng-hide="meeting.remainDay">
         not set
       </td>
-      <td class="right meeting-data-table">
+      <td class="right meeting-data-table" style="width:20px">
 
-        <a href="" id="editLink" 
+       <!--  <a href="" id="editLink" 
            ng-click="pauseMeetingDialog($event, meeting, themeColor)"
            class="md-primary md-raised" ng-hide="meeting.invitation">
           <span class="fa-stack fa-lg">
@@ -306,8 +306,191 @@ style="border-radius: 12px !important;">
               REJECT MEETING
             </md-tooltip>
           </span>
-        </a>
+        </a> -->
+        <md-fab-speed-dial md-direction="left" class="md-scale" 
+            style="margin-top:-13px;margin-left:-230px">
+            <md-fab-trigger>
+              <md-button aria-label="menu" class="md-fab md-warn md-hover-full">
+                <span class="fa-stack fa-lg" style="margin-left:-14px;">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:34px;color:#fff;margin-top:-1px;margin-left:-6"></i>
+                    <i class="fa fa-bars fa-stack-1x" 
+                       style="font-size:14px;color:#7c7c7c;margin-top:-2px;margin-left:-6"></i>
+                </span>
+              </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
 
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini" 
+                  style="margin-right:-3px">
+                <a href="" id="editLink" style="margin-left:-14px;"
+                   ng-click="pauseMeetingDialog($event, meeting, themeColor)"
+                   class="md-primary md-raised" ng-hide="meeting.invitation">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:36px;color:#eaa8be;margin-top:-3px;margin-left:-9"></i>
+                    <i class="fa fa-pause fa-stack-1x" 
+                       style="font-size:12px;color:#d44977;margin-top:-3px;margin-left:-9"></i>
+                    <md-tooltip md-direction="top">
+                      SUSPENSION
+                    </md-tooltip>
+                  </span>
+                </a>
+
+                <a ng-show="meeting.invitation" style="margin-left:-14px;">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:36px;color:#f3f3f3;margin-top:-3px;margin-left:-9"></i>
+                    <i class="fa fa-pause fa-stack-1x" 
+                       style="font-size:12px;color:#e5e5e5;margin-top:-3px;margin-left:-9"></i>
+                  </span>
+                </a>
+              </md-button>
+
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini"
+                 style="margin-right:-3px">
+                <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+                   class="md-primary md-raised" style="margin-left:-14px;"
+                   ng-hide="meeting.change">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#ffe5a0;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-bars fa-stack-1x" 
+                       style="font-size:15px;color:#e9a144;margin-top:-3px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      VIEW DETAILS
+                    </md-tooltip>
+                  </span>
+                </a>
+
+                <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+                   class="md-primary md-raised" style="margin-left:-14px"
+                   ng-show="meeting.change">
+                  <span class="fa-stack fa-lg" 
+                        ng-show="animeAction">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:36px;color:#ffe5a0;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-exclamation fa-stack-1x animated infinite rubberBand delayAnimate"
+                       style="font-size:16px;color:#e9a144;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      MEETING HAS BEEN CHANGED
+                    </md-tooltip>
+                  </span>
+                  <span class="fa-stack fa-lg" ng-hide="animeAction">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:36px;color:#ffe5a0;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-exclamation fa-stack-1x" 
+                       style="font-size:16px;color:#e9a144;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      MEETING HAS BEEN CHANGED
+                    </md-tooltip>
+                  </span>
+                </a>
+              </md-button>
+
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini"
+                  style="margin-right:-3px">
+                <a href="" ng-hide="meeting.invitation" id="editLink" 
+                   ng-click="getEdit(meeting.$id)" style="margin-left:-14px"
+                   data-click=".collapsible .collapsible-header:first">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#c7ebb7;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-pencil fa-stack-1x" 
+                       style="font-size:18px;color:#65b13b;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      EDIT
+                    </md-tooltip>
+                  </span>
+                </a>
+
+                <a ng-show="meeting.invitation" style="margin-left:-14px">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#f3f3f3;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-pencil fa-stack-1x" 
+                       style="font-size:18px;color:#e5e5e5;margin-top:-2px;margin-left:-6"></i>
+                  </span>
+                </a>
+              </md-button>
+
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini"
+                  style="margin-right:-3px">
+                <a ng-href="#/checkins/{{firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}" 
+                   id="editLink" ng-hide="meeting.invitation" style="margin-left:-14px"
+                   data-click=".collapsible .collapsible-header:first">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#bcebf8;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-check fa-stack-1x" 
+                       style="font-size:18px;color:#19a7ce;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      CHECKINS & INVITEES
+                    </md-tooltip>
+                  </span>
+                </a>
+
+                <a ng-show="meeting.invitation" style="margin-left:-14px">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#f3f3f3;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-check fa-stack-1x" 
+                       style="font-size:18px;color:#e5e5e5;margin-top:-2px;margin-left:-6"></i>
+                  </span>
+                </a>
+              </md-button>
+
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini"
+                  style="margin-right:-3px">
+                <span ng-show="meeting.checkins">
+                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                   ng-click="deleteCheckinsMeetingDialog($event, meeting)"
+                   ng-hide="meeting.invitation">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#eaa8be;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-trash-o fa-stack-1x" 
+                       style="font-size:20px;color:#d44977;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      DELETE
+                    </md-tooltip>
+                  </span>
+                </a>
+                </span>
+
+                <span ng-hide="meeting.checkins">
+                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                   ng-click="deleteMeeting($event, meeting)" 
+                   ng-hide="meeting.invitation">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#eaa8be;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-trash-o fa-stack-1x" 
+                       style="font-size:20px;color:#d44977;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      DELETE
+                    </md-tooltip>
+                  </span>
+                </a>
+                </span>
+
+                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                   ng-click="rejectMeeting($event, meeting, themeColor)"
+                   ng-show="meeting.invitation">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#eaa8be;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-trash-o fa-stack-1x" 
+                       style="font-size:20px;color:#d44977;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      REJECT MEETING
+                    </md-tooltip>
+                  </span>
+                </a>
+              </md-button>
+
+            </md-fab-actions>
+          </md-fab-speed-dial>
 
         </td>
     </tr>
