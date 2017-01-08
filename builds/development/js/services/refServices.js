@@ -30,6 +30,27 @@
             refMeetChecked: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + key)
             },
+            refSummery: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/summery')
+            },
+            refAudience: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/audience')
+            },
+            refDeleteAudience: function(checkUser, meetingKey, audienceKey) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + meetingKey + '/audience/' + audienceKey)
+            },
+            refAbsence: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/absence')
+            },
+            refDirectiveRecord: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/directives')
+            },
+            refDirectiveRecordDelete: function(checkUser, meetingKey, keyDirective) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + meetingKey + '/directives/' + keyDirective)
+            },
+            refDeleteAbsence: function(checkUser, meetingKey, absentKey) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + meetingKey + '/absence/' + absentKey)
+            },
             refCheckin: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/checkins')
             },

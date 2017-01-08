@@ -67,7 +67,7 @@ style="border-radius: 12px !important;">
 
 <div ng-show="meetingsInfo">
 <table class="bordered highlight card" style="margin-top:-8px">
-  <thead>
+  <thead style="line-height: 10px">
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
       <th>
@@ -308,10 +308,10 @@ style="border-radius: 12px !important;">
           </span>
         </a> -->
         <md-fab-speed-dial md-direction="left" class="md-scale" 
-            style="margin-top:-13px;margin-left:-230px">
+            style="margin-top:-15px;margin-left:-245px">
             <md-fab-trigger>
               <md-button aria-label="menu" class="md-fab md-warn md-hover-full">
-                <span class="fa-stack fa-lg" style="margin-left:-14px;">
+                <span class="fa-stack fa-lg" style="margin-left:-3px;">
                     <i class="fa fa-circle-thin fa-stack-2x" 
                        style="font-size:34px;color:#fff;margin-top:-1px;margin-left:-6"></i>
                     <i class="fa fa-bars fa-stack-1x" 
@@ -322,8 +322,8 @@ style="border-radius: 12px !important;">
             <md-fab-actions>
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini" 
-                  style="margin-right:-3px">
-                <a href="" id="editLink" style="margin-left:-14px;"
+                  style="margin-right:-5px">
+                <a href="" id="editLink" style="margin-left:0px;"
                    ng-click="pauseMeetingDialog($event, meeting, themeColor)"
                    class="md-primary md-raised" ng-hide="meeting.invitation">
                   <span class="fa-stack fa-lg">
@@ -337,7 +337,7 @@ style="border-radius: 12px !important;">
                   </span>
                 </a>
 
-                <a ng-show="meeting.invitation" style="margin-left:-14px;">
+                <a ng-show="meeting.invitation" style="margin-left:1px;">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
                        style="font-size:36px;color:#f3f3f3;margin-top:-3px;margin-left:-9"></i>
@@ -348,9 +348,9 @@ style="border-radius: 12px !important;">
               </md-button>
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
-                 style="margin-right:-3px">
+                 style="margin-right:-5px">
                 <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
-                   class="md-primary md-raised" style="margin-left:-14px;"
+                   class="md-primary md-raised" style="margin-left:-2px;"
                    ng-hide="meeting.change">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
@@ -364,7 +364,7 @@ style="border-radius: 12px !important;">
                 </a>
 
                 <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
-                   class="md-primary md-raised" style="margin-left:-14px"
+                   class="md-primary md-raised" style="margin-left:-3px"
                    ng-show="meeting.change">
                   <span class="fa-stack fa-lg" 
                         ng-show="animeAction">
@@ -389,9 +389,9 @@ style="border-radius: 12px !important;">
               </md-button>
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
-                  style="margin-right:-3px">
+                  style="margin-right:-5px">
                 <a href="" ng-hide="meeting.invitation" id="editLink" 
-                   ng-click="getEdit(meeting.$id)" style="margin-left:-14px"
+                   ng-click="getEdit(meeting.$id)" style="margin-left:-2px"
                    data-click=".collapsible .collapsible-header:first">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
@@ -404,7 +404,7 @@ style="border-radius: 12px !important;">
                   </span>
                 </a>
 
-                <a ng-show="meeting.invitation" style="margin-left:-14px">
+                <a ng-show="meeting.invitation" style="margin-left:-2px">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
                        style="font-size:35px;color:#f3f3f3;margin-top:-2px;margin-left:-6"></i>
@@ -415,9 +415,9 @@ style="border-radius: 12px !important;">
               </md-button>
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
-                  style="margin-right:-3px">
+                  style="margin-right:-5px">
                 <a ng-href="#/checkins/{{firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}" 
-                   id="editLink" ng-hide="meeting.invitation" style="margin-left:-14px"
+                   id="editLink" ng-hide="meeting.invitation" style="margin-left:-2px"
                    data-click=".collapsible .collapsible-header:first">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
@@ -430,7 +430,7 @@ style="border-radius: 12px !important;">
                   </span>
                 </a>
 
-                <a ng-show="meeting.invitation" style="margin-left:-14px">
+                <a ng-show="meeting.invitation" style="margin-left:-2px">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x" 
                        style="font-size:35px;color:#f3f3f3;margin-top:-2px;margin-left:-6"></i>
@@ -441,9 +441,9 @@ style="border-radius: 12px !important;">
               </md-button>
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
-                  style="margin-right:-3px">
+                  style="margin-right:-5px">
                 <span ng-show="meeting.checkins">
-                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                <a class="fontawesome-color" href="" style="margin-left:-3px"
                    ng-click="deleteCheckinsMeetingDialog($event, meeting)"
                    ng-hide="meeting.invitation">
                   <span class="fa-stack fa-lg">
@@ -459,7 +459,7 @@ style="border-radius: 12px !important;">
                 </span>
 
                 <span ng-hide="meeting.checkins">
-                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                <a class="fontawesome-color" href="" style="margin-left:-3px"
                    ng-click="deleteMeeting($event, meeting)" 
                    ng-hide="meeting.invitation">
                   <span class="fa-stack fa-lg">
@@ -474,7 +474,7 @@ style="border-radius: 12px !important;">
                 </a>
                 </span>
 
-                <a class="fontawesome-color" href="" style="margin-left:-14px"
+                <a class="fontawesome-color" href="" style="margin-left:-3px"
                    ng-click="rejectMeeting($event, meeting, themeColor)"
                    ng-show="meeting.invitation">
                   <span class="fa-stack fa-lg">
@@ -485,6 +485,47 @@ style="border-radius: 12px !important;">
                     <md-tooltip md-direction="top">
                       REJECT MEETING
                     </md-tooltip>
+                  </span>
+                </a>
+
+                <a class="fontawesome-color" href="" style="margin-left:-2px"
+                   ng-click="rejectMeeting($event, meeting, themeColor)"
+                   ng-show="meeting.invitation">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#eaa8be;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-trash-o fa-stack-1x" 
+                       style="font-size:20px;color:#d44977;margin-top:-2px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      REJECT MEETING
+                    </md-tooltip>
+                  </span>
+                </a>
+              </md-button>
+
+              <md-button aria-label="twitter" class="md-fab md-raised md-mini"
+                  style="margin-right:-5px">
+                <a ng-hide="meeting.invitation" id="editLink" 
+                   ng-href="#/record/{{firebaseUser}}/{{meeting.$id}}" 
+                   style="margin-left:-2px"
+                   data-click=".collapsible .collapsible-header:first">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#c7ebb7;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-archive fa-stack-1x" 
+                       style="font-size:18px;color:#65b13b;margin-top:-1px;margin-left:-6"></i>
+                    <md-tooltip md-direction="top">
+                      RECORD
+                    </md-tooltip>
+                  </span>
+                </a>
+
+                <a ng-show="meeting.invitation" style="margin-left:-2px">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" 
+                       style="font-size:35px;color:#f3f3f3;margin-top:-2px;margin-left:-6"></i>
+                    <i class="fa fa-microphone fa-stack-1x" 
+                       style="font-size:18px;color:#e5e5e5;margin-top:-1px;margin-left:-6"></i>
                   </span>
                 </a>
               </md-button>

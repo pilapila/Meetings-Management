@@ -164,7 +164,8 @@
 
                       <div class="card-content">
                         <b style="font-size:1em">
-                        {{ checked.firstname | capitalize }} {{ checked.lastname | capitalize }}
+                        {{ checked.firstname | capitalize }} 
+                        {{ checked.lastname | capitalize }}
                         </b>
                         <div class="date">{{ checked.dateEnter | date }}</div>
                       </div>
@@ -469,7 +470,7 @@
              class="user delayAnimate" 
              id="{{user.regUser}}">
 
-          <div class="col s5">
+          <div class="col s5" style="margin-top:-10px">
             <input type="checkbox" class="filled-in"
                    ng-change="sync(bool, user)" 
                    ng-model="bool" 
@@ -483,7 +484,7 @@
           <div class="col s7">
             <input type="text" 
                    ng-readonly="!bool" ng-model="user.value"
-                   placeholder="description" style="margin-top:-11px">
+                   placeholder="description" style="margin-top:-5px">
           </div>
         </div>
       <!-- </div> -->

@@ -1,0 +1,77 @@
+<br>
+<div ng-hide="signedIn()" class="center">
+  <h3>Sorry</h3>
+  <p>Only registered users can create and manage meetings.</p>
+  <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
+</div>
+
+<div ng-show="signedIn()" ng-controller="RecordController">
+
+
+<div>
+<h5>Record</h5>
+<p style="margin-top:-10px;color:#999">You can record your meeting here.</p>
+
+
+
+<div class="row" style="margin-top:-12px">
+  <div class="col s12">
+    <span class="flow-text">
+      <nav class="sidenav-title1">
+        <div class="nav-wrapper">
+
+            <nav class="sidenav-title1" style="background-color:{{themeColor3}}">
+              <div class="nav-wrapper">
+
+                <ul class="left">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a class="modal-trigger waves-effect waves-light" 
+                       data-target="modal1" ng-click="queryCheck = ''">
+                      <i class="fa fa-eraser" aria-hidden="true"></i>
+                      &nbsp Clear Form
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      &nbsp Back to Meetings
+                    </a>
+                  </li>
+                </ul>
+
+              </div>
+            </nav>
+
+        </div>
+      </nav>
+    </span>
+  </div>
+</div>
+
+
+
+<!-----------------Directive ------------------------------------------------>
+
+
+
+<record-directive 
+           data-record="dataRecord"
+           theme-color="themeColor3"
+           firebase-user="firebaseUser"
+           is-there-one-directive="isThereOneDirective">
+</record-directive>
+
+
+
+
+
+</div>
+</div> <!-- ng-show="signIn()" -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+</script>
+

@@ -11,6 +11,76 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+.picker__date-display {
+    text-align: center;
+    background-color: '{{themeColor}}' !important;
+    color: #fff;
+    padding-bottom: 5px !important;
+    font-weight: 300;
+}
+
+.picker__weekday-display {
+    padding: 3px !important;
+    font-weight: 200;
+    letter-spacing: .5;
+    font-size: 1rem;
+    margin-bottom: 5px !important;
+}
+
+.picker__box {
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+    border-radius: 20% !important;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9) !important;
+    color: #ffffff;
+}
+
+.clockpicker-display {
+    vertical-align: middle;
+    display: inline-block;
+    margin: auto;
+    height: 55px !important;
+    font-size: 40px !important;
+    padding: 5px !important;
+    padding-bottom: 0px;
+    color: #b2dfdb;
+}
+
+.clockpicker-am-pm-block {
+    margin-top: -10px;
+    width: 100%;
+    height: 10px !important;
+}
+
+.picker__day--infocus {
+    color: #595959;
+    letter-spacing: -.3;
+    padding: .50rem 0 !important;
+    font-weight: 400;
+    border: 1px solid transparent;
+}
+
+.picker__day--infocus:hover {
+    cursor: pointer;
+    color: #00caf5 !important;
+    font-weight: 800 !important;
+}
+
+input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search] {
+    border-bottom: 1px dotted #dcdcdc !important;
+    font-size: 0.9rem !important;
+    height: 2rem !important;
+}
+
+textarea.materialize-textarea {
+    border-bottom: 1px dotted #dcdcdc !important;
+    font-size: 0.9rem !important;
+}
+
 .md-button.md-default-theme.md-warn.md-raised, .md-button.md-warn.md-raised, .md-button.md-default-theme.md-warn.md-fab, .md-button.md-warn.md-fab {
     color: #5b5b5b !important;
     background-color: #d9d9d9 !important;
@@ -126,6 +196,55 @@ span.badge.new.alarm {
     transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease;
 }
 
+.row .col {
+    float: left;
+    box-sizing: border-box;
+    padding: 0 0.5rem !important;
+    min-height: 1px;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  box-shadow: 0 1px 0 0 #26a69a !important;
+  font-size: 0.9rem;
+}
+
+input:not([type]).valid, input:not([type]):focus.valid, input[type=text].valid, input[type=text]:focus.valid, input[type=password].valid, input[type=password]:focus.valid, input[type=email].valid, input[type=email]:focus.valid, input[type=url].valid, input[type=url]:focus.valid, input[type=time].valid, input[type=time]:focus.valid, input[type=date].valid, input[type=date]:focus.valid, input[type=datetime].valid, input[type=datetime]:focus.valid, input[type=datetime-local].valid, input[type=datetime-local]:focus.valid, input[type=tel].valid, input[type=tel]:focus.valid, input[type=number].valid, input[type=number]:focus.valid, input[type=search].valid, input[type=search]:focus.valid, textarea.materialize-textarea.valid, textarea.materialize-textarea:focus.valid {
+    border-bottom: 1px dotted #4CAF50 !important;
+    box-shadow: 0 1px 0px 0px #d2edd3 !important;
+}
+
+input:not([type]).invalid, input:not([type]):focus.invalid, input[type=text].invalid, input[type=text]:focus.invalid, input[type=password].invalid, input[type=password]:focus.invalid, input[type=email].invalid, input[type=email]:focus.invalid, input[type=url].invalid, input[type=url]:focus.invalid, input[type=time].invalid, input[type=time]:focus.invalid, input[type=date].invalid, input[type=date]:focus.invalid, input[type=datetime].invalid, input[type=datetime]:focus.invalid, input[type=datetime-local].invalid, input[type=datetime-local]:focus.invalid, input[type=tel].invalid, input[type=tel]:focus.invalid, input[type=number].invalid, input[type=number]:focus.invalid, input[type=search].invalid, input[type=search]:focus.invalid, textarea.materialize-textarea.invalid, textarea.materialize-textarea:focus.invalid {
+    border-bottom: 1px dotted #F44336 !important;
+    box-shadow: 0 1px 0 0 #efc0bc !important;
+}
+
+.input-field .prefix ~ input, .input-field .prefix ~ textarea, .input-field .prefix ~ label, .input-field .prefix ~ .validate ~ label, .input-field .prefix ~ .autocomplete-content {
+    margin-left: 2.8rem !important;
+    font-size: 0.9rem !important;
+    width: 92%;
+    width: calc(100% - 1.5rem) !important;
+}
+
+.input-field .prefix ~ label, .input-field .prefix ~ .validate ~ label, .input-field .prefix ~ .autocomplete-content {
+    margin-left: 2.6rem !important;
+    margin-top: -0.3rem !important;
+    font-size: 0.9rem !important;
+    width: 92%;
+    width: calc(100% - 1.5rem) !important;
+}
+
 .outer {
   width: 2px;
   height: 130px;
@@ -133,10 +252,18 @@ span.badge.new.alarm {
   position: relative;
   overflow: hidden;
 }
+
 .inner {
   position: absolute;
   width:100%;
   height: 40%;
+  top: 30%;
+}
+
+.inner-record {
+  position: absolute;
+  width:100%;
+  height: 20%;
   top: 30%;
 }
 
@@ -485,9 +612,14 @@ nav .input-field {
   display: block !important;
   line-height: 35px !important;
   padding-left: 4rem !important;
+  font-size: 0.9rem !important;
   width: calc(100% - 4rem) !important;
   font-family: 'Titillium Web', sans-serif !important;
   border-radius: 12px !important;
+}
+
+.input-field input[type=search] ~ .mdi-navigation-close, .input-field input[type=search] ~ .material-icons {
+    right: 0.5rem !important;
 }
 
 .checkin-navbar {
@@ -539,9 +671,21 @@ nav .nav-wrapper i {
 
 .modal-form {
   padding-left: 50px;
-  padding-right: 50px;
+  padding-right: 70px;
   padding-top: 10px;
+  margin-bottom: -1rem !important;
 }
+
+.modal-form-record {
+  padding-left: 10px;
+  padding-right: 40px;
+  padding-top: 10px;
+  margin-bottom: -1rem !important;
+}
+
+/*.container .row {
+    margin-bottom: -0.2rem !important;
+}*/
 
 .modal-title {
   border-radius: 12px !important;
@@ -586,12 +730,19 @@ nav .nav-wrapper i {
   font-size: .85em;
   padding: 15px !important;
   height: 20px !important;
-  line-height: 20px !important;
+  line-height: 15px !important;
 }
 
-.meeting-data-table i {
-  margin-left: 5px !important;
+.meeting-data-link {
+  font-size: .85em;
+  padding: 4px 0px 4px 14px !important;
+  height: 20px !important;
+  line-height: 15px !important;
 }
+
+/*.meeting-data-table i {
+  margin-left: 5px !important;
+}*/
 
 .meeting-table {
   border-radius: 10%;
@@ -641,7 +792,7 @@ thead th:last-of-type{
 }
 
 .brand-logo-own{
-	font-weight:200;
+  font-weight:200;
   font-size: 1.4rem;
   margin-left: 0px;
 }
@@ -652,7 +803,7 @@ thead th:last-of-type{
   display: none;
   min-width: 300px; /* Changed this to accomodate content width */
   max-height: auto;
-	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
+  margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
   overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
   opacity: 0;
   position: absolute;

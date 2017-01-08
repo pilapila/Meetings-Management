@@ -46,7 +46,7 @@ meetingsApp.controller('CheckinsController', function
       }); // Ref to users to find picture of caller
 
     const checkInvitationRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
-      checkInvitationRef.on('value', function (snap) {
+    checkInvitationRef.on('value', function (snap) {
         $timeout(function () {
           $scope.checkinSendPosition = $firebaseArray(checkInvitationRef);
           $scope.checkinSendPosition.$loaded().then(function (list) {
@@ -87,7 +87,7 @@ meetingsApp.controller('CheckinsController', function
       });  // ref to all checkin list   
 
     const checkinUserRef = RefServices.refUser();
-      checkinUserRef.on('value', function (snap) {
+    checkinUserRef.on('value', function (snap) {
         $timeout(function () {
           $scope.users = $firebaseArray(checkinUserRef);
           $scope.users.$loaded().then(function (list) { 
@@ -117,7 +117,7 @@ meetingsApp.controller('CheckinsController', function
               $scope.showCheckinList = true;
             }
              
-
+console.log($scope.usersShort);
           }.bind(this));
         }, 0);
       });  // Ref to all user and short them
