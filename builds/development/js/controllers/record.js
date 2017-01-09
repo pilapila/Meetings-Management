@@ -1,11 +1,25 @@
 meetingsApp.controller('RecordController', function
   ( $scope, $rootScope, $firebase, $timeout, $firebaseArray, 
-  	$mdToast, $mdDialog, $routeParams, $mdMedia, $filter, RefServices, productListPageCount) {
+  	$mdToast, $mdDialog, $routeParams, $mdMedia, $filter, RefServices, 
+    $location, productListPageCount, passDataService) {
 
+    $scope.usersRecordBase = passDataService.getProducts(); // get sync data from meetingsController
+    $scope.usersRecord = $scope.usersRecordBase[0];
 
   	$scope.whichmeeting = $routeParams.mId;
   	$scope.whichuser = $routeParams.uId;
     $scope.isThereOne = false;
+    $scope.dateError = false;
+    $scope.required = '';
+    $scope.alarmGeneralColor = "#dcdcdc";
+    $scope.alarmGeneralTitle = "#505050";
+    $scope.alarmSummeryColor = "#dcdcdc";
+    $scope.alarmSummeryTitle = "#505050";
+    $scope.alarmAudienceColor = "#dcdcdc";
+    $scope.alarmAudienceTitle = "#2ba030";
+    $scope.alarmAbsentTitle = "#b5192f";
+    $rootScope.alarmDirectiveColor = "#dcdcdc";
+    $rootScope.alarmDirectiveTitle = "#505050";
 
 
 
@@ -20,10 +34,12 @@ meetingsApp.controller('RecordController', function
     RefServices.refSummery($scope.whichuser, $scope.whichmeeting)
       .on('value', function (snap) {
         $timeout(function () {
-            $scope.summery = snap.val().summery;
-            if ($scope.summery) {
+            if (snap.val()) {
+
+              $scope.summery = snap.val().summery;
               $scope.editSummery = true;
               $("#textarea1").next().addClass("active");
+
             } else {
               $scope.editSummery = false;
               $("#textarea1").next().removeClass("active");
@@ -32,11 +48,25 @@ meetingsApp.controller('RecordController', function
     }); // Ref to summery information 
 
 
+    RefServices.refGeneral($scope.whichuser, $scope.whichmeeting)
+      .on('value', function (snap) {
+        $timeout(function () {
+            $scope.generalInfo = snap.val();
+            if ($scope.generalInfo) {
+              $scope.editGeneral = true;
+            } else {
+              $scope.editGeneral = false;
+            }
+        }, 0);
+    }); // Ref to general information 
+
+
 
     const audienceListRef = RefServices.refAudience($scope.whichuser, $scope.whichmeeting);
     audienceListRef.on('value', function (snap) {
           $timeout(function () {
-            
+
+            $scope.audienceArray = [];
             $scope.audienceListSync = $firebaseArray(audienceListRef);
             $scope.audienceListSync.$loaded().then(function (list) {
 
@@ -44,6 +74,13 @@ meetingsApp.controller('RecordController', function
                 $scope.isThereOnePresent = false;
               } else {
                 $scope.isThereOnePresent = true;
+                for (var i = 0; i < $scope.audienceListSync.length; i++) {
+                  $scope.audienceArray.push({
+                    'firstname': $scope.audienceListSync[i].firstname,
+                    'image':     $scope.audienceListSync[i].image,
+                    'lastname':  $scope.audienceListSync[i].lastname
+                  });
+                };
               }
 
             }.bind(this));
@@ -54,14 +91,23 @@ meetingsApp.controller('RecordController', function
     const absentListRef = RefServices.refAbsence($scope.whichuser, $scope.whichmeeting);
     absentListRef.on('value', function (snap) {
           $timeout(function () {
-            
+
+            $scope.absentArray = [];
             $scope.absentListSync = $firebaseArray(absentListRef);
             $scope.absentListSync.$loaded().then(function (list) {
               if ($scope.absentListSync.length == 0) {
                 $scope.isThereOneAbsent = false;
               } else {
                 $scope.isThereOneAbsent = true;
-              }
+                for (var i = 0; i < $scope.absentListSync.length; i++) {
+                  $scope.absentArray.push({
+                    'firstname': $scope.absentListSync[i].firstname,
+                    'image':     $scope.absentListSync[i].image,
+                    'lastname':  $scope.absentListSync[i].lastname
+                  });
+                }; // end for
+              } // end if
+
             }.bind(this));
           }, 0);
     });  // ref to absent's list  
@@ -69,6 +115,8 @@ meetingsApp.controller('RecordController', function
     const directivesListRef = RefServices.refDirectiveRecord($scope.whichuser, $scope.whichmeeting); 
     directivesListRef.on('value', function (snap) {
           $timeout(function () {
+
+            $scope.directiveArray = [];
             
             $scope.dataRecord = $firebaseArray(directivesListRef);
             $scope.dataRecord.$loaded().then(function (list) {
@@ -76,19 +124,22 @@ meetingsApp.controller('RecordController', function
                 $scope.isThereOneDirective = false;
               } else {
                 $scope.isThereOneDirective = true;
+                for (var i = 0; i < $scope.dataRecord.length; i++) {
+                  $scope.directiveArray.push({
+                    'description':    $scope.dataRecord[i].description,
+                    'responsible':    $scope.dataRecord[i].responsible,
+                    'follow':         $scope.dataRecord[i].follow,
+                    'respite':        $scope.dataRecord[i].respite
+                  });
+                };
               }
             }.bind(this));
           }, 0);
-    });  // ref to absent's list  
+    });  // ref to Directive list  
 
 
-  $scope.refFindRecordList = function() {
-    const checkinRecordRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
-    checkinRecordRef.on('value', function (snap) {
+  $scope.refFindRecordList = function() {   
         $timeout(function () {
-          $scope.usersRecord = $firebaseArray(checkinRecordRef);
-          $scope.usersRecord.$loaded().then(function (list) {
-
             $scope.usersShortRecord = [];
 
             for (var i = 0; i < $scope.usersRecord.length; i++) {
@@ -120,18 +171,19 @@ meetingsApp.controller('RecordController', function
 
             if ($scope.usersShortRecord.length == 0) {
               $scope.showCheckinList = false;
-            } else {
+            } else if ($scope.usersShortRecord.length > 0) {
               $scope.showCheckinList = true;
-            }
-
-          }.bind(this));
+            }        
+            
         }, 0);
-      });  // Ref to all user and short them
-  }
+  }; // refFindRecordList
     
   $scope.refFindRecordList();
 
   $scope.addAudience = function() {
+    $scope.alarmAudienceColor = "#dcdcdc";
+    $scope.alarmAudienceTitle = "#2ba030";
+    $scope.alarmAbsentTitle = "#b5192f";
     var dataList = $scope.dataAudience;
     $timeout(function () {      
 
@@ -150,6 +202,7 @@ meetingsApp.controller('RecordController', function
         }; // end for
       };  // end for all
 
+      
       $scope.refFindRecordList();
       $scope.dataAudience = [];
       $scope.showAgreeAudience = 0;
@@ -198,6 +251,9 @@ meetingsApp.controller('RecordController', function
           }; // end for
         };  // end for all
 
+      $scope.alarmAudienceColor = "#dcdcdc";
+      $scope.alarmAudienceTitle = "#2ba030";
+      $scope.alarmAbsentTitle = "#b5192f";
       $scope.refFindRecordList();
       $scope.dataAbsent = [];
       $scope.showAgreeAbsent = 0;
@@ -224,19 +280,31 @@ meetingsApp.controller('RecordController', function
   }; // delete Audience invitee
 
 
-
   $scope.addDirective = function(record) {
-    console.log(record);
+    
+    if( $("#api_picker_clear").val() == '' ) {
 
-    RefServices.refDirectiveRecord($scope.whichuser, $scope.whichmeeting).push().set({
-        'description':     record.recordDescription,
-        'responsible':    record.responsible,
-        'follow':         record.follow,
-        'respite':        $( '#api_picker_clear' ).val()
+      $scope.dateError = true;
+      $("#api_picker_clear").next().addClass("active");
+
+    } else {
+
+      $scope.dateError = false;
+      $("#api_picker_clear").next().removeClass("active");
+      $("#api_picker_clear").next().removeClass('ui-state-highlight');
+
+      RefServices.refDirectiveRecord($scope.whichuser, $scope.whichmeeting).push().set({
+          'description':     record.recordDescription,
+          'responsible':    record.responsible,
+          'follow':         record.follow,
+          'respite':        $( '#api_picker_clear' ).val()
       });
-
-    $scope.showToast('Added Directive', 'md-toast-add');
-    $scope.cancelDirective();
+      
+      $rootScope.alarmDirectiveColor = "#dcdcdc";
+      $rootScope.alarmDirectiveTitle = "#505050";
+      $scope.showToast('Added Directive', 'md-toast-add');
+      $scope.cancelDirective();
+    }
 
 
   }; // addDirective
@@ -249,11 +317,13 @@ meetingsApp.controller('RecordController', function
     $("#follow").val("");
     $("#follow").next().removeClass("active");
     api_calendar_clear.clear();
+    $scope.dateError = false;
+    $("#api_picker_clear").next().removeClass("active");
+    $("#api_picker_clear").next().removeClass('ui-state-highlight');
   }; //cancelDirective
 
 
     $scope.deleteDirective = function(event, record) {
-
         var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete this directive?')
         .ok('Yes')
@@ -320,11 +390,12 @@ meetingsApp.controller('RecordController', function
 
 
     $scope.addSummery = function() {
-      console.log($scope.summery);
       RefServices.refSummery($scope.whichuser, $scope.whichmeeting).update({
                   'summery':      $scope.summery,
                   'dateEnter':    firebase.database.ServerValue.TIMESTAMP
               });
+      $scope.alarmSummeryColor = "#dcdcdc";
+      $scope.alarmSummeryTitle = "#505050";
     };  // addSummery
 
 
@@ -334,7 +405,195 @@ meetingsApp.controller('RecordController', function
     }; // clear summery
 
 
+    $scope.addGeneral = function() {    
+      $(document).ready(function () {
+          if( $("#date-picker1").val() == '' ) {
+              $("#date-picker1").next().addClass("active");
+          } 
 
+          if ( $("#time-picker1").val() == '' ) {
+              $scope.required = "required!";
+              $("#time-picker1").next().addClass("active");
+          }
+
+          if ( $("#time-picker2").val() == '' ) {
+              $scope.required = "required!";
+              $("#time-picker2").next().addClass("active");
+          }       
+      });
+
+      if ( $scope.general.places &&
+           $("#date-picker1").val() &&
+           $("#time-picker1").val() &&
+           $("#time-picker2").val() ) {
+
+                $scope.alarmGeneralColor = "#dcdcdc";
+                $scope.alarmGeneralTitle = "#fff";
+                RefServices.refGeneral($scope.whichuser, $scope.whichmeeting).update({
+                  'date':         $("#date-picker1").val(),
+                  'startTime':    $("#time-picker1").val(),
+                  'endTime':      $("#time-picker2").val(),
+                  'places':       $scope.general.places,
+                  'dateEnter':    firebase.database.ServerValue.TIMESTAMP
+                });
+      } // end if
+
+    }; // add general
+
+
+    $scope.getEditGeneral = function() {
+        $scope.editGeneral = false;
+        $("#date-picker1").next().addClass("active");
+        $("#time-picker1").next().addClass("active");
+        $("#time-picker2").next().addClass("active");
+        $("#place").next().addClass("active");
+
+
+            var $inputDate = $('.datepicker').pickadate();
+            var pickerDate = $inputDate.pickadate('picker');
+            var setDatePicker = pickerDate.set("select", new Date($scope.generalInfo.date));
+
+            var spliceTime1 = $scope.generalInfo.startTime.slice(0, 5);
+            var spliceTime2 = $scope.generalInfo.endTime.slice(0, 5);
+            var time1 = new Date(),
+                s1 = spliceTime1 + " AM",
+                parts1 = s1.match(/(\d+)\:(\d+) (\w+)/),
+                hours1 = /am/i.test(parts1[3]) ? parseInt(parts1[1], 10) : parseInt(parts1[1], 10) + 12,
+                minutes1 = parseInt(parts1[2], 10);
+
+            var time2 = new Date(),
+                s2 = spliceTime2 + " AM",
+                parts2 = s2.match(/(\d+)\:(\d+) (\w+)/),
+                hours2 = /am/i.test(parts2[3]) ? parseInt(parts2[1], 10) : parseInt(parts2[1], 10) + 12,
+                minutes2 = parseInt(parts2[2], 10);
+
+            time1.setHours(hours1);
+            time1.setMinutes(minutes1);
+
+            time2.setHours(hours2);
+            time2.setMinutes(minutes2);
+          
+              $scope.general = {
+                 'date':         setDatePicker,
+                 'startTime':    time1,
+                 'endTime':      time2,
+                 'places':       $scope.generalInfo.places
+              }
+    }; // editGeneral
+
+
+    $scope.recordMeeting = function(event, showCheckinList) {
+        
+        if (!$scope.generalInfo) {    
+          $scope.alarmGeneralColor = "#d03468";
+          $scope.alarmGeneralTitle = "#fff";      
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .textContent('You have to fill general information')
+              .ok('Ok')
+              .targetEvent(event)
+          );
+
+        } else if (showCheckinList) {
+            $scope.alarmAudienceColor = "#d03468";
+            $scope.alarmAudienceTitle = "#fff";
+            $scope.alarmAbsentTitle = "#fff";
+            $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .textContent('You have not done all attendance list')
+              .ok('Ok')
+              .targetEvent(event)
+            );
+
+        } else if (!$scope.summery) {
+            $scope.alarmSummeryColor = "#d03468";
+            $scope.alarmSummeryTitle = "#fff";
+            $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .textContent('You have to fill meeting summery')
+              .ok('Ok')
+              .targetEvent(event)
+            );
+        
+        } else if (!$scope.isThereOneDirective) {
+            $rootScope.alarmDirectiveColor = "#d03468";
+            $rootScope.alarmDirectiveTitle = "#fff";
+            $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('#popupContainer')))
+              .clickOutsideToClose(true)
+              .textContent('You have to add at least one directive')
+              .ok('Ok')
+              .targetEvent(event)
+            );
+        } else if ( $scope.generalInfo &&
+                    !showCheckinList &&
+                    $scope.summery &&
+                    $scope.isThereOneDirective) {
+
+          $timeout(function () {
+            for (var i = 0; i < $scope.usersRecord.length; i++) {
+
+              if ( $scope.usersRecord[i].send &&
+                   !$scope.usersRecord[i].accept &&
+                   !$scope.usersRecord[i].reject ) {
+
+                    RefServices.refDeleteInvitation($scope.usersRecord[i].regUser, $scope.usersRecord[i].whichInvitation).remove();
+                    RefServices.refArchive($scope.usersRecord[i].regUser).push().set({
+                       'absence':           $scope.absentArray,
+                       'audience':          $scope.audienceArray,
+                       'directives':        $scope.directiveArray,
+                       'general':           $scope.generalInfo,
+                       'summery':           $scope.summery,
+                       'dateMeeting':       $scope.meetingChecked.dateMeeting,
+                       'description':       $scope.meetingChecked.description,
+                       'time':              $scope.meetingChecked.time,
+                       'dateEnter':         firebase.database.ServerValue.TIMESTAMP,
+                    });
+
+              } else if ( $scope.usersRecord[i].send &&
+                          $scope.usersRecord[i].accept ) {
+
+                    RefServices.refMeetChecked($scope.usersRecord[i].regUser, $scope.usersRecord[i].inviteeId).remove();
+                    RefServices.refArchive($scope.usersRecord[i].regUser).push().set({
+                       'absence':           $scope.absentArray,
+                       'audience':          $scope.audienceArray,
+                       'directives':        $scope.directiveArray,
+                       'general':           $scope.generalInfo,
+                       'summery':           $scope.summery,
+                       'dateMeeting':       $scope.meetingChecked.dateMeeting,
+                       'description':       $scope.meetingChecked.description,
+                       'time':              $scope.meetingChecked.time,
+                       'dateEnter':         firebase.database.ServerValue.TIMESTAMP,
+                    });
+
+                } // end if
+            }; // end for
+
+                RefServices.refMeetChecked($scope.whichuser, $scope.whichmeeting).remove();
+                RefServices.refArchive($scope.whichuser).push().set({
+                   'absence':           $scope.absentArray,
+                   'audience':          $scope.audienceArray,
+                   'directives':        $scope.directiveArray,
+                   'general':           $scope.generalInfo,
+                   'summery':           $scope.summery,
+                   'dateMeeting':       $scope.meetingChecked.dateMeeting,
+                   'description':       $scope.meetingChecked.description,
+                   'time':              $scope.meetingChecked.time,
+                   'dateEnter':         firebase.database.ServerValue.TIMESTAMP,
+                }).then(function() {
+                    $location.path('/meetings');
+                });
+
+              }, 0); 
+        } // end if
+    }; //addRecord
 
 
 
@@ -444,7 +703,7 @@ meetingsApp.controller('RecordController', function
   $('input#meetingPlaces').characterCounter();
   $('textarea#textarea1').characterCounter();
 
-  var inputElement = $('.datepicker').pickadate({
+    var inputElement = $('.datepicker').pickadate({
     //selectMonths: true,
       min: new Date(),
       onClose: function() {
@@ -460,7 +719,7 @@ meetingsApp.controller('RecordController', function
       format: 'yyyy-mm-dd'
     });
 
-  var api_picker_clear = $( '#api_picker_clear' ).pickadate({
+    var api_picker_clear = $( '#api_picker_clear' ).pickadate({
       min: new Date(),
       onClose: function() {
           $(document.activeElement).blur();

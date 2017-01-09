@@ -1,4 +1,5 @@
 <br>
+
 <div ng-hide="signedIn()" class="center">
   <h3>Sorry</h3>
   <p>Only registered users can create and manage meetings.</p>
@@ -25,16 +26,22 @@
 
                 <ul class="left">
                   <li class="sidenav-li" style="margin-top:-3px">
-                    <a class="modal-trigger waves-effect waves-light" 
-                       data-target="modal1" ng-click="queryCheck = ''">
-                      <i class="fa fa-eraser" aria-hidden="true"></i>
-                      &nbsp Clear Form
-                    </a>
-                  </li>
-                  <li class="sidenav-li" style="margin-top:-3px">
                     <a ng-href="#/meetings" class="waves-effect waves-light">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
                       &nbsp Back to Meetings
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/checkins/{{whichuser}}/{{whichmeeting}}/3f3f3f" class="waves-effect waves-light">
+                      <i class="fa fa-check" aria-hidden="true"></i>
+                      &nbsp Checkins
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a href="" ng-click="recordMeeting($event, showCheckinList)" 
+                       class="waves-effect waves-light">
+                      <i class="fa fa-archive" aria-hidden="true"></i>
+                      &nbsp Record Meeting
                     </a>
                   </li>
                 </ul>
@@ -50,18 +57,612 @@
 
 
 
+
+
+
+<table class="bordered card" style="margin-top:-12px">
+  <thead>
+    <tr class="meeting-data-table meeting-table-title">
+      <th style="padding-left:17px">Meeting Name: &nbsp&nbsp&nbsp
+        <span style="color:#6a6a6a">{{meetingChecked.name}}</span>
+        <b class="right" style="color:#575757;margin-top:3px;padding-right:10px">
+          <div style="margin-top:0px;">
+          <i class="fa fa-check animated bounce delayAnimate" 
+             aria-hidden="true"></i>
+          </div>
+          <div style="margin-top:-14px;margin-left:12px">
+            &nbsp&nbsp {{ meetingChecked.dateMeeting | date }}
+          </div>
+        </b>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr style="border-color:#e4e4e4;background-color:#ededed;">
+      <td style="border-bottom-left-radius:8px!important;border-bottom-right-radius:8px!important;">
+        <table style="margin-top:-12px;margin-left:-2px;margin-bottom:-12px">
+          <tr>
+            <td class="meeting-data-table" style="vertical-align:top">
+              <b>Description:</b>
+            </td>
+            <td class="meeting-data-table" style="vertical-align:top">
+              <span style="color:#7b7b7b">{{meetingChecked.description}}</span>
+            </td>
+          </tr> 
+        </table>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+<table class="bordered card" ng-hide="editGeneral">
+  <tbody>
+
+    <tr style="background-color:{{alarmGeneralColor}};max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+                 <b style="color:{{alarmGeneralTitle}};font-size:0.9rem;margin-right:10px">
+                    Add General Info
+                 </b>
+        </td>
+      </tr>
+
+    <tr style="border-color: #e4e4e4;" class="delayAnimate">
+        <td class="meeting-data-table">
+         <div class="row">
+          <form class="col s12" ng-submit="addGeneral()">
+            <div class="row modal-form-record modal-background"
+            style="margin-left: -0.1rem !important;margin-right: -0.1rem !important">
+
+              <div class="input-field col s2 datepicker-style">
+                <i class="small material-icons prefix">today</i>
+                    <input type="date" id="date-picker1" class="datepicker"
+                       name="date-picker1" ng-model="general.date">
+                  <label for="date-picker1" style="color:#adadad">
+                     Date 
+                  </label>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix">alarm_on</i>
+                <input id="time-picker1" class="timepicker" type="time" 
+                       name="time-picker1" ng-model="general.startTime">
+                <label for="time-picker1" style="color:#adadad">
+                     Start Time {{required1}}
+                </label>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix">alarm_off</i>
+                <input id="time-picker2" class="timepicker" type="time" 
+                       name="time-picker2" ng-model="general.endTime">
+                  <label for="time-picker2" style="color:#adadad">
+                     End Time {{required2}}
+                </label>
+              </div>
+
+              <div class="input-field col s6">
+                <i class="material-icons prefix">room</i>
+                <input name="place" id="place" type="text" class="validate" 
+                       required="" aria-required="true" ng-model="general.places">
+                <label for="place">Meeting Places</label>
+              </div>
+
+              <div class="right-align" style="margin-right:-30px;margin-bottom:-10px">
+              <button id="" class="waves-effect btn-flat" 
+                      type="submit" style="color:#0889af">
+                  Add 
+              </button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+        </td>   
+      </tr>
+  </tbody>
+</table>
+
+<table class="bordered card" ng-show="editGeneral">
+  <tbody>
+
+    <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+                 <b style="color:#505050;font-size:0.9rem;margin-right:10px">
+                    General Info
+                 </b>
+        </td>
+      </tr>
+
+    <tr style="border-color: #e4e4e4;" class="delayAnimate">
+        <td class="meeting-data-table">
+         <div class="row">
+            <div class="row modal-form-record modal-background"
+              style="margin-left:-0.1rem!important;margin-right:-0.1rem!important;">
+
+
+              <div class="input-field col s2 datepicker-style">
+                <i class="small material-icons prefix" style="margin-top:-10px">today</i>
+                <span style="margin-left:35px;color:#979797">
+                  <b>{{ generalInfo.date | date }}</b>
+                </span>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix" style="margin-top:-10px">alarm_on</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{ generalInfo.startTime | limitTo:5 }}</b>
+                  </span>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix" style="margin-top:-10px">alarm_off</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{ generalInfo.endTime | limitTo:5 }}</b>
+                  </span>
+              </div>
+
+              <div class="input-field col s6">
+                <i class="material-icons prefix" style="margin-top:-10px">room</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{ generalInfo.places }}</b>
+                  </span>
+              </div>
+
+              <div class="right-align" style="margin-right:-30px;margin-bottom:-10px">
+              <a id="" class="waves-effect btn-flat" 
+                      style="color:#0889af" ng-click="getEditGeneral()">
+                  Edit 
+              </a>
+          </div>
+
+            </div>
+          </div>
+        </td>   
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+<table class="bordered card" style="margin-top:-1px">
+  <tbody>     
+      <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+          <a href="" class="modal-trigger waves-effect waves-light" 
+                 data-target="modal1">
+                 <i class="material-icons prefix" 
+                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAudienceTitle}}">thumb_up</i>
+                 <b style="color:{{alarmAudienceTitle}};font-size:0.9rem;margin-right:10px">Add Audience</b>
+              
+              <span ng-hide="isThereOnePresent" style="color:#fff;vertical-align:bottom">
+                add audience to meeting...
+              </span>
+              </a>
+        </td>
+      </tr>
+
+      <tr style="border-color: #e4e4e4" class="delayAnimate">
+        <td class="meeting-data-table">
+
+            <div style="color: #6d6d6d;margin-top:5px" ng-show="isThereOnePresent">
+
+            <ul class="userlist cf" style="margin-left:5px;">
+              <li ng-repeat="checkedAudience in audienceListSync | filter:query" 
+                  class="delayAnimate" 
+                  style="">
+                <div class="checkin" 
+                     style="position:relative;z-index:100">
+
+                    <div class="col s12 m7">
+                      <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
+                        <div class="card-image">
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                           src="images/personal_pics/{{checkedAudience.image}}.jpg">
+                        </div>
+
+                        <div class="card-stacked">
+                          <div class="card-content">
+
+                            <b style="font-size:1em">
+                              {{ checkedAudience.firstname | capitalize }} 
+                              {{ checkedAudience.lastname | capitalize }}
+                            </b>
+                            <div class="date">
+                              {{ checkedAudience.dateEnter | date }}
+                            </div>
+                            <div class="right-align">
+                              <a class="fontawesome-color" href=""
+                                   ng-click="deleteAudience($event, checkedAudience)">
+                                  <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
+                                    <i class="fa fa-square-o fa-stack-2x" 
+                                       style="color:#eaa8be;"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x" 
+                                       style="font-size:20px;color:#d44977;margin-top:-2px"></i>
+                                    <md-tooltip md-direction="top">
+                                      Delete {{ checkedAudience.firstname | capitalize }}
+                                    </md-tooltip>
+                                  </span>
+                              </a>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                          <div class="outer">
+                            <div class="inner-record" 
+                            style="background: #23ba0a;box-shadow: 0px 0px 30px 20px #23ba0a;">
+                             </div> <!-- green -->
+                          </div>
+
+                      </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </td>   
+      </tr>
+
+      <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;">
+          <a href="" class="modal-trigger waves-effect waves-light" 
+               data-target="modal2">
+               <i class="material-icons prefix" 
+                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAbsentTitle}}">thumb_down</i>
+              <b style="color:{{alarmAbsentTitle}};font-size:0.9rem;vertical-align:top;margin-right:10px">
+                  Add Absence
+               </b>
+            </a>
+            <span ng-hide="isThereOneAbsent" style="color:#fff;vertical-align:bottom">
+                add absence to meeting...</span>
+        </td>
+      </tr>
+
+      <tr style="border-color: #e4e4e4" class="delayAnimate">
+        <td class="meeting-data-table">
+            <div style="color: #6d6d6d" ng-show="isThereOneAbsent">
+
+            <ul class="userlist cf" style="margin-left:5px;">
+              <li ng-repeat="checkedAbsent in absentListSync | filter:query" 
+                  class="delayAnimate" 
+                  style="">
+                <div class="checkin" 
+                     style="position:relative;z-index:100">
+
+                    <div class="col s12 m7">
+                      <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
+                        <div class="card-image">
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                           src="images/personal_pics/{{checkedAbsent.image}}.jpg">
+                        </div>
+
+                        <div class="card-stacked">
+                          <div class="card-content">
+                            <b style="font-size:1em">
+                              {{ checkedAbsent.firstname | capitalize }} 
+                              {{ checkedAbsent.lastname | capitalize }}
+                            </b>
+                            <div class="date">
+                              {{ checkedAbsent.dateEnter | date }}
+                            </div>
+                            <div class="right-align">
+                              <a class="fontawesome-color" href=""
+                                   ng-click="deleteAbsent($event, checkedAbsent)">
+                                  <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
+                                    <i class="fa fa-square-o fa-stack-2x" 
+                                       style="color:#eaa8be;"></i>
+                                    <i class="fa fa-trash-o fa-stack-1x" 
+                                       style="font-size:20px;color:#d44977;margin-top:-2px"></i>
+                                    <md-tooltip md-direction="top">
+                                      Delete {{ checkedAbsent.firstname | capitalize }}
+                                    </md-tooltip>
+                                  </span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="outer">
+                          <div class="inner-record" 
+                            style="background: #e762ad;box-shadow: 0px 0px 30px 20px #e762ad;">
+                          </div> <!-- red -->
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </td>   
+      </tr>
+  </tbody>
+
+</table>
+
+
+
+
+
+<table class="bordered card" style="margin-top:0px" ng-hide="editSummery">
+  <tbody>
+
+    <tr style="background-color:{{alarmSummeryColor}};max-height:10px;height:10px;">
+      <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+               <b style="color:{{alarmSummeryTitle}};font-size:0.9rem;margin-right:10px">
+                  Add Meeting Summary
+               </b>
+      </td>
+    </tr>
+
+    <tr style="border-color: #e4e4e4" class="delayAnimate">
+      <td class="meeting-data-table">
+        <form ng-submit="addSummery()">
+          <div class="row">
+            <div class="col s12" style="margin-bottom:15px">
+              <div class="row modal-form-record modal-background">
+                <div class="input-field col s12 datepicker-style">
+                  <i class="small material-icons prefix">subject</i>
+                      <textarea name="textarea1" id="textarea1"
+                             class="validate materialize-textarea" required="" 
+                             aria-required="true" 
+                             ng-model="summery"></textarea>
+                  <label for="textarea1">Meeting Summary</label>
+                </div>
+              </div>
+            </div>
+            <div class="right-align" style="padding-right:15px">
+              <button class="waves-effect btn-flat" 
+                      type="submit" style="color:#0889af">
+                  Add Summary
+              </button>
+              <a ng-click="clearSummery()" 
+                      class="waves-effect btn-flat" 
+                      style="color:#0889af">
+                  Clear
+              </a>
+            </div>
+          </div>
+        </form>
+      </td>   
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="bordered card" style="margin-top:0px;" ng-show="editSummery">
+  <tbody>
+
+    <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+      <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+               <b style="color:#505050;font-size:0.9rem;margin-right:10px">
+                  Meeting Summary
+               </b>
+      </td>
+    </tr>
+
+    <tr style="border-color: #e4e4e4" class="delayAnimate">
+      <td class="meeting-data-table">
+        <form ng-submit="editSummery=false">
+          <div class="row">
+            <div class="col s12 m12" style="margin-bottom:15px">
+              <div class="row modal-form-record modal-background">
+                <div class="input-field col s12 datepicker-style" 
+                     style="margin-top:-10px;color:#858585;font-family:arial">
+                  <pre>{{summery}}</pre>
+                </div>
+              </div>
+            </div>
+            <div class="right-align" style="padding-right:5px;margin-bottom:-20px">
+              <button class="waves-effect btn-flat" 
+                      type="submit" style="color:#0889af">
+                  Edit Summary
+              </button>
+            </div>
+          </div>
+        </form>
+      </td>   
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+<!-- Modal Structure -->
+<form>
+<div id="modal1" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:330px;max-height:340px;">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools checkinUser" 
+         style="background-color:{{themeColor3}};height:80px">
+        <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
+        <h2>Invitees List</h2>
+        <span flex></span>
+        <nav class="search left left z-depth-0" 
+             style="height:20px;max-height:20px;margin-right:0px;width:170px;
+                    margin-top:-15px;background-color:{{themeColor3}}">
+          <div class="nav-wrapper">
+            
+              <div class="input-field">
+                <input type="search" ng-model="queryCheck" id="queryCheck" 
+                       placeholder="search invitee">
+                <label for="search">
+                  <i class="material-icons" style="font-size:24px;">search</i>
+                </label>
+                  <i class="material-icons" style="font-size:15px;" ng-click="queryCheck = ''">
+                    close
+                  </i>
+              </div>
+            
+          </div>
+        </nav>
+    </div>
+  </md-toolbar>
+
+  <div class="modal-content">
+
+    <div ng-hide="showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
+      <p class="center-align">All invitees have selected...</p>
+    </div>
+
+    <div ng-show="showCheckinList" style="margin-bottom:-12px">
+      <!-- <div class="row" style="margin-bottom:-12px"> -->
+        <div class="col s12" style="margin-bottom:9px"
+             ng-repeat="(key, presentUser) in usersShortRecord | filter:queryCheck" 
+             class="presentUser delayAnimate" 
+             id="{{presentUser.regUser}}">
+
+          <div class="col s5">
+            <input type="checkbox" class="filled-in"
+                   ng-change="syncAudience(boolAudience, presentUser)" 
+                   ng-model="boolAudience" 
+                   ng-checked="isCheckedAudience(presentUser.regUser)" 
+                   id="audience{{$index}}" />
+            <label for="audience{{$index}}">
+              {{presentUser.firstname | capitalize }} {{presentUser.lastname | capitalize }}
+            </label>
+          </div>
+
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+
+  <div class="modal-footer" ng-show="showCheckinList">
+    <a ng-click="clearDataAudience()" 
+            class="modal-action modal-close waves-effect btn-flat"> 
+      Cancel
+    </a>
+    <button ng-show="showAgreeAudience"  ng-click="addAudience()" 
+            class="modal-action modal-close waves-effect btn-flat"> 
+      Agree
+    </button>
+  </div>
+
+  <div class="modal-footer" ng-hide="showCheckinList">
+    <a href="" class="modal-action modal-close waves-effect btn-flat"> 
+      Ok
+    </a>
+  </div>
+
+</div>
+</form>
+
+
+
+<!-- Modal Structure -->
+<form>
+<div id="modal2" class="modal modal-fixed-footer" 
+   style="border-radius:12px;max-width:330px;max-height:340px;">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools checkinUser" 
+         style="background-color:{{themeColor3}};height:80px">
+        <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
+        <h2>Invitees List</h2>
+        <span flex></span>
+        <nav class="search left left z-depth-0" 
+             style="height:20px;max-height:20px;margin-right:0px;width:170px;
+                    margin-top:-15px;background-color:{{themeColor3}}">
+          <div class="nav-wrapper">
+            
+              <div class="input-field">
+                <input type="search" ng-model="queryCheck" id="queryCheck" 
+                       placeholder="search invitee">
+                <label for="search">
+                  <i class="material-icons" style="font-size:24px;">search</i>
+                </label>
+                  <i class="material-icons" style="font-size:15px;" ng-click="queryCheck = ''">
+                    close
+                  </i>
+              </div>
+            
+          </div>
+        </nav>
+    </div>
+  </md-toolbar>
+
+  <div class="modal-content">
+
+    <div ng-hide="showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
+      <p class="center-align">All invitees have selected...</p>
+    </div>
+
+    <div ng-show="showCheckinList" style="margin-bottom:-12px">
+      
+        <div class="col s12" style="margin-bottom:9px"
+             ng-repeat="(key, absentUser) in usersShortRecord | filter:queryCheck" 
+             class="absentUser delayAnimate" 
+             id="{{absentUser.regUser}}">
+
+          <div class="col s5">
+            <input type="checkbox" class="filled-in"
+                   ng-change="syncAbsent(boolAbsent, absentUser)" 
+                   ng-model="boolAbsent" 
+                   ng-checked="isCheckedAbsent(absentUser.regUser)" 
+                   id="absent{{$index}}" />
+            <label for="absent{{$index}}">
+              {{absentUser.firstname | capitalize }} {{absentUser.lastname | capitalize }}
+            </label>
+          </div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-footer" ng-show="showCheckinList">
+    <a ng-click="clearDataAbsent()" 
+            class="modal-action modal-close waves-effect btn-flat"> 
+      Cancel
+    </a>
+    <button ng-show="showAgreeAbsent"  ng-click="addAbsent()" 
+            class="modal-action modal-close waves-effect btn-flat"> 
+      Agree
+    </button>
+  </div>
+
+  <div class="modal-footer" ng-hide="showCheckinList">
+    <a href="" class="modal-action modal-close waves-effect btn-flat"> 
+      Ok
+    </a>
+  </div>
+
+</div>
+</form>
+
+
+
+
+
+
 <!-----------------Directive ------------------------------------------------>
-
-
 
 <record-directive 
            data-record="dataRecord"
            theme-color="themeColor3"
            firebase-user="firebaseUser"
-           is-there-one-directive="isThereOneDirective">
+           is-there-one-directive="isThereOneDirective"
+           alarm-directive-color="alarmDirectiveColor"
+           alarm-directive-title="alarmDirectiveTitle">
 </record-directive>
 
-
+<!-----------------Directive ------------------------------------------------>
 
 
 

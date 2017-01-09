@@ -35,7 +35,7 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 			})
 			.when('/invitations/:userId', {
 				templateUrl: 'views/invitations.html',
-				controller: passDataController,
+				controller: passDataControllerInvitation,
 				resolve: {
 					meetingsList: function($firebaseArray, RefServices, $route) {
 
@@ -62,7 +62,14 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 			})
 			.when('/record/:uId/:mId', {
 				templateUrl: 'views/record.html',
-				controller: 'MeetingsController'
+				controller: passDataControllerRecord,
+				resolve: {
+					checkinsList: function($firebaseArray, RefServices, $route) {
+
+						return $firebaseArray(RefServices.refCheckin($route.current.params.uId, $route.current.params.mId)).$loaded();
+						
+					}
+				}
 			})
 			.otherwise({
 				redirectTo: '/login'
@@ -71,10 +78,14 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 	}]);
 
 
-	function passDataController(meetingsList, passDataService) {
+	function passDataControllerInvitation(meetingsList, passDataService) {
 		passDataService.addProduct(meetingsList); 
 	};  // pass sync data from resolve to passDataService for invitation controller
 
+
+	function passDataControllerRecord(checkinsList, passDataService) {
+		passDataService.addProduct(checkinsList); 
+	};
 	// function SyncAllData(syncAllList, passDataService) {
 	// 	passDataService.addProduct(syncAllList); 
 	// };  // pass sync data from resolve to passDataService for meetings controller

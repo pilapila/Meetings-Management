@@ -9,9 +9,9 @@ meetingsApp.controller('CheckinsController', function
   	$scope.whichmeeting = $routeParams.mId;
   	$scope.whichuser = $routeParams.uId;
     $scope.whichcolor = $routeParams.colorId;
-
+    
     switch($scope.whichcolor) {
-      case "707070": {
+      case "3f3f3f": {
             $scope.icon1 = true;
             $scope.icon2 = false;
             $scope.icon3 = false;
@@ -117,7 +117,7 @@ meetingsApp.controller('CheckinsController', function
               $scope.showCheckinList = true;
             }
              
-console.log($scope.usersShort);
+
           }.bind(this));
         }, 0);
       });  // Ref to all user and short them

@@ -33,6 +33,9 @@
             refSummery: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/summery')
             },
+            refGeneral: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/general')
+            },
             refAudience: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/meetings/' + key + '/audience')
             },
@@ -68,6 +71,9 @@
             },
             refDeleteInvitation: function(checkUser, key) {
                 return firebase.database().ref('users/' + checkUser + '/invitations/' + key)
+            },
+            refArchive: function(checkUser) {
+                return firebase.database().ref('users/' + checkUser + '/archives')
             }
 
         };

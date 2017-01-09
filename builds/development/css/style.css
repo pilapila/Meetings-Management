@@ -11,6 +11,11 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+code, kbd, pre, samp {
+    font-family: sans-serif !important;
+    font-size: 0.95em !important;
+}
+
 .picker__date-display {
     text-align: center;
     background-color: '{{themeColor}}' !important;

@@ -9,7 +9,7 @@ meetingsApp.controller('SuspentionController', function
     if(firebaseUser !== null){
 
     $scope.unpauseMeeting = function(event, meeting, color) {
-      console.log("Error");
+      
         var confirm = $mdDialog.confirm()
           .title('Are you sure you want to active ' +  meeting.name  + ' ?')
           .ok('Yes')

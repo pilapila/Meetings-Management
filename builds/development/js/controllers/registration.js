@@ -14,7 +14,7 @@ meetingsApp.controller('RegistrationController',
             alert(errorMessage);
             $scope.message = errorMessage;
           }
-          console.log(error);
+          
         }).then(function(user){
            $timeout(function () {
               $scope.currentPath = $location.path('/meetings');

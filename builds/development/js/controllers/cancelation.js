@@ -10,7 +10,7 @@ meetingsApp.controller('CancelationController', function
 
 
     $scope.deleteAllCancelations = function(cancelations) {
-      console.log(cancelations);
+      
         var confirm = $mdDialog.confirm()
             .title('Are you sure you want to delete all cancelations ?')
             .ok('Yes')
