@@ -653,7 +653,7 @@ meetingsApp.controller('MeetingsController', function
 				    '</md-toolbar>' +
 			        '<md-dialog-content>' +
 				     ' <div class="md-dialog-content">' +
-				     	'<div ng-show="ctrl.parent.dialog.firstnameCaller"><div class="cropInfo" style="margin-right:0px;margin-top:5px"><img src="images/personal_pics/{{ctrl.parent.dialog.imageCaller}}.jpg"></div>' +
+				     	'<div ng-show="ctrl.parent.dialog.firstnameCaller"><div class="cropInfo" style="margin-right:0px;margin-top:5px"><img src="images/personal_pics/{{ctrl.parent.dialog.imageCaller}}.jpg" style="border-radius:4px!important;border: 1px solid #fff;box-shadow: 0px 0px 5px #888888;"></div>' +
 				     	'<div style="margin-left:45px;margin-top:-40px"><br><b> Caller: </b> {{ ctrl.parent.dialog.firstnameCaller }} {{ ctrl.parent.dialog.lastnameCaller }} </div></div>' +
 				        '<p><i class="fa fa-users" aria-hidden="true"></i><b> Meeting Name: </b> {{ ctrl.parent.dialog.name }} </p>' +
 				        '<p style="font-size:0.9rem;color:#747474">{{ ctrl.parent.dialog.description }} </p>' +
