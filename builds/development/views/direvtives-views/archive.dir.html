@@ -1,5 +1,7 @@
 <div ng-controller="ArchiveController">
 <div ng-controller="MeetingsController">
+
+
 <div class="row" style="padding-top:10px">
   <div class="col s12">
     <span class="flow-text">
@@ -24,38 +26,10 @@
                     </div>
                 </nav>
 
-                <a href="#" data-activates="slide-out" class="button-collapse">
-                  <i class="material-icons" style="margin-top:3px">menu</i>
-                </a>
-
-                <ul class="left hide-on-med-and-down">
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a class="waves-effect waves-light" 
-                       ng-click="deleteAllCancelations(datameetings)">
-                      <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-                      &nbsp Delete All Cancelation
-                    </a>
-                  </li>
+                <ul class="left">
                   <li class="sidenav-li" style="margin-top:-3px">
                     <a ng-href="#/meetings" class="waves-effect waves-light">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                      &nbsp Back to Meetings
-                    </a>
-                  </li>
-                </ul>
-<!-- -------------------------------Phone view -------------------------------- -->
-                <ul id="slide-out" class="side-nav">
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a class="waves-effect waves-light" ng-click="activeAllMeetings()">
-                      <i class="fa fa-play-circle-o" aria-hidden="true"
-                      style="margin-top:7px;margin-right:5px;"></i>
-                      &nbsp Delete All Cancelation
-                    </a>
-                  </li>
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a ng-href="#/meetings" class="waves-effect waves-light">
-                      <i class="fa fa-chevron-left" aria-hidden="true"
-                      style="margin-top:7px;margin-right:5px;"></i>
                       &nbsp Back to Meetings
                     </a>
                   </li>
@@ -158,7 +132,7 @@
         </a>
 
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteRecord($event, record.$id)">
+           ng-click="deleteArchive($event, record.$id)">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
                style="color:#eaa8be;margin-top:-7px;"></i>

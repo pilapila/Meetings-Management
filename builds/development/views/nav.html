@@ -29,13 +29,6 @@
       </li>
 
       <li ng-show="currentUser">
-        <a ng-href="#/archives/{{currentUser.regUser}}" style="font-size:0.9rem">
-          <i class="fa fa-archive fa-lg fa-icon" aria-hidden="true" style="color:#0cd4c1"></i>
-           Archives
-        </a>
-      </li>
-
-      <li ng-show="currentUser">
         <a class="dropdown-button" href="" 
            data-activates="dropdown3" style="font-size:0.9rem">
           <i class="fa fa-user-times fa-lg fa-icon" aria-hidden="true" style="color:#ff024f"></i>
@@ -251,7 +244,17 @@
             {{ invitationNum }}
           </span>
         </a>
-      </li>
+    </li>
+
+    <li ng-show="currentUser && archiveShow">
+        <a ng-href="#/archives/{{currentUser.regUser}}" style="font-size:0.9rem">
+          <i class="material-icons left" style="margin-top:-6px">archive</i>
+          <span style="margin-left:-5px;margin-right:24px">Archives </span>
+          <span class="new badge" data-badge-caption="">
+            {{ archiveNum }}
+          </span>
+        </a>
+    </li>
 
 </ul>
 

@@ -54,6 +54,18 @@ meetingsApp.controller('MeetingsController', function
 		        	}
 	    	}); // ref to find number of invitations
 
+			$rootScope.archiveShow = false;
+			RefServices.refArchive(firebaseUser.uid)
+				.on('value', function (snap) {
+		        	if (snap.numChildren() > 0) {
+		        		$rootScope.archiveShow = true;
+		        		$rootScope.archiveNum = snap.numChildren();
+		        	} else if (snap.numChildren() == 0) {
+		        		$rootScope.archiveShow = false;
+		        		$rootScope.archiveNum = 0;
+		        	}
+	    	}); // ref to find number of invitations
+
 		$scope.$on('newSetAllCount', function(event, day){
 			$scope.setAllCount(day);
 	});
