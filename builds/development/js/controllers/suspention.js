@@ -117,9 +117,9 @@ meetingsApp.controller('SuspentionController', function
 
 
 
-    $scope.suspentionDialog = function(event, meeting, color) {
+    $scope.suspentionDialog = function(event, excuse, color) {
       
-              $scope.suspentionDialog = meeting;
+              $scope.excuseDialog = excuse;
               $mdDialog.show({
                 controller: function () { 
                   this.parent = $scope; 
@@ -137,7 +137,7 @@ meetingsApp.controller('SuspentionController', function
                   '</md-toolbar>' +
                     '<md-dialog-content>' +
                    ' <div class="md-dialog-content">' +
-                      '{{ctrl.parent.suspentionDialog.excuse}}' +
+                      '{{ctrl.parent.excuseDialog.excuse}}' +
                     '</div>' +
                   '</md-dialog-content>' +
                   '<md-dialog-actions layout="row">' +
@@ -149,11 +149,6 @@ meetingsApp.controller('SuspentionController', function
                 targetEvent: event,
                 clickOutsideToClose:true,
                 fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-              })
-              .then(function(answer) {
-               
-               }, function() {
-                
               });
     }; // suspentionDialog
 
