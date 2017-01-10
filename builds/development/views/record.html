@@ -59,44 +59,56 @@
 
 
 
-
 <table class="bordered card" style="margin-top:-12px">
   <thead>
-    <tr class="meeting-data-table meeting-table-title">
-      <th style="padding-left:17px">Meeting Name: &nbsp&nbsp&nbsp
-        <span style="color:#6a6a6a">{{meetingChecked.name}}</span>
-        <b class="right" style="color:#575757;margin-top:3px;padding-right:10px">
-          <div style="margin-top:0px;">
-          <i class="fa fa-check animated bounce delayAnimate" 
-             aria-hidden="true"></i>
-          </div>
-          <div style="margin-top:-14px;margin-left:12px">
-            &nbsp&nbsp {{ meetingChecked.dateMeeting | date }}
-          </div>
-        </b>
+    <tr class="meeting-data-table">
+      <th style="padding-left:17px">
+
+        <table style="margin-top:0px">
+          <tr class="meeting-data-table">
+            <td style="width:100px;vertical-align:top"><b>Meeting Name:</b></td>
+            <td style="vertical-align:top">
+              <span style="color:#6a6a6a;font-size:0.9rem;"> 
+                {{meetingChecked.name}}
+              </span>
+            </td>
+            <td style="width:130px;vertical-align:top">
+              <b class="right" style="color:#575757;padding-right:10px">
+                <i class="fa fa-check animated bounce delayAnimate" aria-hidden="true"></i>
+                <div style="margin-top:-14px;margin-left:12px">
+                    &nbsp {{ meetingChecked.dateMeeting | date }}
+                </div>
+              </b>
+            </td>
+          </tr>
+        </table>
+
       </th>
     </tr>
   </thead>
 
   <tbody>
 
-    <tr style="border-color:#e4e4e4;background-color:#ededed;">
-      <td style="border-bottom-left-radius:8px!important;border-bottom-right-radius:8px!important;">
-        <table style="margin-top:-12px;margin-left:-2px;margin-bottom:-12px">
-          <tr>
-            <td class="meeting-data-table" style="vertical-align:top">
-              <b>Description:</b>
+    <tr class="meeting-data-table" style="border-color:#e4e4e4;background-color:#ededed;">
+      <td style="border-bottom-left-radius:8px!important;border-bottom-right-radius:8px!important;padding-left:18px">
+
+        <table style="margin-top:0px">
+          <tr class="meeting-data-table">
+            <td style="width:100px;vertical-align:top"><b>Description:</b> </td>
+            <td style="vertical-align:top">
+              <span style="color:#6a6a6a;font-size:0.9rem"> 
+                {{meetingChecked.description}}
+              </span>
             </td>
-            <td class="meeting-data-table" style="vertical-align:top">
-              <span style="color:#7b7b7b">{{meetingChecked.description}}</span>
-            </td>
-          </tr> 
+          </tr>
         </table>
+              
       </td>
     </tr>
 
   </tbody>
 </table>
+
 
 
 

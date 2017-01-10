@@ -58,17 +58,27 @@
 <table class="bordered card" style="margin-top:-12px">
   <thead>
     <tr class="meeting-data-table">
-      <th style="padding-left:17px">Meeting Name: &nbsp&nbsp&nbsp
-        <span style="color:#6a6a6a;font-size:0.9rem">{{recordDetails[7].$value}}</span>
-        <b class="right" style="color:#575757;margin-top:3px;padding-right:10px">
-          <div style="margin-top:0px;">
-          <i class="fa fa-check animated bounce delayAnimate" 
-             aria-hidden="true"></i>
-          </div>
-          <div style="margin-top:-14px;margin-left:12px">
-            &nbsp&nbsp {{recordDetails[3].$value | date }}
-          </div>
-        </b>
+      <th style="padding-left:17px">
+
+        <table style="margin-top:0px">
+          <tr class="meeting-data-table">
+            <td style="width:100px;vertical-align:top"><b>Meeting Name: &nbsp&nbsp&nbsp</b></td>
+            <td style="vertical-align:top">
+              <span style="color:#6a6a6a;font-size:0.9rem;"> 
+                {{recordDetails[7].$value}} 
+              </span>
+            </td>
+            <td style="width:130px;vertical-align:top">
+              <b class="right" style="color:#575757;padding-right:10px">
+                <i class="fa fa-check animated bounce delayAnimate" aria-hidden="true"></i>
+                <div style="margin-top:-14px;margin-left:12px">
+                  &nbsp&nbsp {{recordDetails[3].$value | date }}
+                </div>
+              </b>
+            </td>
+          </tr>
+        </table>
+
       </th>
     </tr>
   </thead>
@@ -77,10 +87,19 @@
 
     <tr class="meeting-data-table" style="border-color:#e4e4e4;background-color:#ededed;">
       <td style="border-bottom-left-radius:8px!important;border-bottom-right-radius:8px!important;padding-left:18px">
-        <b>Description:</b> &nbsp&nbsp&nbsp 
-        <span style="color:#6a6a6a;font-size:0.9rem"> 
-        	{{recordDetails[4].$value}} 
-        </span>
+
+        <table style="margin-top:0px">
+          <tr class="meeting-data-table">
+            <td style="width:100px;vertical-align:top"><b>Description:</b> </td>
+            <td style="vertical-align:top">
+              <span style="color:#6a6a6a;font-size:0.9rem"> 
+                {{recordDetails[4].$value}} 
+              </span>
+            </td>
+          </tr>
+        </table>
+        
+       
       </td>
     </tr>
 
@@ -105,7 +124,7 @@
         <td class="meeting-data-table">
          <div class="row">
             <div class="row modal-form-record modal-background"
-              style="margin-left:-0.1rem!important;margin-right:-0.1rem!important;">
+              style="margin-left:-0.1rem!important;margin-right:-0.1rem!important;margin-top:-10px">
 
 
               <div class="input-field col s2 datepicker-style">
@@ -129,11 +148,15 @@
                   </span>
               </div>
 
-              <div class="input-field col s6">
-                <i class="material-icons prefix" style="margin-top:-10px">room</i>
-                  <span style="margin-left:35px;color:#979797">
+              <div class="input-field col s6" style="margin-top:-10px">
+                <div class="input-field col s1">
+                    <i class="material-icons prefix">room</i>
+                </div>
+                <div class="input-field col s11" style="margin-top:25px">
+                  <span style="color:#979797">
                     <b>{{recordDetails[6].places }}</b>
                   </span>
+                </div>
               </div>
 
             </div>
