@@ -29,6 +29,13 @@
       </li>
 
       <li ng-show="currentUser">
+        <a ng-href="#/archives/{{currentUser.regUser}}" style="font-size:0.9rem">
+          <i class="fa fa-archive fa-lg fa-icon" aria-hidden="true" style="color:#0cd4c1"></i>
+           Archives
+        </a>
+      </li>
+
+      <li ng-show="currentUser">
         <a class="dropdown-button" href="" 
            data-activates="dropdown3" style="font-size:0.9rem">
           <i class="fa fa-user-times fa-lg fa-icon" aria-hidden="true" style="color:#ff024f"></i>

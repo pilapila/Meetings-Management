@@ -1,0 +1,330 @@
+<br>
+<div ng-controller="MeetingsController">
+
+<div ng-hide="signedIn()" class="center">
+  <h3>Sorry</h3>
+  <p>Only registered users can create and manage meetings.</p>
+  <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
+</div>
+
+<div ng-show="signedIn()" ng-controller="ArchiveDetailsController">
+
+
+<div>
+
+
+<h5 style="margin-bottom:0px">Archive Details</h5>
+<span style="color:#646464;font-size:0.9rem">Meeting and record details</span>
+
+
+<div class="row" style="margin-top:10px">
+  <div class="col s12">
+    <span class="flow-text">
+      <nav class="sidenav-title1">
+        <div class="nav-wrapper">
+
+            <nav class="sidenav-title1" style="background-color:{{themeColor3}}">
+              <div class="nav-wrapper">
+
+                <ul class="left">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      &nbsp Back to Meetings
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/archives/{{firebaseUser}}" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      &nbsp Back to Archives 
+                    </a>
+                  </li>
+                </ul>
+
+              </div>
+            </nav>
+
+        </div>
+      </nav>
+    </span>
+  </div>
+</div>
+
+
+
+
+
+
+<table class="bordered card" style="margin-top:-12px">
+  <thead>
+    <tr class="meeting-data-table">
+      <th style="padding-left:17px">Meeting Name: &nbsp&nbsp&nbsp
+        <span style="color:#6a6a6a;font-size:0.9rem">{{recordDetails[7].$value}}</span>
+        <b class="right" style="color:#575757;margin-top:3px;padding-right:10px">
+          <div style="margin-top:0px;">
+          <i class="fa fa-check animated bounce delayAnimate" 
+             aria-hidden="true"></i>
+          </div>
+          <div style="margin-top:-14px;margin-left:12px">
+            &nbsp&nbsp {{recordDetails[3].$value | date }}
+          </div>
+        </b>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr class="meeting-data-table" style="border-color:#e4e4e4;background-color:#ededed;">
+      <td style="border-bottom-left-radius:8px!important;border-bottom-right-radius:8px!important;padding-left:18px">
+        <b>Description:</b> &nbsp&nbsp&nbsp 
+        <span style="color:#6a6a6a;font-size:0.9rem"> 
+        	{{recordDetails[4].$value}} 
+        </span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+<table class="bordered card">
+  <tbody>
+
+    <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+                 <b style="color:#505050;font-size:0.9rem;margin-right:10px">
+                    General Info
+                 </b>
+        </td>
+      </tr>
+
+    <tr style="border-color: #e4e4e4;" class="delayAnimate">
+        <td class="meeting-data-table">
+         <div class="row">
+            <div class="row modal-form-record modal-background"
+              style="margin-left:-0.1rem!important;margin-right:-0.1rem!important;">
+
+
+              <div class="input-field col s2 datepicker-style">
+                <i class="small material-icons prefix" style="margin-top:-10px">today</i>
+                <span style="margin-left:35px;color:#979797">
+                  <b>{{recordDetails[6].date | date }}</b>
+                </span>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix" style="margin-top:-10px">alarm_on</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{recordDetails[6].startTime | limitTo:5 }}</b>
+                  </span>
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix" style="margin-top:-10px">alarm_off</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{recordDetails[6].endTime | limitTo:5 }}</b>
+                  </span>
+              </div>
+
+              <div class="input-field col s6">
+                <i class="material-icons prefix" style="margin-top:-10px">room</i>
+                  <span style="margin-left:35px;color:#979797">
+                    <b>{{recordDetails[6].places }}</b>
+                  </span>
+              </div>
+
+            </div>
+          </div>
+        </td>   
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+<table class="bordered card" style="margin-top:-1px">
+  <tbody>     
+      <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+            <i class="material-icons prefix" 
+                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:#2ba030">
+                    thumb_up
+            </i>
+            <b style="color:#2ba030;font-size:0.9rem;margin-right:10px">Audience</b>
+        </td>
+      </tr>
+
+      <tr style="border-color: #e4e4e4" class="delayAnimate">
+        <td class="meeting-data-table">
+
+            <div style="color: #6d6d6d;margin-top:5px">
+
+            <ul class="userlist cf" style="margin-left:5px;">
+              <li ng-repeat="checkedAudience in recordDetails[1]" 
+                  class="delayAnimate" 
+                  style="">
+                <div class="checkin" 
+                     style="position:relative;z-index:100">
+
+                    <div class="col s12 m7">
+                      <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
+                        <div class="card-image">
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                           src="images/personal_pics/{{checkedAudience.image}}.jpg">
+                        </div>
+
+                        <div class="card-stacked">
+                          <div class="card-content">
+
+                            <b style="font-size:1em">
+                              {{ checkedAudience.firstname | capitalize }} 
+                              {{ checkedAudience.lastname | capitalize }}
+                            </b>
+                            <div class="date">
+                              {{ checkedAudience.dateEnter | date }}
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                          <div class="outer">
+                            <div class="inner-record" 
+                            style="background: #23ba0a;box-shadow: 0px 0px 30px 20px #23ba0a;">
+                             </div> 
+                          </div>
+
+                      </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </td>   
+      </tr>
+
+      <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+        <td class="meeting-data-link" style="max-height:10px;height:10px;">
+            <i class="material-icons prefix" 
+               style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:#b5192f">
+               thumb_down
+            </i>
+          	<b style="color:#b5192f;font-size:0.9rem;vertical-align:top;margin-right:10px">
+             	 Absences
+            </b>
+            
+        </td>
+      </tr>
+
+      <tr style="border-color: #e4e4e4" class="delayAnimate">
+        <td class="meeting-data-table">
+            <div style="color: #6d6d6d">
+
+            <ul class="userlist cf" style="margin-left:5px;">
+              <li ng-repeat="checkedAbsent in recordDetails[0]" 
+                  class="delayAnimate" 
+                  style="">
+                <div class="checkin" 
+                     style="position:relative;z-index:100">
+
+                    <div class="col s12 m7">
+                      <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
+                        <div class="card-image">
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                           src="images/personal_pics/{{checkedAbsent.image}}.jpg">
+                        </div>
+
+                        <div class="card-stacked">
+                          <div class="card-content">
+                            <b style="font-size:1em">
+                              {{ checkedAbsent.firstname | capitalize }} 
+                              {{ checkedAbsent.lastname | capitalize }}
+                            </b>
+                            <div class="date">
+                              {{ checkedAbsent.dateEnter | date }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="outer">
+                          <div class="inner-record" 
+                            style="background: #e762ad;box-shadow: 0px 0px 30px 20px #e762ad;">
+                          </div> 
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </td>   
+      </tr>
+  </tbody>
+
+</table>
+
+
+
+
+<table class="bordered card" style="margin-top:0px;">
+  <tbody>
+
+    <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
+      <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
+               <b style="color:#505050;font-size:0.9rem;margin-right:10px">
+                  Meeting Summary
+               </b>
+      </td>
+    </tr>
+
+    <tr style="border-color: #e4e4e4" class="delayAnimate">
+      <td class="meeting-data-table">
+          <div class="row">
+            <div class="col s12 m12" style="margin-bottom:15px">
+              <div class="row modal-form-record modal-background">
+                <div class="input-field col s12 datepicker-style" 
+                     style="margin-top:-10px;color:#858585;font-family:arial">
+                  <pre>{{ recordDetails[8].$value }}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+      </td>   
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-----------------Directive ------------------------------------------------>
+
+<record-details-directive 
+           directive-list-record="directiveList"
+           theme-color="themeColor3"
+           firebase-user="firebaseUser">
+</record-details-directive>
+
+<!-----------------Directive ------------------------------------------------>
+
+
+
+</div>
+</div>
+</div> <!-- ng-show="signIn()" -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+</script>
+

@@ -71,6 +71,28 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 					}
 				}
 			})
+			.when('/archives/:uId', {
+				templateUrl: 'views/archive.html',
+				controller: passDataControllerArchive,
+				resolve: {
+					archiveList: function($firebaseArray, RefServices, $route) {
+
+						return $firebaseArray(RefServices.refArchive($route.current.params.uId)).$loaded();
+						
+					}
+				}
+			})
+			.when('/recordDetails/:uId/:recordId', {
+				templateUrl: 'views/recordDetails.html',
+				controller: passDataControllerArchiveDetails,
+				resolve: {
+					archiveDetails: function($firebaseArray, RefServices, $route) {
+
+						return $firebaseArray(RefServices.refArchiveKey($route.current.params.uId, $route.current.params.recordId)).$loaded();
+						
+					}
+				}
+			})
 			.otherwise({
 				redirectTo: '/login'
 			});
@@ -85,6 +107,14 @@ var meetingsApp = angular.module("meetingsApp", ["ngMaterial", "ngRoute", "fireb
 
 	function passDataControllerRecord(checkinsList, passDataService) {
 		passDataService.addProduct(checkinsList); 
+	};
+
+	function passDataControllerArchive(archiveList, passDataService) {
+		passDataService.addProduct(archiveList); 
+	};
+
+	function passDataControllerArchiveDetails(archiveDetails, passDataService) {
+		passDataService.addProduct(archiveDetails); 
 	};
 	// function SyncAllData(syncAllList, passDataService) {
 	// 	passDataService.addProduct(syncAllList); 

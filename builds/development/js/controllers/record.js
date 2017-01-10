@@ -342,21 +342,17 @@ meetingsApp.controller('RecordController', function
       $scope.dialog = record;
         $mdDialog.show({
           controller: function () { 
-            this.parent = $scope; 
-            $scope.cancel = function() {
-              $mdDialog.cancel();
-        }; // cancel
-        $scope.reject = function() {
-          $mdDialog.cancel();
-          $scope.rejectMeeting(event, record, $rootScope.themeColor3);
-        }; // reject
+              this.parent = $scope; 
+              $scope.cancel = function() {
+                $mdDialog.cancel();
+              }; // cancel
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
           template: '<md-dialog aria-label="Directive details" style="border-radius: 12px;min-width:450px;max-width:500px;max-height:350px;">' +
                 '<md-toolbar>' +
               '<div class="md-toolbar-tools left left" style="background-color:'+ $rootScope.themeColor3 +'">' +
-                '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Meeting details</h6></span>' +
+                '<span flex><h6><img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px"> Directive details</h6></span>' +
               '</div>' +
             '</md-toolbar>' +
               '<md-dialog-content>' +
@@ -368,9 +364,6 @@ meetingsApp.controller('RecordController', function
               '</div>' +
             '</md-dialog-content>' +
             '<md-dialog-actions layout="row">' +
-              '<md-button ng-click="ctrl.parent.reject()" ng-show="ctrl.parent.dialog.change">' +
-                 'Reject' +
-              '</md-button>' +
               '<md-button ng-click="ctrl.parent.cancel()">' +
                  'Ok' +
               '</md-button>' +
@@ -584,6 +577,7 @@ meetingsApp.controller('RecordController', function
                    'general':           $scope.generalInfo,
                    'summery':           $scope.summery,
                    'dateMeeting':       $scope.meetingChecked.dateMeeting,
+                   'name':              $scope.meetingChecked.name,
                    'description':       $scope.meetingChecked.description,
                    'time':              $scope.meetingChecked.time,
                    'dateEnter':         firebase.database.ServerValue.TIMESTAMP,

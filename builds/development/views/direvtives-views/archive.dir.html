@@ -1,0 +1,237 @@
+<div ng-controller="ArchiveController">
+<div ng-controller="MeetingsController">
+<div class="row" style="padding-top:10px">
+  <div class="col s12">
+    <span class="flow-text">
+      <nav class="sidenav-title1" style="background-color:{{themeColor}}">
+        <div class="nav-wrapper">
+
+            <nav class="sidenav-title1" style="background-color:{{themeColor}}">
+              <div class="nav-wrapper">
+
+                <nav class="search right right z-depth-0" 
+                  style="height:35px;background-color:{{themeColor}};margin-top:3px;margin-right:3px;width:200px;">
+                    <div class="nav-wrapper">
+                      
+                        <div class="input-field">
+                          <input type="search" ng-model="query" placeholder="search your term">
+                          <label for="search">
+                            <i class="material-icons" style="font-size:24px;">search</i>
+                          </label>
+                            <i class="material-icons" style="font-size:15px;" ng-click="query = ''">close</i>
+                        </div>
+                      
+                    </div>
+                </nav>
+
+                <a href="#" data-activates="slide-out" class="button-collapse">
+                  <i class="material-icons" style="margin-top:3px">menu</i>
+                </a>
+
+                <ul class="left hide-on-med-and-down">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a class="waves-effect waves-light" 
+                       ng-click="deleteAllCancelations(datameetings)">
+                      <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                      &nbsp Delete All Cancelation
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      &nbsp Back to Meetings
+                    </a>
+                  </li>
+                </ul>
+<!-- -------------------------------Phone view -------------------------------- -->
+                <ul id="slide-out" class="side-nav">
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a class="waves-effect waves-light" ng-click="activeAllMeetings()">
+                      <i class="fa fa-play-circle-o" aria-hidden="true"
+                      style="margin-top:7px;margin-right:5px;"></i>
+                      &nbsp Delete All Cancelation
+                    </a>
+                  </li>
+                  <li class="sidenav-li" style="margin-top:-3px">
+                    <a ng-href="#/meetings" class="waves-effect waves-light">
+                      <i class="fa fa-chevron-left" aria-hidden="true"
+                      style="margin-top:7px;margin-right:5px;"></i>
+                      &nbsp Back to Meetings
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+
+        </div>
+      </nav>
+    </span>
+  </div>
+</div>
+
+<div>
+<table class="bordered highlight card" style="margin-top:-13px">
+  <thead>
+    <tr class="meeting-data-table meeting-table-title">
+      <th class="meeting-data-table">#</th>
+      <th>
+        <a href="" ng-click="sort('name')">Meeting 
+        <i ng-show="sort.field !== 'name'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'name' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'name' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
+      </th>
+      
+      <th>
+        <a href="" ng-click="sort('description')">Description 
+        <i ng-show="sort.field !== 'description'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'description' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'description' && sort.order" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a> 
+      </th>
+      <th>
+        <a href="" ng-click="sort('date')">Date
+        <i ng-show="sort.field !== 'date'" 
+           class="fa fa-chevron-down" 
+           aria-hidden="true" style="color:#999"></i> 
+        <i ng-show="sort.field === 'date' && !sort.order" 
+           class="fa fa-chevron-down animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field === 'date' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           aria-hidden="true" style="color:#d81b60"></i> </a>
+      </th>
+      <th>
+        Time 
+      </th>
+      <th>
+        
+      </th>
+      <th class="right-align" style="padding-right:40px">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="(key, record) in dataArchive | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+        style="border-color: #e4e4e4" class="delayAnimate">
+      <td class="meeting-data-table">
+        <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ record.name | ShortName:15 }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ record.description | ShortName:15 }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ record.dateMeeting | date }}
+      </td>
+      <td style="color: {{meeting.textColor}};" class="meeting-data-table">
+        {{ record.time | limitTo:5 }}
+      </td>
+      <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
+        
+      </td>
+      <td class="right meeting-data-table" style="margin-top:-3px">
+
+        <a id="editLink" ng-href="#/recordDetails/{{firebaseUser}}/{{record.$id}}"
+           class="md-primary md-raised">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#ffe5a0;margin-top:-7px;"></i>
+            <i class="fa fa-bars fa-stack-1x" 
+               style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              VIEW DETAILS
+            </md-tooltip>
+          </span>
+        </a>
+
+        <a class="fontawesome-color" href="" style="margin-left:-3px"
+           ng-click="deleteRecord($event, record.$id)">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle-thin fa-stack-2x" 
+               style="color:#eaa8be;margin-top:-7px;"></i>
+            <i class="fa fa-trash-o fa-stack-1x" 
+               style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
+            <md-tooltip md-direction="top">
+              DELETE
+            </md-tooltip>
+          </span>
+        </a>
+
+
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="row"> 
+    <div class="col s7">
+          <ul class="pagination right">
+            <li class="{{activationPre}}" ng-click="selectPrePage()">
+              <a href="">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
+            <li ng-repeat="page in dataArchive | filter:query | pageCount:pageSize"
+                ng-click="selectPage($index + 1)" class="waves-effect"
+                ng-class="getPageClass($index + 1)" style="font-size:12px;">
+                <a href="">{{$index+1}}</a>
+            </li>
+            <li class="{{activationNext}}" ng-click="selectNextPage()">
+              <a href="">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul> 
+    </div>
+    <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
+        <a class='dropdown-button-directive' href='javascript:void(0);' 
+           data-activates='dropdownDirective' dropdown 
+           style="color:#5a5a5a">
+              rows:  
+              &nbsp&nbsp&nbsp  {{pageSize}}
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              style="margin-left:-10px;"></i>
+        </a>
+    </div>
+</div>
+
+<ul id='dropdownDirective' class='dropdown-content'>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
+      style="font-size:0.85rem!important;">5</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
+      style="font-size:0.85rem!important;">10</a></li>
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)" 
+      style="font-size:0.85rem!important;">15</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+  (function($) {
+        $('.dropdown-button-directive').dropdown({
+              inDuration: 300,
+              outDuration: 300,
+              hover: false, // Activate on hover
+              belowOrigin: false, // Displays dropdown below the button
+              alignment: 'left', // Displays dropdown with edge aligned to the left of button
+              gutter: 0,
+            });
+      
+  })(jQuery); // End of jQuery name space
+</script>

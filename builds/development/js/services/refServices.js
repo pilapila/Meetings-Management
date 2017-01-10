@@ -74,6 +74,9 @@
             },
             refArchive: function(checkUser) {
                 return firebase.database().ref('users/' + checkUser + '/archives')
+            },
+            refArchiveKey: function(checkUser, key) {
+                return firebase.database().ref('users/' + checkUser + '/archives/' + key)
             }
 
         };

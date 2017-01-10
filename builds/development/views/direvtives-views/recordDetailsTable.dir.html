@@ -1,81 +1,5 @@
-<div ng-controller="MeetingsController">
-<div ng-controller="RecordController">
-
-
-<table class="bordered card" style="margin-top:0px">
-
-  <tbody>
-
-    <tr style="background-color:{{alarmDirectiveColor}};max-height:10px;height:10px;">
-      <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
-               <b style="color:{{alarmDirectiveTitle}};font-size:0.9rem;margin-right:10px">
-                  Add Directives
-               </b>
-      </td>
-    </tr>
-
-    <tr style="border-color: #e4e4e4" class="delayAnimate">
-      <td class="meeting-data-table">
-        <form ng-submit="addDirective(recordTable)">
-          <div class="row">
-            <div class="col s12" style="margin-bottom:15px">
-              <div class="row modal-form-record modal-background">
-                <div class="input-field col s3 datepicker-style">
-                  <i class="small material-icons prefix">subject</i>
-                      <input name="recordDescription" id="recordDescription" type="text" 
-                             class="validate" required="" aria-required="true" 
-                             ng-model="recordTable.recordDescription">
-                  <label for="recordDescription">Description Act</label>
-                </div>
-                <div class="input-field col s3">
-                  <i class="material-icons prefix">view_carousel</i>
-                  <input name="responsible" id="responsible" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="recordTable.responsible">
-                  <label for="responsible"> Responsible </label>
-                </div>
-                <div class="input-field col s3">
-                  <i class="material-icons prefix">perm_identity</i>
-                  <input name="follow" id="follow" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="recordTable.follow">
-                  <label for="follow">  Follow </label>
-                </div>
-                <div class="input-field col s3 datepicker-style">
-                  <i class="material-icons prefix">restore</i>
-                  <input type="date" id="api_picker_clear" class="datepicker"
-                         name="api_picker_clear"
-                         ng-model="recordTable.respite">
-                  <label ng-if="dateError" for="api_picker_clear" style="color:#d20036">
-                     Date is required 
-                  </label>
-                  <label ng-if="!dateError" for="api_picker_clear" style="color:#adadad">
-                     Date
-                  </label>
-                </div>
-                
-              </div>
-            
-            </div>
-            <div class="right-align" style="padding-right:15px">
-              <button id="api_button_clear" class="waves-effect btn-flat" 
-                      type="submit" style="color:#0889af">
-                  Add directive
-              </button>
-              <a id="api_button_clear" ng-click="cancelDirective()" 
-                      class="waves-effect btn-flat" 
-                      style="color:#0889af">
-                  Cancel
-              </a>
-            </div>
-          </div>
-        </form>
-      </td>   
-    </tr>
-  </tbody>
-</table>
-
-
-
-<table class="bordered highlight card" ng-show="isThereOneDirective" style="margin-top:-8px">
+<div ng-controller="ArchiveDetailsController">
+<table class="bordered highlight card" style="margin-top:-8px">
   <thead style="line-height: 10px">
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
@@ -120,14 +44,15 @@
         Respite 
       </th>
       <th class="right-align" style="padding-right:50px">
-      	Actions
+      	
       </th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, record) in dataRecord | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+    <tr ng-repeat="(key, record) in directiveListRecord | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
         style="border-color: #e4e4e4" class="delayAnimate">
+
       <td class="meeting-data-table">
         <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
       </td>
@@ -146,7 +71,7 @@
 
       <td class="right meeting-data-table" style="margin-top:-3px">
 
-        <a href="" id="editLink" ng-click="showDetails($event, record)"
+        <a href="" id="editLink" ng-click="showDirectiveDetails($event, record)"
            class="md-primary md-raised">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x" 
@@ -159,27 +84,12 @@
           </span>
         </a>
 
-        <span>
-        <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteDirective($event, record)">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
-               style="color:#eaa8be;margin-top:-7px;"></i>
-            <i class="fa fa-trash-o fa-stack-1x" 
-               style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
-            <md-tooltip md-direction="top">
-              DELETE
-            </md-tooltip>
-          </span>
-        </a>
-        </span>
-
-        </td>
+      </td>
     </tr>
   </tbody>
 </table>
 
-<div class="row" ng-show="isThereOneDirective" style="margin-top:-20px;"> 
+<div class="row" style="margin-top:-20px;"> 
     <div class="col s6">
           <ul class="pagination right">
             <li class="{{activationPre}}" ng-click="selectPrePage()">
@@ -187,7 +97,7 @@
                 <i class="material-icons">chevron_left</i>
               </a>
             </li>
-            <li ng-repeat="page in dataRecord | filter:query | pageCount:pageSize"
+            <li ng-repeat="page in directiveListRecord | filter:query | pageCount:pageSize"
                 ng-click="selectPage($index + 1)" class="waves-effect"
                 ng-class="getPageClass($index + 1)" style="font-size:12px;">
                 <a href="">{{$index+1}}</a>
@@ -211,7 +121,7 @@
     </div>
 </div>
 
-<ul ng-show="isThereOneDirective" id='dropdownDirective' class='dropdown-content'
+<ul id='dropdownDirective' class='dropdown-content'
     style="margin-bottom:-15px">
     <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
       style="font-size:0.85rem!important;">5</a></li>
@@ -222,9 +132,6 @@
 </ul>
 
 
-
-
-</div>
 </div>
 
 
