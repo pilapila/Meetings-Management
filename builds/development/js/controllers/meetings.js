@@ -3,14 +3,29 @@
 
 meetingsApp.controller('MeetingsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
-   $mdMedia, $filter, RefServices, productListPageCount) {
+   $mdMedia, $filter, $interval, RefServices, productListPageCount) {
 
 	
-   	$scope.meetingAction = "add";
+	$scope.meetingAction = "add";
    	$scope.nameAction = "Add New Meeting";
+   	
+   	$rootScope.loadingBar = true;
+   	$rootScope.determinateValue = 0;
+
+    var	stop = $interval(function() {
+      $rootScope.determinateValue += 1;
+
+      if ($rootScope.determinateValue > 100) {
+      	$rootScope.loadingBar = false;
+      	$interval.cancel(stop);
+      }
+
+    }, 40, 0, true);
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
+
+
 
 		   	const refAllCancelations = RefServices.refCancellations(firebaseUser.uid);
 		   	refAllCancelations.on('value', function (snap) {
@@ -205,6 +220,8 @@ meetingsApp.controller('MeetingsController', function
 
 	           		}.bind(this)); // asynchronous data in a wrong way actially!
 				}, 100); // it is 100 because this part depends on setting ref
+
+
        		});  //ref to database
 	};
 

@@ -5,6 +5,7 @@
   <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
 </div>
 
+<div ng-hide="loadingBar">
 <div ng-show="signedIn()" ng-controller="MeetingsController">
 
 <div class="center" ng-hide="invitationShow">
@@ -117,5 +118,5 @@
 </div>
 </div> <!-- ng-show="signIn()" -->
 
-
+</div>
 

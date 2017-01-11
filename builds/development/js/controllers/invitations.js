@@ -8,6 +8,9 @@ meetingsApp.controller('InvitationsController', function
     $scope.meetingListBase = passDataService.getProducts(); // get sync data from meetingsController
     $scope.meetingList = $scope.meetingListBase[0];
 
+
+
+
   	const userRef = RefServices.refData(firebaseUser);
 	  userRef.on('value', function (snap) {
         $timeout(function () {

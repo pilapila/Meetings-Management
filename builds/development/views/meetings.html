@@ -1,3 +1,4 @@
+
 <br>
 <div ng-hide="signedIn()" class="center">
   <h3>Sorry</h3>
@@ -5,8 +6,8 @@
   <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
 </div>
 
+<div ng-hide="loadingBar">
 <div ng-show="signedIn()">
-
 <h5 style="margin-bottom:0px">Meeting System</h5>
 <span style="color:#646464;font-size:0.9rem">Add and manage your meetings</span>
 
@@ -38,3 +39,4 @@ style="height:35px;background-color:{{themeColor3}};margin-top:36px;margin-right
 
 </div> <!-- End Page --> 
 
+</div>

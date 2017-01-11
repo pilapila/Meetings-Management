@@ -11,6 +11,18 @@ body {
     font-family: 'Titillium Web', sans-serif !important;
 }
 
+md-progress-linear .md-container {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 3px !important;
+}
+
+md-progress-linear.md-default-theme .md-bar, md-progress-linear .md-bar {
+    background-color: #009d9f !important;
+}
+
 code, kbd, pre, samp {
     font-family: sans-serif !important;
     font-size: 0.95em !important;
@@ -567,9 +579,10 @@ md-toolbar {
 md-dialog .md-dialog-content {
     padding: 10px !important;
     font-size: 14px !important;
-    min-width: 300px !important;
+    min-width: 200px !important;
     max-width: 500px !important;
     max-height: 300px !important;
+    min-height: 20px !important;
 }
 
 .md-title {

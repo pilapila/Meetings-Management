@@ -1,6 +1,6 @@
 meetingsApp.controller('RegistrationController',
-  function($scope, $rootScope, $firebaseAuth, $location, $timeout, Authentication) {
-  
+  function($scope, $rootScope, $firebaseAuth, $location, $timeout, $interval, Authentication) {
+
     $scope.login = function() {
       Authentication.login($scope.user)
         .catch(function(error) {

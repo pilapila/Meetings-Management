@@ -9,6 +9,9 @@ meetingsApp.controller('ProfileController', function
 firebase.auth().onAuthStateChanged(firebaseUser =>{
   	if(firebaseUser !== null){
 
+ 
+
+
   		$("#firstname").next().addClass("active");
 		$("#lastname").next().addClass("active");
 		$("#age_input2").next().addClass("active");
