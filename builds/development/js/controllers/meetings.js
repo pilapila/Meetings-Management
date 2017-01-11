@@ -15,12 +15,12 @@ meetingsApp.controller('MeetingsController', function
     var	stop = $interval(function() {
       $rootScope.determinateValue += 1;
 
-      if ($rootScope.determinateValue > 100) {
+      if ($rootScope.determinateValue > 120) {
       	$rootScope.loadingBar = false;
       	$interval.cancel(stop);
       }
 
-    }, 40, 0, true);
+    }, 30, 0, true);
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
