@@ -1,4 +1,7 @@
-meetingsApp.controller("dataDirController", function ($scope, $rootScope, $filter) {
+(function(){
+ 'use strict';
+
+	meetingsApp.controller("dataDirController", function ($scope, $rootScope, $timeout, $filter, $interval) {
 
 			$scope.activationNext = "active waves-effect grey lighten-2";
 			$scope.activationPre = "disabled";
@@ -66,9 +69,12 @@ meetingsApp.controller("dataDirController", function ($scope, $rootScope, $filte
         		$scope.sort.order = !$scope.sort.order;
         	};
 
+
         	$scope.sort.field = 'name';
         	$scope.sort.order = false;  // ordering for meetings
 
         	
         	
   }); //dataTableController
+
+}());

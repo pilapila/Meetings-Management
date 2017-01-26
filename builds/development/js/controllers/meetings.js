@@ -9,18 +9,6 @@ meetingsApp.controller('MeetingsController', function
 	$scope.meetingAction = "add";
    	$scope.nameAction = "Add New Meeting";
    	
-   	$rootScope.loadingBar = true;
-   	$rootScope.determinateValue = 0;
-
-    var	stop = $interval(function() {
-      $rootScope.determinateValue += 1;
-
-      if ($rootScope.determinateValue > 120) {
-      	$rootScope.loadingBar = false;
-      	$interval.cancel(stop);
-      }
-
-    }, 30, 0, true);
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){

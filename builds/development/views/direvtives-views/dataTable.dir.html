@@ -1,5 +1,5 @@
 <div ng-controller="MeetingsController">
-  
+
 <div>
 <ul class="collapsible" data-collapsible="accordion" 
 style="border-radius: 12px !important;">
@@ -116,8 +116,11 @@ style="border-radius: 12px !important;">
       <th style="padding-left:50px">Actions</th>
     </tr>
   </thead>
+  
+
 
   <tbody>
+
     <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
         style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
