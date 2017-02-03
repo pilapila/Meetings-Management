@@ -5,59 +5,82 @@
   ( $scope, $rootScope, $firebase, $timeout, $firebaseArray,
   	$mdToast, $mdDialog, $routeParams, $mdMedia, RefServices) {
 
-    $scope.checkinNameAction = "Add New Checkin";
-    $scope.checkinAction = "add";
-    $scope.isThereOne = false;
+    var vm = this;
+    vm.addCheckin = addCheckin;
+    vm.deleteAllCheckinsExplainAction = deleteAllCheckinsExplainAction;
+    vm.deleteAllCheckinsExplainDialog = deleteAllCheckinsExplainDialog;
+    vm.deleteAllCheckins = deleteAllCheckins;
+    vm.showDescription = showDescription;
+    vm.addDescription = addDescription;
+    vm.deleteCheckin = deleteCheckin;
+    vm.deleteInvitationAction = deleteInvitationAction;
+    vm.deleteInvitationDialog = deleteInvitationDialog;
+    vm.rejectFromCallerAction = rejectFromCallerAction;
+    vm.rejectFromCallerDialog = rejectFromCallerDialog;
+    vm.deleteCheckinDescription = deleteCheckinDescription;
+    vm.sendOneInvitationAction = sendOneInvitationAction;
+    vm.sendOneInvitationDialog = sendOneInvitationDialog;
+    vm.getInviteeId = getInviteeId;
+    vm.sendAllInvitations = sendAllInvitations;
+    vm.responceMessage = responceMessage;
+    vm.showToast = showToast;
+    vm.clearData = clearData;
+    vm.isChecked = isChecked;
+    vm.sync = sync;
 
-  	$scope.whichmeeting = $routeParams.mId;
-  	$scope.whichuser = $routeParams.uId;
-    $scope.whichcolor = $routeParams.colorId;
+    vm.checkinNameAction = "Add New Checkin";
+    vm.checkinAction = "add";
+    vm.isThereOne = false;
 
-    switch($scope.whichcolor) {
+  	vm.whichmeeting = $routeParams.mId;
+  	vm.whichuser = $routeParams.uId;
+    vm.whichcolor = $routeParams.colorId;
+
+    switch(vm.whichcolor) {
       case "3f3f3f": {
-            $scope.icon1 = true;
-            $scope.icon2 = false;
-            $scope.icon3 = false;
+            vm.icon1 = true;
+            vm.icon2 = false;
+            vm.icon3 = false;
           }
           break;
       case "419215": {
-            $scope.icon1 = false;
-            $scope.icon2 = true;
-            $scope.icon3 = false;
+            vm.icon1 = false;
+            vm.icon2 = true;
+            vm.icon3 = false;
           }
           break;
       case "cc2864": {
-            $scope.icon1 = false;
-            $scope.icon2 = false;
-            $scope.icon3 = true;
+            vm.icon1 = false;
+            vm.icon2 = false;
+            vm.icon3 = true;
           }
           break;
     }
 
-    RefServices.refMeetChecked($scope.whichuser, $scope.whichmeeting)
+    RefServices.refMeetChecked(vm.whichuser, vm.whichmeeting)
       .on('value', function (snap) {
         $timeout(function () {
-          $scope.meetingChecked = snap.val();
+          vm.meetingChecked = snap.val();
         }, 0);
       }); // Ref to ckeckin click to show meeting's information
 
-    RefServices.refCaller($scope.whichuser)
+    RefServices.refCaller(vm.whichuser)
       .on('value', function (snap) {
         $timeout(function () {
-          $scope.callerInfo = snap.val();
+          vm.callerInfo = snap.val();
         }, 0);
       }); // Ref to users to find picture of caller
 
-    const checkInvitationRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+    const checkInvitationRef = RefServices.refCheckin(vm.whichuser, vm.whichmeeting);
     checkInvitationRef.on('value', function (snap) {
         $timeout(function () {
-          $scope.checkinSendPosition = $firebaseArray(checkInvitationRef);
-          $scope.checkinSendPosition.$loaded().then(function (list) {
+          vm.checkinSendPosition = $firebaseArray(checkInvitationRef);
+          vm.checkinSendPosition.$loaded().then(function (list) {
 
-          $scope.sendAllInvitationsButton = false;
+          vm.sendAllInvitationsButton = false;
           for (var i = 0; i < snap.numChildren(); i++) {
-              if ($scope.checkinSendPosition[i].send !== true) {
-                $scope.sendAllInvitationsButton = true;
+              if (vm.checkinSendPosition[i].send !== true) {
+                vm.sendAllInvitationsButton = true;
               }
           }
 
@@ -65,24 +88,24 @@
         }, 0);
       }); // Ref to ckeckin to find any waiting invitation
 
-    const checkedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+    const checkedListRef = RefServices.refCheckin(vm.whichuser, vm.whichmeeting);
     checkedListRef.on('value', function (snap) {
           $timeout(function () {
 
-            $scope.checkedList = $firebaseArray(checkedListRef);
-            $scope.checkedList.$loaded().then(function (list) {
-              $scope.deleteAllModel = false;
+            vm.checkedList = $firebaseArray(checkedListRef);
+            vm.checkedList.$loaded().then(function (list) {
+              vm.deleteAllModel = false;
 
-              for (var i = 0; i < $scope.checkedList.length; i++) {
-                 if ($scope.checkedList[i].accept) {
-                    $scope.deleteAllModel = true;
+              for (var i = 0; i < vm.checkedList.length; i++) {
+                 if (vm.checkedList[i].accept) {
+                    vm.deleteAllModel = true;
                  }
               };
 
-              if ($scope.checkedList.length == 0) {
-                $scope.isThereOne = false;
+              if (vm.checkedList.length == 0) {
+                vm.isThereOne = false;
               } else {
-                $scope.isThereOne = true;
+                vm.isThereOne = true;
               }
 
             }.bind(this));
@@ -92,32 +115,32 @@
     const checkinUserRef = RefServices.refUser();
     checkinUserRef.on('value', function (snap) {
         $timeout(function () {
-          $scope.users = $firebaseArray(checkinUserRef);
-          $scope.users.$loaded().then(function (list) {
-            $scope.usersShort = [];
-            for (var i = 0; i < $scope.users.length; i++) {
-              if($scope.users[i].regUser !== $scope.whichuser) {
-                $scope.usersShort.push({
-                  "regUser":   $scope.users[i].regUser,
-                  "firstname": $scope.users[i].firstname,
-                  "lastname":  $scope.users[i].lastname,
-                  "image":     $scope.users[i].image,
+          vm.users = $firebaseArray(checkinUserRef);
+          vm.users.$loaded().then(function (list) {
+            vm.usersShort = [];
+            for (var i = 0; i < vm.users.length; i++) {
+              if(vm.users[i].regUser !== vm.whichuser) {
+                vm.usersShort.push({
+                  "regUser":   vm.users[i].regUser,
+                  "firstname": vm.users[i].firstname,
+                  "lastname":  vm.users[i].lastname,
+                  "image":     vm.users[i].image,
                 });
               }
             };
 
-            for (var j = 0; j < $scope.checkedList.length; j++) {
-              for (var i = 0; i < $scope.usersShort.length; i++) {
-                if ($scope.usersShort[i].regUser === $scope.checkedList[j].regUser) {
-                  $scope.usersShort.splice(i,1);
+            for (var j = 0; j < vm.checkedList.length; j++) {
+              for (var i = 0; i < vm.usersShort.length; i++) {
+                if (vm.usersShort[i].regUser === vm.checkedList[j].regUser) {
+                  vm.usersShort.splice(i,1);
                 }
               }
             }
 
-            if ($scope.usersShort.length == 0) {
-              $scope.showCheckinList = false;
+            if (vm.usersShort.length == 0) {
+              vm.showCheckinList = false;
             } else {
-              $scope.showCheckinList = true;
+              vm.showCheckinList = true;
             }
 
 
@@ -126,26 +149,26 @@
       });  // Ref to all user and short them
 
 
-  $scope.addCheckin = function() {
-    var dataList = $scope.data;
-    var allList = $scope.checkedList.length + $scope.data.length;
+  function addCheckin() {
+    var dataList = vm.data;
+    var allList = vm.checkedList.length + vm.data.length;
     var keys = {};
     $timeout(function () {
 
         for (var i = 0; i < dataList.length; i++) {
 
           if (dataList[i].value) {
-            const checkedUpdatedListRef = RefServices.refCheckin($scope.whichuser, $scope.whichmeeting);
+            const checkedUpdatedListRef = RefServices.refCheckin(vm.whichuser, vm.whichmeeting);
             checkedUpdatedListRef.on('value', function (snap) {
-                $scope.checkedListSync = $firebaseArray(checkedUpdatedListRef);
+                vm.checkedListSync = $firebaseArray(checkedUpdatedListRef);
                 var dataListSync = dataList[i];
-                $scope.checkedListSync.$loaded().then(function (list) {
+                vm.checkedListSync.$loaded().then(function (list) {
 
                   if (dataListSync && angular.isUndefined(keys[dataListSync.regUser])) {
                     keys[dataListSync.regUser] = true; // check to send message just one time
                     for (var j = 0; j < allList; j++) {
-                      if ($scope.checkedListSync[j].regUser == dataListSync.regUser) { // check if dataCheckbox's regUser is equal to all checkedList
-                        $scope.addDescription($scope.checkedList[j], dataListSync.value);
+                      if (vm.checkedListSync[j].regUser == dataListSync.regUser) { // check if dataCheckbox's regUser is equal to all checkedList
+                        addDescription(vm.checkedList[j], dataListSync.value);
                       } //end if
                     }; // end for
                   }
@@ -153,12 +176,12 @@
             });
           }; // end for
 
-          RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).push().set({
-            'firstname':         $scope.data[i].firstname,
-            'lastname':          $scope.data[i].lastname,
+          RefServices.refCheckin(vm.whichuser, vm.whichmeeting).push().set({
+            'firstname':         vm.data[i].firstname,
+            'lastname':          vm.data[i].lastname,
             'dateEnter':         firebase.database.ServerValue.TIMESTAMP,
-            'image':             $scope.data[i].image,
-            'regUser':           $scope.data[i].regUser,
+            'image':             vm.data[i].image,
+            'regUser':           vm.data[i].regUser,
             'whichInvitation':   '',
             'send':              false,
             'reject':            false,
@@ -168,28 +191,28 @@
 
       }  // end for all
 
-      $scope.data = [];
-      $scope.showAgree = 0;
-      $scope.showToast('Added invitees', 'md-toast-add');
+      vm.data = [];
+      vm.showAgree = 0;
+      showToast('Added invitees', 'md-toast-add');
     }, 0);
 
   };  // Add new Checkin
 
 
-  $scope.deleteAllCheckinsExplainAction = function(myExcuse, checkedList) {
+  function deleteAllCheckinsExplainAction(myExcuse, checkedList) {
 
     for (var i = 0; i < checkedList.length; i++) {
       if ( checkedList[i].send && checkedList[i].accept && !checkedList[i].reject ) {
 
             RefServices.refMeetChecked(checkedList[i].regUser, checkedList[i].inviteeId).remove();
             RefServices.refCancellations(checkedList[i].regUser).push().set({
-                  'dateMeeting':      $scope.meetingChecked.dateMeeting,
-                  'name':             $scope.meetingChecked.name,
-                  'description':      $scope.meetingChecked.description,
-                  'time':             $scope.meetingChecked.time,
-                  'imageCaller':      $scope.callerInfo.image,
-                  'firstnameCaller':  $scope.callerInfo.firstname,
-                  'lastnameCaller':   $scope.callerInfo.lastname,
+                  'dateMeeting':      vm.meetingChecked.dateMeeting,
+                  'name':             vm.meetingChecked.name,
+                  'description':      vm.meetingChecked.description,
+                  'time':             vm.meetingChecked.time,
+                  'imageCaller':      vm.callerInfo.image,
+                  'firstnameCaller':  vm.callerInfo.firstname,
+                  'lastnameCaller':   vm.callerInfo.lastname,
                   'excuse':           myExcuse
                 });
 
@@ -198,14 +221,14 @@
       }
     }; // end for
 
-    RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).remove();
-    $scope.showToast('All Deleted!', 'md-toast-delete');
+    RefServices.refCheckin(vm.whichuser, vm.whichmeeting).remove();
+    showToast('All Deleted!', 'md-toast-delete');
   // $timeout(function () {
   // }, 0);
   }; // deleteAllCheckinExplain
 
 
-  $scope.deleteAllCheckinsExplainDialog = function(event, checkedList, color) {
+  function deleteAllCheckinsExplainDialog(event, checkedList, color) {
         $mdDialog.show({
             controller: function () {
               this.parent = $scope;
@@ -213,7 +236,7 @@
                 $mdDialog.cancel();
               };
               $scope.delete = function(myExcuse) {
-                $scope.deleteAllCheckinsExplainAction(myExcuse, checkedList);
+                deleteAllCheckinsExplainAction(myExcuse, checkedList);
                 $mdDialog.cancel();
               };
             },
@@ -259,7 +282,7 @@
   }; // deleteAllCheckinExplainDialog
 
 
-  $scope.deleteAllCheckins = function(checkedList) {
+  function deleteAllCheckins(checkedList) {
       var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete all invitees ?')
         .ok('Yes')
@@ -274,8 +297,8 @@
 
         }; // end for
 
-        RefServices.refCheckin($scope.whichuser, $scope.whichmeeting).remove();
-        $scope.showToast('All Deleted!', 'md-toast-delete');
+        RefServices.refCheckin(vm.whichuser, vm.whichmeeting).remove();
+        showToast('All Deleted!', 'md-toast-delete');
 
       }, function(){
 
@@ -283,7 +306,7 @@
   };  // delete all checkin
 
 
-  $scope.showDescription = function(myItem) {
+  function showDescription(myItem) {
     myItem.show = !myItem.show;
     if (myItem.show == 'animated fadeInDown delayAnimate') {
       myItem.userState = 'animated fadeOutUp delayAnimate';
@@ -293,9 +316,9 @@
   };  //show description
 
 
-  $scope.addDescription = function(myItem, myDescription) {
+  function addDescription(myItem, myDescription) {
     $timeout(function () {
-        RefServices.refCheckedDescription($scope.whichuser, $scope.whichmeeting, myItem.$id).push().set({
+        RefServices.refCheckedDescription(vm.whichuser, vm.whichmeeting, myItem.$id).push().set({
           'description':  myDescription,
           'date':         firebase.database.ServerValue.TIMESTAMP,
         }).then(function() {
@@ -305,62 +328,62 @@
   };  // add description
 
 
-  $scope.deleteCheckin = function(event, checked) {
+  function deleteCheckin(event, checked) {
     var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete ' +  checked.firstname  + ' ' + checked.lastname + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
-        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
-        $scope.showToast(checked.firstname  + ' ' + checked.lastname + ' Deleted!', 'md-toast-delete');
+        RefServices.refCheckedPerson(vm.whichuser, vm.whichmeeting, checked.$id).remove();
+        showToast(checked.firstname  + ' ' + checked.lastname + ' Deleted!', 'md-toast-delete');
       }, function(){
 
       });
   }; // delete checkin invitee
 
 
-  $scope.deleteInvitationAction = function(checked) {
+  function deleteInvitationAction(checked) {
     $timeout(function () {
         RefServices.refDeleteInvitation(checked.regUser, checked.whichInvitation).remove();
-        RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
-        $scope.showToast('Invitation to ' + checked.firstname  + ' Canceled!', 'md-toast-delete');
+        RefServices.refCheckedPerson(vm.whichuser, vm.whichmeeting, checked.$id).remove();
+        showToast('Invitation to ' + checked.firstname  + ' Canceled!', 'md-toast-delete');
     }, 0);
   }; // deleteInvitationAction
 
 
-  $scope.deleteInvitationDialog = function(event, checked) {
+  function deleteInvitationDialog(event, checked) {
     var confirm = $mdDialog.confirm()
         .title('Sure you want to cancel invitation for ' +  checked.firstname  + ' ' + checked.lastname + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
-        $scope.deleteInvitationAction(checked);
+        deleteInvitationAction(checked);
       });
   }; // deleteInvitation
 
 
-  $scope.rejectFromCallerAction = function(myExcuse, checked) {
+  function rejectFromCallerAction(myExcuse, checked) {
       RefServices.refMeetChecked(checked.regUser, checked.inviteeId).remove();
       RefServices.refCancellations(checked.regUser).push().set({
-            'dateMeeting':      $scope.meetingChecked.dateMeeting,
-            'name':             $scope.meetingChecked.name,
-            'description':      $scope.meetingChecked.description,
-            'time':             $scope.meetingChecked.time,
-            'imageCaller':      $scope.callerInfo.image,
-            'firstnameCaller':  $scope.callerInfo.firstname,
-            'lastnameCaller':   $scope.callerInfo.lastname,
+            'dateMeeting':      vm.meetingChecked.dateMeeting,
+            'name':             vm.meetingChecked.name,
+            'description':      vm.meetingChecked.description,
+            'time':             vm.meetingChecked.time,
+            'imageCaller':      vm.callerInfo.image,
+            'firstnameCaller':  vm.callerInfo.firstname,
+            'lastnameCaller':   vm.callerInfo.lastname,
             'excuse':           myExcuse
           });
 
-      RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checked.$id).remove();
-      $scope.showToast( checked.firstname  + ' ' + checked.lastname + ' Rejected!', 'md-toast-delete');
+      RefServices.refCheckedPerson(vm.whichuser, vm.whichmeeting, checked.$id).remove();
+      showToast( checked.firstname  + ' ' + checked.lastname + ' Rejected!', 'md-toast-delete');
 
   }; // rejectFromCallerAction
 
 
-  $scope.rejectFromCallerDialog = function(event, checked, color) {
+  function rejectFromCallerDialog(event, checked, color) {
         $scope.dialog = checked;
         $mdDialog.show({
             controller: function () {
@@ -369,7 +392,7 @@
                 $mdDialog.cancel();
               };
               $scope.delete = function(myExcuse) {
-                $scope.rejectFromCallerAction(myExcuse, checked);
+                rejectFromCallerAction(myExcuse, checked);
                 $mdDialog.cancel();
               };
             },
@@ -415,33 +438,33 @@
   }; // rejectFromCaller
 
 
-  $scope.deleteCheckinDescription = function(event, idChecked, key, des) {
+  function deleteCheckinDescription(event, idChecked, key, des) {
     var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete ' +  des  + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
-        RefServices.refDeleteDescription($scope.whichuser, $scope.whichmeeting, idChecked, key).remove();
-        $scope.showToast( 'Description deleted!', 'md-toast-delete');
+        RefServices.refDeleteDescription(vm.whichuser, vm.whichmeeting, idChecked, key).remove();
+        showToast( 'Description deleted!', 'md-toast-delete');
       }, function(){
 
       });
   };  // delete checkin description
 
 
-  $scope.sendOneInvitationAction = function(checkinKey) {
+  function sendOneInvitationAction(checkinKey) {
           RefServices.refInvitations(checkinKey.regUser).push().set({
-            'dateMeeting':      $scope.meetingChecked.dateMeeting,
-            'name':             $scope.meetingChecked.name,
-            'description':      $scope.meetingChecked.description,
-            'time':             $scope.meetingChecked.time,
+            'dateMeeting':      vm.meetingChecked.dateMeeting,
+            'name':             vm.meetingChecked.name,
+            'description':      vm.meetingChecked.description,
+            'time':             vm.meetingChecked.time,
             'whichCheckin':     checkinKey.$id,
-            'whichUser':        $scope.whichuser,
-            'whichMeeting':     $scope.whichmeeting,
-            'imageCaller':      $scope.callerInfo.image,
-            'firstnameCaller':  $scope.callerInfo.firstname,
-            'lastnameCaller':   $scope.callerInfo.lastname,
+            'whichUser':        vm.whichuser,
+            'whichMeeting':     vm.whichmeeting,
+            'imageCaller':      vm.callerInfo.image,
+            'firstnameCaller':  vm.callerInfo.firstname,
+            'lastnameCaller':   vm.callerInfo.lastname,
             'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
             'pause':            false
             }).then(function() {
@@ -449,16 +472,16 @@
                 const refFindInvitation = RefServices.refInvitations(checkinKey.regUser);
                 refFindInvitation.on('value', function (snap) {
 
-                  $scope.findInvitation = $firebaseArray(refFindInvitation);
-                  $scope.findInvitation.$loaded().then(function (list) {
+                  vm.findInvitation = $firebaseArray(refFindInvitation);
+                  vm.findInvitation.$loaded().then(function (list) {
 
-                    for (var i = 0; i < $scope.findInvitation.length; i++) {
-                      if ( $scope.findInvitation[i].whichCheckin == checkinKey.$id &&
-                           $scope.findInvitation[i].whichUser == $scope.whichuser &&
-                           $scope.findInvitation[i].whichMeeting == $scope.whichmeeting ) {
+                    for (var i = 0; i < vm.findInvitation.length; i++) {
+                      if ( vm.findInvitation[i].whichCheckin == checkinKey.$id &&
+                           vm.findInvitation[i].whichUser == vm.whichuser &&
+                           vm.findInvitation[i].whichMeeting == vm.whichmeeting ) {
 
-                              var whichInvitation = $scope.findInvitation[i].$id;
-                              RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, checkinKey.$id)
+                              var whichInvitation = vm.findInvitation[i].$id;
+                              RefServices.refCheckedPerson(vm.whichuser, vm.whichmeeting, checkinKey.$id)
                                 .update({
                                   "whichInvitation":  whichInvitation,
                                   "send":             true,
@@ -473,39 +496,39 @@
                // $scope.showToast( 'Sent invitation to ' + checkinKey.firstname, 'md-toast-send');
           });
 
-      $scope.showToast( 'Sent invitation to ' + checkinKey.firstname, 'md-toast-send');
+      showToast( 'Sent invitation to ' + checkinKey.firstname, 'md-toast-send');
 
   }; // sendOneInvitationAction
 
 
-  $scope.sendOneInvitationDialog = function(event, checkinKey) {
+  function sendOneInvitationDialog(event, checkinKey) {
     var confirm = $mdDialog.confirm()
         .title('Sure you want to send invitation to ' +  checkinKey.firstname + ' ' + checkinKey.lastname + '?')
         .ok('Yes')
         .cancel('Cancel')
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
-          $scope.sendOneInvitationAction(checkinKey);
+          sendOneInvitationAction(checkinKey);
       });
   };  // send one invitation
 
 
-  $scope.getInviteeId = function(checkedList) {
+  function getInviteeId(checkedList) {
       const refAllInvitations = RefServices.refInvitations(checkedList.regUser);
       refAllInvitations.on('value', function (snap) {
         $timeout(function() {
-        $scope.allInvitations = $firebaseArray(refAllInvitations);
-        $scope.allInvitations.$loaded().then(function (list) {
+        vm.allInvitations = $firebaseArray(refAllInvitations);
+        vm.allInvitations.$loaded().then(function (list) {
 
-          for (var j = 0; j < $scope.allInvitations.length; j++) {
+          for (var j = 0; j < vm.allInvitations.length; j++) {
 
-            if ( $scope.allInvitations[j].checkinId === checkedList.$id &&
-                 $scope.allInvitations[j].whichUser === $scope.whichuser &&
-                 $scope.allInvitations[j].whichMeeting === $scope.whichmeeting ) {
+            if ( vm.allInvitations[j].checkinId === checkedList.$id &&
+                 vm.allInvitations[j].whichUser === vm.whichuser &&
+                 vm.allInvitations[j].whichMeeting === vm.whichmeeting ) {
 
-                    var whichInvitation = $scope.allInvitations[j].$id;
+                    var whichInvitation = vm.allInvitations[j].$id;
 
-                    RefServices.refCheckedPerson($scope.whichuser, $scope.whichmeeting, $scope.allInvitations[j].checkinId)
+                    RefServices.refCheckedPerson(vm.whichuser, vm.whichmeeting, vm.allInvitations[j].checkinId)
                       .update({
                         "whichInvitation":  whichInvitation,
                         "send":             true,
@@ -522,7 +545,7 @@
   }; // getInviteeId
 
 
-  $scope.sendAllInvitations = function(event, checkedList) {
+  function sendAllInvitations(event, checkedList) {
     var countSent = checkedList.length;
     var confirm = $mdDialog.confirm()
         .title('Sure you want to send all invitations?')
@@ -536,21 +559,21 @@
             if (checkedList[i].send !== true) {
               RefServices.refInvitations(checkedList[i].regUser)
                 .push().set({
-                  'dateMeeting':      $scope.meetingChecked.dateMeeting,
-                  'name':             $scope.meetingChecked.name,
-                  'description':      $scope.meetingChecked.description,
-                  'time':             $scope.meetingChecked.time,
+                  'dateMeeting':      vm.meetingChecked.dateMeeting,
+                  'name':             vm.meetingChecked.name,
+                  'description':      vm.meetingChecked.description,
+                  'time':             vm.meetingChecked.time,
                   'checkinId':        checkedList[i].$id,
-                  'whichUser':        $scope.whichuser,
-                  'whichMeeting':     $scope.whichmeeting,
-                  'imageCaller':      $scope.callerInfo.image,
-                  'firstnameCaller':  $scope.callerInfo.firstname,
-                  'lastnameCaller':   $scope.callerInfo.lastname,
+                  'whichUser':        vm.whichuser,
+                  'whichMeeting':     vm.whichmeeting,
+                  'imageCaller':      vm.callerInfo.image,
+                  'firstnameCaller':  vm.callerInfo.firstname,
+                  'lastnameCaller':   vm.callerInfo.lastname,
                   'dateEnter':        firebase.database.ServerValue.TIMESTAMP,
                   'pause':            false
                 });
 
-              $scope.getInviteeId(checkedList[i]);
+              getInviteeId(checkedList[i]);
 
             } else {
               countSent -= 1;
@@ -558,9 +581,9 @@
         }; // end for top
 
         if (countSent == 0) {
-          $scope.showToast('Nothing New Invitee', 'md-toast-delete');
+          showToast('Nothing New Invitee', 'md-toast-delete');
         } else if (countSent >= 0) {
-          $scope.showToast('Sent ' + countSent + ' New Invitations', 'md-toast-send');
+          showToast('Sent ' + countSent + ' New Invitations', 'md-toast-send');
         }
 
       //}, 0);
@@ -568,7 +591,7 @@
   };  // send all invitations
 
 
-  $scope.responceMessage = function(event, excuse, color) {
+  function responceMessage(event, excuse, color) {
         $scope.dialog = excuse;
         $scope.color = color;
         $mdDialog.show({
@@ -611,7 +634,7 @@
   }; // responceMessage
 
 
-  $scope.showToast = function(message, color) {
+  function showToast(message, color) {
       $mdToast.show(
         $mdToast.simple()
           .toastClass(color)
@@ -622,15 +645,15 @@
   }; // Show Toast
 
 
-  $scope.data = [];
+  vm.data = [];
 
-  $scope.clearData = function() {
+  function clearData() {
     //$scope.data = [];
     //$scope.checkinDescription = '';
-    if ($scope.data.length) {
-      $scope.showAgree = $scope.data.length;
+    if (vm.data.length) {
+      vm.showAgree = vm.data.length;
     } else {
-      $scope.showAgree = 0;
+      vm.showAgree = 0;
     }
 
     // for(var i=0 ; i < $scope.data.length; i++) {
@@ -641,27 +664,27 @@
   }; // clear data
 
 
-  $scope.isChecked = function(id){
+  function isChecked(id){
       var match = false;
-      for(var i=0 ; i < $scope.data.length; i++) {
-        if($scope.data[i].id == id){
+      for(var i=0 ; i < vm.data.length; i++) {
+        if(vm.data[i].id == id){
           match = true;
         }
       }
       return match;
   };  // checkbox checking
 
-  $scope.sync = function(bool, item){
+  function sync(bool, item){
     if(bool){
       // add item
-      $scope.data.push(item);
-      $scope.showAgree = $scope.data.length;
+      vm.data.push(item);
+      vm.showAgree = vm.data.length;
     } else {
       // remove item
-      for(var i=0 ; i < $scope.data.length; i++) {
-        if($scope.data[i].regUser == item.regUser){
-          $scope.data.splice(i,1);
-          $scope.showAgree = $scope.data.length;
+      for(var i=0 ; i < vm.data.length; i++) {
+        if(vm.data[i].regUser == item.regUser){
+          vm.data.splice(i,1);
+          vm.showAgree = vm.data.length;
         }
       }
     }

@@ -11,52 +11,52 @@
 <h5>Settings</h5>
 <p style="margin-top:-10px;color:#999">You've been invited by colleagues</p>
 
-<form ng-submit="selectSettings(themeSelected, roleAlarm)">
+<form ng-submit="vm.selectSettings(themeSelected, roleAlarm)">
 <div class="row">
-  
+
 
   <div class="col s12 right">
-    <div class="card-panel" 
+    <div class="card-panel"
     style="border-radius:10px;max-height:20px;background-color:{{themeColor3}}">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-desktop" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Theme
       </span>
-      
+
       <span style="margin-top:-11px"
-            class="white-text right" 
-            ng-repeat="valTheme in settingTheme">
+            class="white-text right"
+            ng-repeat="valTheme in vm.settingTheme">
            <input class="with-gap" type="radio" id="theme{{$index}}"
                   name="valTheme.theme"
-                  data-ng-model="$parent.themeSelected" 
-                  data-ng-value="valTheme.theme" 
-                  ng-init="$index==themeChecked?($parent.themeSelected=valTheme.theme):''">
+                  data-ng-model="$parent.themeSelected"
+                  data-ng-value="valTheme.theme"
+                  ng-init="$index==vm.themeChecked?($parent.themeSelected=valTheme.theme):''">
                 <label for="theme{{$index}}" style="color:#fff;margin-right:5px;">
                   {{valTheme.name}}
                 </label>
 
       </span>
-      
+
       </div>
     </div>
   </div>
 
 <div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
-    <div class="card-panel" 
+    <div class="card-panel"
          style="border-radius:10px;max-height:20px;background-color:{{themeColor3}}">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-bell-o" style="font-size:1.1rem" aria-hidden="true"></i>
         &nbsp&nbsp Alarm
       </span>
       <span style="margin-top:-11px"
-            class="white-text right" 
-            ng-repeat="valAlarm in settingAlarm">
+            class="white-text right"
+            ng-repeat="valAlarm in vm.settingAlarm">
               <input  class="with-gap" type="radio" id="alarm{{$index}}"
                       name="valAlarm.day"
-                      data-ng-model="$parent.roleAlarm" 
-                      data-ng-value="valAlarm.day" 
-                      ng-init="$index==alarmChecked?($parent.roleAlarm=valAlarm.day):''"  />
+                      data-ng-model="$parent.roleAlarm"
+                      data-ng-value="valAlarm.day"
+                      ng-init="$index==vm.alarmChecked?($parent.roleAlarm=valAlarm.day):''"  />
                 <label for="alarm{{$index}}" style="color:#fff;margin-right:5px;">
                   {{valAlarm.name}}
                 </label>
@@ -67,21 +67,21 @@
 
 <div class="row" style="margin-top:-30px">
   <div class="col s12 right" style="margin-top:-10px">
-    <div class="card-panel" 
+    <div class="card-panel"
          style="background-color:{{themeColor3}};border-radius:10px;max-height:20px;">
       <span class="white-text left" style="margin-top:-10px">
         <i class="fa fa-smile-o" style="font-size:1.2rem" aria-hidden="true"></i>
         &nbsp&nbsp Animation
       </span>
       <span class="white-text right">
-          
+
           <div class="switch" style="margin-top:-8px">
             <label style="color:#fff">
               Off
-              <input type="checkbox" 
+              <input type="checkbox"
                      name="position"
                      ng-model="roleAnime"
-                     ng-change="changeAnime()">
+                     ng-change="vm.changeAnime()">
               <span class="lever"></span>
               On
             </label>
@@ -100,6 +100,3 @@
 
 </div>
 </div> <!-- ng-show="signIn()" -->
-
-
-

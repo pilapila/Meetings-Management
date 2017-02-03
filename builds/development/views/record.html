@@ -37,7 +37,7 @@
                     </a>
                   </li>
                   <li class="sidenav-li" style="margin-top:-3px">
-                    <a href="" ng-click="recordMeeting($event, showCheckinList)" 
+                    <a href="" ng-click="recordMeeting($event, showCheckinList)"
                        class="waves-effect waves-light">
                       <i class="fa fa-archive" aria-hidden="true"></i>
                       &nbsp Record Meeting
@@ -67,7 +67,7 @@
           <tr class="meeting-data-table">
             <td style="width:100px;vertical-align:top"><b>Meeting Name:</b></td>
             <td style="vertical-align:top">
-              <span style="color:#6a6a6a;font-size:0.9rem;"> 
+              <span style="color:#6a6a6a;font-size:0.9rem;">
                 {{meetingChecked.name}}
               </span>
             </td>
@@ -95,13 +95,13 @@
           <tr class="meeting-data-table">
             <td style="width:100px;vertical-align:top"><b>Description:</b> </td>
             <td style="vertical-align:top">
-              <span style="color:#6a6a6a;font-size:0.9rem"> 
+              <span style="color:#6a6a6a;font-size:0.9rem">
                 {{meetingChecked.description}}
               </span>
             </td>
           </tr>
         </table>
-              
+
       </td>
     </tr>
 
@@ -135,13 +135,13 @@
                     <input type="date" id="date-picker1" class="datepicker"
                        name="date-picker1" ng-model="general.date">
                   <label for="date-picker1" style="color:#adadad">
-                     Date 
+                     Date
                   </label>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix">alarm_on</i>
-                <input id="time-picker1" class="timepicker" type="time" 
+                <input id="time-picker1" class="timepicker" type="time"
                        name="time-picker1" ng-model="general.startTime">
                 <label for="time-picker1" style="color:#adadad">
                      Start Time {{required1}}
@@ -150,7 +150,7 @@
 
               <div class="input-field col s2">
                 <i class="material-icons prefix">alarm_off</i>
-                <input id="time-picker2" class="timepicker" type="time" 
+                <input id="time-picker2" class="timepicker" type="time"
                        name="time-picker2" ng-model="general.endTime">
                   <label for="time-picker2" style="color:#adadad">
                      End Time {{required2}}
@@ -159,22 +159,22 @@
 
               <div class="input-field col s6">
                 <i class="material-icons prefix">room</i>
-                <input name="place" id="place" type="text" class="validate" 
+                <input name="place" id="place" type="text" class="validate"
                        required="" aria-required="true" ng-model="general.places">
                 <label for="place">Meeting Places</label>
               </div>
 
               <div class="right-align" style="margin-right:-30px;margin-bottom:-10px">
-              <button id="" class="waves-effect btn-flat" 
+              <button id="" class="waves-effect btn-flat"
                       type="submit" style="color:#0889af">
-                  Add 
+                  Add
               </button>
           </div>
 
             </div>
           </form>
         </div>
-        </td>   
+        </td>
       </tr>
   </tbody>
 </table>
@@ -226,15 +226,15 @@
               </div>
 
               <div class="right-align" style="margin-right:-30px;margin-bottom:-10px">
-              <a id="" class="waves-effect btn-flat" 
+              <a id="" class="waves-effect btn-flat"
                       style="color:#0889af" ng-click="getEditGeneral()">
-                  Edit 
+                  Edit
               </a>
           </div>
 
             </div>
           </div>
-        </td>   
+        </td>
       </tr>
   </tbody>
 </table>
@@ -245,15 +245,15 @@
 
 
 <table class="bordered card" style="margin-top:-1px">
-  <tbody>     
+  <tbody>
       <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
-          <a href="" class="modal-trigger waves-effect waves-light" 
+          <a href="" class="modal-trigger waves-effect waves-light"
                  data-target="modal1">
-                 <i class="material-icons prefix" 
+                 <i class="material-icons prefix"
                     style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAudienceTitle}}">thumb_up</i>
                  <b style="color:{{alarmAudienceTitle}};font-size:0.9rem;margin-right:10px">Add Audience</b>
-              
+
               <span ng-hide="isThereOnePresent" style="color:#fff;vertical-align:bottom">
                 add audience to meeting...
               </span>
@@ -267,16 +267,16 @@
             <div style="color: #6d6d6d;margin-top:5px" ng-show="isThereOnePresent">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAudience in audienceListSync | filter:query" 
-                  class="delayAnimate" 
+              <li ng-repeat="checkedAudience in audienceListSync | filter:query"
+                  class="delayAnimate"
                   style="">
-                <div class="checkin" 
+                <div class="checkin"
                      style="position:relative;z-index:100">
 
                     <div class="col s12 m7">
                       <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
                         <div class="card-image">
-                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;"
                            src="images/personal_pics/{{checkedAudience.image}}.jpg">
                         </div>
 
@@ -284,7 +284,7 @@
                           <div class="card-content">
 
                             <b style="font-size:1em">
-                              {{ checkedAudience.firstname | capitalize }} 
+                              {{ checkedAudience.firstname | capitalize }}
                               {{ checkedAudience.lastname | capitalize }}
                             </b>
                             <div class="date">
@@ -294,9 +294,9 @@
                               <a class="fontawesome-color" href=""
                                    ng-click="deleteAudience($event, checkedAudience)">
                                   <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
-                                    <i class="fa fa-square-o fa-stack-2x" 
+                                    <i class="fa fa-square-o fa-stack-2x"
                                        style="color:#eaa8be;"></i>
-                                    <i class="fa fa-trash-o fa-stack-1x" 
+                                    <i class="fa fa-trash-o fa-stack-1x"
                                        style="font-size:20px;color:#d44977;margin-top:-2px"></i>
                                     <md-tooltip md-direction="top">
                                       Delete {{ checkedAudience.firstname | capitalize }}
@@ -310,7 +310,7 @@
                         </div>
 
                           <div class="outer">
-                            <div class="inner-record" 
+                            <div class="inner-record"
                             style="background: #23ba0a;box-shadow: 0px 0px 30px 20px #23ba0a;">
                              </div> <!-- green -->
                           </div>
@@ -322,14 +322,14 @@
             </ul>
           </div>
 
-        </td>   
+        </td>
       </tr>
 
       <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;">
-          <a href="" class="modal-trigger waves-effect waves-light" 
+          <a href="" class="modal-trigger waves-effect waves-light"
                data-target="modal2">
-               <i class="material-icons prefix" 
+               <i class="material-icons prefix"
                     style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAbsentTitle}}">thumb_down</i>
               <b style="color:{{alarmAbsentTitle}};font-size:0.9rem;vertical-align:top;margin-right:10px">
                   Add Absence
@@ -345,23 +345,23 @@
             <div style="color: #6d6d6d" ng-show="isThereOneAbsent">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAbsent in absentListSync | filter:query" 
-                  class="delayAnimate" 
+              <li ng-repeat="checkedAbsent in absentListSync | filter:query"
+                  class="delayAnimate"
                   style="">
-                <div class="checkin" 
+                <div class="checkin"
                      style="position:relative;z-index:100">
 
                     <div class="col s12 m7">
                       <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
                         <div class="card-image">
-                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;"
                            src="images/personal_pics/{{checkedAbsent.image}}.jpg">
                         </div>
 
                         <div class="card-stacked">
                           <div class="card-content">
                             <b style="font-size:1em">
-                              {{ checkedAbsent.firstname | capitalize }} 
+                              {{ checkedAbsent.firstname | capitalize }}
                               {{ checkedAbsent.lastname | capitalize }}
                             </b>
                             <div class="date">
@@ -371,9 +371,9 @@
                               <a class="fontawesome-color" href=""
                                    ng-click="deleteAbsent($event, checkedAbsent)">
                                   <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
-                                    <i class="fa fa-square-o fa-stack-2x" 
+                                    <i class="fa fa-square-o fa-stack-2x"
                                        style="color:#eaa8be;"></i>
-                                    <i class="fa fa-trash-o fa-stack-1x" 
+                                    <i class="fa fa-trash-o fa-stack-1x"
                                        style="font-size:20px;color:#d44977;margin-top:-2px"></i>
                                     <md-tooltip md-direction="top">
                                       Delete {{ checkedAbsent.firstname | capitalize }}
@@ -385,7 +385,7 @@
                         </div>
 
                         <div class="outer">
-                          <div class="inner-record" 
+                          <div class="inner-record"
                             style="background: #e762ad;box-shadow: 0px 0px 30px 20px #e762ad;">
                           </div> <!-- red -->
                         </div>
@@ -397,7 +397,7 @@
             </ul>
           </div>
 
-        </td>   
+        </td>
       </tr>
   </tbody>
 
@@ -427,27 +427,27 @@
                 <div class="input-field col s12 datepicker-style">
                   <i class="small material-icons prefix">subject</i>
                       <textarea name="textarea1" id="textarea1"
-                             class="validate materialize-textarea" required="" 
-                             aria-required="true" 
+                             class="validate materialize-textarea" required=""
+                             aria-required="true"
                              ng-model="summery"></textarea>
                   <label for="textarea1">Meeting Summary</label>
                 </div>
               </div>
             </div>
             <div class="right-align" style="padding-right:15px">
-              <button class="waves-effect btn-flat" 
+              <button class="waves-effect btn-flat"
                       type="submit" style="color:#0889af">
                   Add Summary
               </button>
-              <a ng-click="clearSummery()" 
-                      class="waves-effect btn-flat" 
+              <a ng-click="clearSummery()"
+                      class="waves-effect btn-flat"
                       style="color:#0889af">
                   Clear
               </a>
             </div>
           </div>
         </form>
-      </td>   
+      </td>
     </tr>
   </tbody>
 </table>
@@ -470,21 +470,21 @@
           <div class="row">
             <div class="col s12 m12" style="margin-bottom:15px">
               <div class="row modal-form-record modal-background">
-                <div class="input-field col s12 datepicker-style" 
+                <div class="input-field col s12 datepicker-style"
                      style="margin-top:-10px;color:#858585;font-family:arial">
                   <pre>{{summery}}</pre>
                 </div>
               </div>
             </div>
             <div class="right-align" style="padding-right:5px;margin-bottom:-20px">
-              <button class="waves-effect btn-flat" 
+              <button class="waves-effect btn-flat"
                       type="submit" style="color:#0889af">
                   Edit Summary
               </button>
             </div>
           </div>
         </form>
-      </td>   
+      </td>
     </tr>
   </tbody>
 </table>
@@ -495,22 +495,22 @@
 
 <!-- Modal Structure -->
 <form>
-<div id="modal1" class="modal modal-fixed-footer" 
+<div id="modal1" class="modal modal-fixed-footer"
    style="border-radius:12px;max-width:330px;max-height:340px;">
 
   <md-toolbar>
-    <div class="md-toolbar-tools checkinUser" 
+    <div class="md-toolbar-tools checkinUser"
          style="background-color:{{themeColor3}};height:80px">
         <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
         <h2>Invitees List</h2>
         <span flex></span>
-        <nav class="search left left z-depth-0" 
+        <nav class="search left left z-depth-0"
              style="height:20px;max-height:20px;margin-right:0px;width:170px;
                     margin-top:-15px;background-color:{{themeColor3}}">
           <div class="nav-wrapper">
-            
+
               <div class="input-field">
-                <input type="search" ng-model="queryCheck" id="queryCheck" 
+                <input type="search" ng-model="queryCheck" id="queryCheck"
                        placeholder="search invitee">
                 <label for="search">
                   <i class="material-icons" style="font-size:24px;">search</i>
@@ -519,7 +519,7 @@
                     close
                   </i>
               </div>
-            
+
           </div>
         </nav>
     </div>
@@ -534,15 +534,15 @@
     <div ng-show="showCheckinList" style="margin-bottom:-12px">
       <!-- <div class="row" style="margin-bottom:-12px"> -->
         <div class="col s12" style="margin-bottom:9px"
-             ng-repeat="(key, presentUser) in usersShortRecord | filter:queryCheck" 
-             class="presentUser delayAnimate" 
+             ng-repeat="(key, presentUser) in usersShortRecord | filter:queryCheck"
+             class="presentUser delayAnimate"
              id="{{presentUser.regUser}}">
 
           <div class="col s5">
             <input type="checkbox" class="filled-in"
-                   ng-change="syncAudience(boolAudience, presentUser)" 
-                   ng-model="boolAudience" 
-                   ng-checked="isCheckedAudience(presentUser.regUser)" 
+                   ng-change="syncAudience(boolAudience, presentUser)"
+                   ng-model="boolAudience"
+                   ng-checked="isCheckedAudience(presentUser.regUser)"
                    id="audience{{$index}}" />
             <label for="audience{{$index}}">
               {{presentUser.firstname | capitalize }} {{presentUser.lastname | capitalize }}
@@ -550,23 +550,24 @@
           </div>
 
         </div>
+        <div class="" style="height:30px"></div>
       <!-- </div> -->
     </div>
   </div>
 
   <div class="modal-footer" ng-show="showCheckinList">
-    <a ng-click="clearDataAudience()" 
-            class="modal-action modal-close waves-effect btn-flat"> 
+    <a ng-click="clearDataAudience()"
+            class="modal-action modal-close waves-effect btn-flat">
       Cancel
     </a>
-    <button ng-show="showAgreeAudience"  ng-click="addAudience()" 
-            class="modal-action modal-close waves-effect btn-flat"> 
+    <button ng-show="showAgreeAudience"  ng-click="addAudience()"
+            class="modal-action modal-close waves-effect btn-flat">
       Agree
     </button>
   </div>
 
   <div class="modal-footer" ng-hide="showCheckinList">
-    <a href="" class="modal-action modal-close waves-effect btn-flat"> 
+    <a href="" class="modal-action modal-close waves-effect btn-flat">
       Ok
     </a>
   </div>
@@ -578,22 +579,22 @@
 
 <!-- Modal Structure -->
 <form>
-<div id="modal2" class="modal modal-fixed-footer" 
+<div id="modal2" class="modal modal-fixed-footer"
    style="border-radius:12px;max-width:330px;max-height:340px;">
 
   <md-toolbar>
-    <div class="md-toolbar-tools checkinUser" 
+    <div class="md-toolbar-tools checkinUser"
          style="background-color:{{themeColor3}};height:80px">
         <img src="images/icon.png" style="margin-bottom:-5px;margin-right:5px">
         <h2>Invitees List</h2>
         <span flex></span>
-        <nav class="search left left z-depth-0" 
+        <nav class="search left left z-depth-0"
              style="height:20px;max-height:20px;margin-right:0px;width:170px;
                     margin-top:-15px;background-color:{{themeColor3}}">
           <div class="nav-wrapper">
-            
+
               <div class="input-field">
-                <input type="search" ng-model="queryCheck" id="queryCheck" 
+                <input type="search" ng-model="queryCheck" id="queryCheck"
                        placeholder="search invitee">
                 <label for="search">
                   <i class="material-icons" style="font-size:24px;">search</i>
@@ -602,7 +603,7 @@
                     close
                   </i>
               </div>
-            
+
           </div>
         </nav>
     </div>
@@ -615,17 +616,17 @@
     </div>
 
     <div ng-show="showCheckinList" style="margin-bottom:-12px">
-      
+
         <div class="col s12" style="margin-bottom:9px"
-             ng-repeat="(key, absentUser) in usersShortRecord | filter:queryCheck" 
-             class="absentUser delayAnimate" 
+             ng-repeat="(key, absentUser) in usersShortRecord | filter:queryCheck"
+             class="absentUser delayAnimate"
              id="{{absentUser.regUser}}">
 
           <div class="col s5">
             <input type="checkbox" class="filled-in"
-                   ng-change="syncAbsent(boolAbsent, absentUser)" 
-                   ng-model="boolAbsent" 
-                   ng-checked="isCheckedAbsent(absentUser.regUser)" 
+                   ng-change="syncAbsent(boolAbsent, absentUser)"
+                   ng-model="boolAbsent"
+                   ng-checked="isCheckedAbsent(absentUser.regUser)"
                    id="absent{{$index}}" />
             <label for="absent{{$index}}">
               {{absentUser.firstname | capitalize }} {{absentUser.lastname | capitalize }}
@@ -633,23 +634,23 @@
           </div>
 
         </div>
-      
+        <div class="" style="height:30px"></div>
     </div>
   </div>
 
   <div class="modal-footer" ng-show="showCheckinList">
-    <a ng-click="clearDataAbsent()" 
-            class="modal-action modal-close waves-effect btn-flat"> 
+    <a ng-click="clearDataAbsent()"
+            class="modal-action modal-close waves-effect btn-flat">
       Cancel
     </a>
-    <button ng-show="showAgreeAbsent"  ng-click="addAbsent()" 
-            class="modal-action modal-close waves-effect btn-flat"> 
+    <button ng-show="showAgreeAbsent"  ng-click="addAbsent()"
+            class="modal-action modal-close waves-effect btn-flat">
       Agree
     </button>
   </div>
 
   <div class="modal-footer" ng-hide="showCheckinList">
-    <a href="" class="modal-action modal-close waves-effect btn-flat"> 
+    <a href="" class="modal-action modal-close waves-effect btn-flat">
       Ok
     </a>
   </div>
@@ -664,7 +665,7 @@
 
 <!-----------------Directive ------------------------------------------------>
 
-<record-directive 
+<record-directive
            data-record="dataRecord"
            theme-color="themeColor3"
            firebase-user="firebaseUser"
@@ -686,4 +687,3 @@
     $('.modal').modal();
   });
 </script>
-

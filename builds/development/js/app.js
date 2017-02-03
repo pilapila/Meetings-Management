@@ -46,11 +46,11 @@
 			})
 			.when('/settings', {
 				templateUrl: 'views/settings.html',
-				controller: 'SettingsController'
+				controller: 'SettingsController as vm'
 			})
 			.when('/profile', {
 				templateUrl: 'views/profile.html',
-				controller: 'ProfileController'
+				controller: 'ProfileController as vm'
 			})
 			.when('/suspension', {
 				templateUrl: 'views/suspension.html',

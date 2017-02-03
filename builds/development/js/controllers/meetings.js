@@ -2,13 +2,13 @@
  'use strict';
 
 meetingsApp.controller('MeetingsController', function
-  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
+  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog,
    $mdMedia, $filter, $interval, RefServices, productListPageCount) {
 
-	
+
 	$scope.meetingAction = "add";
-   	$scope.nameAction = "Add New Meeting";
-   	
+  $scope.nameAction = "Add New Meeting";
+
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
@@ -44,7 +44,7 @@ meetingsApp.controller('MeetingsController', function
 		        }, 0);
 		      }); // Ref to users to find picture of caller
 
-			
+
 			$rootScope.invitationShow = false;
 			RefServices.refInvitations(firebaseUser.uid)
 				.on('value', function (snap) {
@@ -122,11 +122,11 @@ meetingsApp.controller('MeetingsController', function
 
 						if(dd<10) {
 						    dd='0'+dd
-						} 
+						}
 
 						if(mm<10) {
 						    mm='0'+mm
-						} 
+						}
 						today = yyyy+'-'+mm+'-'+dd;
 
 						$rootScope.alarm = 0;
@@ -135,11 +135,11 @@ meetingsApp.controller('MeetingsController', function
 						$scope.meetingAlarm = [];
 						$scope.meetingAlarmFilter = [];
 						$scope.showAlarmList = false;
-			            
+
 			            $scope.meetingExp = [];
 			            $scope.meetingExpFilter = [];
 			            $scope.showExpList = false;
-						
+
 			            angular.forEach($scope.meetings, function (value, key) {
 
 			            	var date1 = new Date(today);
@@ -213,7 +213,7 @@ meetingsApp.controller('MeetingsController', function
        		});  //ref to database
 	};
 
-						
+
     $scope.addMeeting = function() {
     	$timeout(function () {
 	      if ($scope.meetingAction === "add") {
@@ -223,7 +223,7 @@ meetingsApp.controller('MeetingsController', function
                'dateEnter':    	firebase.database.ServerValue.TIMESTAMP,
                'dateMeeting':  	$('.datepicker').val(),
                'time':         	$('.timepicker').val(),
-               'pause':         false 
+               'pause':         false
 	        }).then(function() {
             	$scope.showToast('Added Meeting', 'md-toast-add');
             	$scope.meeting = "";
@@ -265,7 +265,7 @@ meetingsApp.controller('MeetingsController', function
 	        }); // if action is edit statement
 	      }
 	    }, 0);
-	};   // add Meeting 
+	};   // add Meeting
 
 	$scope.editCheckinsMeeting = function(meeting, date, time) {
 		const refEditCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.key);
@@ -274,11 +274,11 @@ meetingsApp.controller('MeetingsController', function
             $scope.editCheckins = $firebaseArray(refEditCheckins);
             $scope.editCheckins.$loaded().then(function (list) {
                 for (var i = 0; i < $scope.editCheckins.length; i++) {
-                    
-                    if ( $scope.editCheckins[i].send == true && 
-                         $scope.editCheckins[i].accept == true && 
+
+                    if ( $scope.editCheckins[i].send == true &&
+                         $scope.editCheckins[i].accept == true &&
                          $scope.editCheckins[i].reject == false ) {
-                    	
+
                         RefServices.refMeetChecked($scope.editCheckins[i].regUser, $scope.editCheckins[i].inviteeId)
                           .update({
                                    'name':         		meeting.name,
@@ -289,8 +289,8 @@ meetingsApp.controller('MeetingsController', function
 					               'change':            true
                                 });
 
-                    } else if ( $scope.editCheckins[i].send == true && 
-                                $scope.editCheckins[i].accept == false && 
+                    } else if ( $scope.editCheckins[i].send == true &&
+                                $scope.editCheckins[i].accept == false &&
                                 $scope.editCheckins[i].reject == false ) {
 
                         RefServices.refDeleteInvitation($scope.editCheckins[i].regUser, $scope.editCheckins[i].whichInvitation)
@@ -305,23 +305,23 @@ meetingsApp.controller('MeetingsController', function
 
                   };
                 }.bind(this)); // asynchronous data, but in a wrong way actially!
-	       
+
 	    }); // snap val()
 	}; // editCheckinsMeeting
 
-	
+
 	$scope.deleteCheckinsMeetingAction = function(myExcuse, meeting) {
-		
+
 		const refSenddeleteToCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
 		refSenddeleteToCheckins.on('value', function (snap) {
-		  
+
 			$scope.deleteCheckinsList = $firebaseArray(refSenddeleteToCheckins);
             $scope.deleteCheckinsList.$loaded().then(function (list) {
 
             for (var i = 0; i < $scope.deleteCheckinsList.length; i++) {
 
-						if ( $scope.deleteCheckinsList[i].send == true && 
-							 $scope.deleteCheckinsList[i].accept == true && 
+						if ( $scope.deleteCheckinsList[i].send == true &&
+							 $scope.deleteCheckinsList[i].accept == true &&
 							 $scope.deleteCheckinsList[i].reject == false ) {
 
 							  RefServices.refMeetChecked($scope.deleteCheckinsList[i].regUser, $scope.deleteCheckinsList[i].inviteeId).remove();
@@ -335,18 +335,18 @@ meetingsApp.controller('MeetingsController', function
 						            'lastnameCaller':   $scope.callerMeetingInfo.lastname,
 						            'excuse':           myExcuse
 						          });
-						      
 
-						} else if ( $scope.deleteCheckinsList[i].send == true && 
-									$scope.deleteCheckinsList[i].accept == false && 
+
+						} else if ( $scope.deleteCheckinsList[i].send == true &&
+									$scope.deleteCheckinsList[i].accept == false &&
 									$scope.deleteCheckinsList[i].reject == false ) {
-							
+
 							  RefServices.refDeleteInvitation($scope.deleteCheckinsList[i].regUser, $scope.deleteCheckinsList[i].whichInvitation).remove();
-							  
+
 						} // end else if
 
 					}; // end for
-            }.bind(this));	
+            }.bind(this));
 		}); // snap val()
 		$timeout(function() {
 			RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).remove();
@@ -358,7 +358,7 @@ meetingsApp.controller('MeetingsController', function
 		var firstCheck = true;
 		const refFindAcceptedCheckin = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
 		refFindAcceptedCheckin.on('value', function (snap) {
-			
+
 			$scope.acceptedCheckin = $firebaseArray(refFindAcceptedCheckin);
             $scope.acceptedCheckin.$loaded().then(function (list) {
             $timeout(function() {
@@ -371,12 +371,12 @@ meetingsApp.controller('MeetingsController', function
             			var valExp = $scope.acceptedCheckin[i].$id;
             		}
             	};
-            	
+
 		        if (checkExplain && firstCheck) {
 		        	firstCheck = false;
 						$mdDialog.show({
-				          controller: function () { 
-				            this.parent = $scope; 
+				          controller: function () {
+				            this.parent = $scope;
 				            $scope.cancel = function() {
 				              $mdDialog.cancel();
 				            };
@@ -387,7 +387,7 @@ meetingsApp.controller('MeetingsController', function
 				          },
 				          controllerAs: 'ctrl',
 				          parent: angular.element(document.body),
-				          template: 
+				          template:
 					          '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
 					          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;min-width:400px;max-height:150px;height:150px;">' +
 					                '<md-toolbar>' +
@@ -438,11 +438,11 @@ meetingsApp.controller('MeetingsController', function
 						return false;
 
 		        } // end if else
-		    
+
 		        }, 0);
 			  }.bind(this));
 			}); // snap val()
-		  
+
 		}; // deleteCheckinsMeetingDialog
 
 
@@ -505,7 +505,7 @@ meetingsApp.controller('MeetingsController', function
 		        	} else {
 		        		var time = '';
 		        	};
-					
+
 		        	$scope.meeting = {
 		        	   'name':         $scope.editMeeting.name,
 		               'description':  $scope.editMeeting.description,
@@ -514,7 +514,7 @@ meetingsApp.controller('MeetingsController', function
 		               'key':          key
 		        	}
 
-		        	
+
 	       	});  //ref to database
 	      }, 0); // timeput
 		}; // get edit function
@@ -526,9 +526,9 @@ meetingsApp.controller('MeetingsController', function
 					$scope.pauseCheckins = $firebaseArray(refPauseCheckins);
 					$scope.pauseCheckins.$loaded().then(function (list) {
 						for (var i = 0; i < $scope.pauseCheckins.length; i++) {
-							
-							if ( $scope.pauseCheckins[i].send == true && 
-								 $scope.pauseCheckins[i].accept == true && 
+
+							if ( $scope.pauseCheckins[i].send == true &&
+								 $scope.pauseCheckins[i].accept == true &&
 								 $scope.pauseCheckins[i].reject == false ) {
 
 									RefServices.refMeetChecked($scope.pauseCheckins[i].regUser, $scope.pauseCheckins[i].inviteeId)
@@ -543,8 +543,8 @@ meetingsApp.controller('MeetingsController', function
 							               'excuse': excuse
 							            });
 
-							} else if ( $scope.pauseCheckins[i].send == true && 
-										$scope.pauseCheckins[i].accept == false && 
+							} else if ( $scope.pauseCheckins[i].send == true &&
+										$scope.pauseCheckins[i].accept == false &&
 										$scope.pauseCheckins[i].reject == false ) {
 
 									RefServices.refDeleteInvitation($scope.pauseCheckins[i].regUser, $scope.pauseCheckins[i].whichInvitation)
@@ -576,8 +576,8 @@ meetingsApp.controller('MeetingsController', function
 
 		$scope.pauseMeetingDialog = function(event, meeting, color) {
 	        $mdDialog.show({
-	          controller: function () { 
-	            this.parent = $scope; 
+	          controller: function () {
+	            this.parent = $scope;
 	            $scope.cancel = function() {
 	              $mdDialog.cancel();
 	            };
@@ -588,7 +588,7 @@ meetingsApp.controller('MeetingsController', function
 	          },
 	          controllerAs: 'ctrl',
 	          parent: angular.element(document.body),
-	          template: 
+	          template:
 	          '<form ng-submit="ctrl.parent.suspend(myExcuse)">' +
 	          '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;min-width:400px;max-height:150px;height:150px;">' +
 	                '<md-toolbar>' +
@@ -623,17 +623,17 @@ meetingsApp.controller('MeetingsController', function
 	          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
 	        })
 	        .then(function(answer) {}, function() {
-	          
+
 	        });
 		}; // pause meeting
 
 
     $scope.showMeetDialog = function(event, key, meeting) {
-    	
+
      	$scope.dialog = meeting;
         $mdDialog.show({
-          controller: function () { 
-          	this.parent = $scope; 
+          controller: function () {
+          	this.parent = $scope;
           	$scope.cancel = function() {
 		      $mdDialog.cancel();
 		      if ( meeting.change ) {
@@ -680,9 +680,9 @@ meetingsApp.controller('MeetingsController', function
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
-         
+
          }, function() {
-          
+
         });
     }; // show meeting dialog
 
@@ -718,11 +718,11 @@ meetingsApp.controller('MeetingsController', function
 
 
     $scope.rejectMeeting = function (event, meeting, color) {
-    	
+
     	$scope.dialog = meeting;
         $mdDialog.show({
-          controller: function () { 
-            this.parent = $scope; 
+          controller: function () {
+            this.parent = $scope;
             $scope.cancel = function() {
               $mdDialog.cancel();
             };
@@ -733,7 +733,7 @@ meetingsApp.controller('MeetingsController', function
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
-          template: 
+          template:
           '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
           '<md-dialog aria-label="Meeting details" style="border-radius:12px;min-width:400px;max-width:500px;max-height:150px;height:150px;">' +
                 '<md-toolbar>' +
@@ -768,13 +768,13 @@ meetingsApp.controller('MeetingsController', function
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
-         
+
          }, function() {
-          
+
         });
     }; //rejectMeeting
 
-    
+
 	}   //if statement
   }); //firebaseUser
 
@@ -791,7 +791,7 @@ meetingsApp.controller('MeetingsController', function
 	$('input#name, textarea#textarea1').characterCounter();
 	$('input#description, textarea#textarea1').characterCounter();
     //$('.modal').modal();
-	
+
 	var inputElement = $('.datepicker').pickadate({
 		//selectMonths: true,
 	    min: new Date(),

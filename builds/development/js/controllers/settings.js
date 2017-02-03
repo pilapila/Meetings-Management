@@ -2,53 +2,63 @@
  'use strict';
 
 meetingsApp.controller('SettingsController', function
-  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
+  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog,
    $mdMedia, $filter, RefServices) {
 
 
 firebase.auth().onAuthStateChanged(firebaseUser =>{
   if(firebaseUser !== null){
 
-  	$scope.selectSettings = function(theme, day) {
+    var vm = this;
+    vm.selectSettings = selectSettings;
+    vm.changeAnime = changeAnime;
+
+    vm.roleAnime;
+    vm.themeChecked;
+    vm.alarmChecked;
+    vm.settingTheme;
+    vm.settingAlarm;
+
+  	function selectSettings(theme, day) {
   		RefServices.refSettings(firebaseUser).update({
-  				   'anime':         $scope.roleAnime,
-	               'color1':        theme.color1,
+  				       'anime':     vm.roleAnime,
+	               'color1':    theme.color1,
 	               'color2': 		theme.color2,
 	               'color3': 		theme.color3,
 	               'day':    		day,
 	               'dayId':  		day-1,
 	               'image':  		theme.image,
-	               'themeId':       theme.id
+	               'themeId':   theme.id
 	            }).then(function() {
 	            	$scope.$emit('newSetAllCount', day);
-	            	$scope.showToast('Settings Changed');
+	            	showToast('Settings Changed');
 				});
   	}
 
-  	$scope.changeAnime = function() {
-  		$scope.roleAnime = !$scope.roleAnime;
+  	function changeAnime() {
+  		vm.roleAnime = !vm.roleAnime;
   	};
 
-	$scope.showToast = function(message) {
-		$mdToast.show(
-			$mdToast.simple()
-				.toastClass('md-toast-error')
-				.content(message)
-				.position('top, right')
-				.hideDelay(2000)
-		);
-	}; // Show Toast		
-  	
+  	function showToast(message) {
+  		$mdToast.show(
+  			$mdToast.simple()
+  				.toastClass('md-toast-error')
+  				.content(message)
+  				.position('top, right')
+  				.hideDelay(2000)
+  		);
+  	}; // Show Toast
+
 
   	const settingsRef = RefServices.refSettings(firebaseUser);
-	settingsRef.on('value', function (snap) {
+	  settingsRef.on('value', function (snap) {
 		$timeout(function () {
 
-			$scope.themeChecked  = snap.val().themeId;
-			$scope.alarmChecked = snap.val().dayId;
-			$scope.roleAnime = snap.val().anime;
-		   	$scope.settingTheme = [
-		   			
+			vm.themeChecked  = snap.val().themeId;
+			vm.alarmChecked = snap.val().dayId;
+			vm.roleAnime = snap.val().anime;
+
+      vm.settingTheme = [
 		   			{
 		   				"name": "Purple",
 		   				"theme": {
@@ -122,7 +132,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 		   	];
 
 
-		   	$scope.settingAlarm = [
+		   	vm.settingAlarm = [
 		   			{
 		   				"name": "One day",
 		   				"day": 1

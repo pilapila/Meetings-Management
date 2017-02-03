@@ -1,50 +1,48 @@
 (function(){
  'use strict';
 
-meetingsApp.controller('ProfileController', function
-  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
+ meetingsApp.controller('ProfileController', function
+  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog,
    $mdMedia, $filter, RefServices) {
 
+    firebase.auth().onAuthStateChanged(firebaseUser =>{
+      if(firebaseUser !== null){
 
-firebase.auth().onAuthStateChanged(firebaseUser =>{
-  	if(firebaseUser !== null){
+        var vm = this;
+        vm.editProfile = editProfile;
+        vm.user;
 
- 
+      	$("#firstname").next().addClass("active");
+    		$("#lastname").next().addClass("active");
+    		$("#age_input2").next().addClass("active");
 
+      	RefServices.refCaller(firebaseUser.uid).on('value', function (snap) {
+    			$timeout(function () {
+    				vm.user = snap.val();
+    			}, 0);
+    		}); //ref to profile
 
-  		$("#firstname").next().addClass("active");
-		$("#lastname").next().addClass("active");
-		$("#age_input2").next().addClass("active");
+    		function editProfile() {
+    			RefServices.refCaller(firebaseUser.uid).update({
+                   'firstname':  vm.user.firstname,
+                   'lastname': 	 vm.user.lastname,
+                   'age':    	 vm.user.age
+                }).then(function() {
+                	showToast('Profile Changed');
+    			});
+    		}; // edit profile
 
-  		RefServices.refCaller(firebaseUser.uid).on('value', function (snap) {
-			$timeout(function () {
-				$scope.user = snap.val();
-			}, 0);
-		}); //ref to profile
+    		function showToast(message) {
+    			$mdToast.show(
+    				$mdToast.simple()
+    					.toastClass('md-toast-error')
+    					.content(message)
+    					.position('top, right')
+    					.hideDelay(2000)
+    			);
+    		}; // Show Toast
 
-		$scope.editProfile = function() {
-			RefServices.refCaller(firebaseUser.uid).update({
-               'firstname':  $scope.user.firstname,
-               'lastname': 	 $scope.user.lastname,
-               'age':    	 $scope.user.age
-            }).then(function() {
-            	$scope.showToast('Profile Changed');
-			});
-		}; // edit profile
-
-		$scope.showToast = function(message) {
-			$mdToast.show(
-				$mdToast.simple()
-					.toastClass('md-toast-error')
-					.content(message)
-					.position('top, right')
-					.hideDelay(2000)
-			);
-		}; // Show Toast		
-
- 	}   //if statement
-}); //firebaseUser
-
-
-}); // ProfileController
+     	}   //if statement
+    }); //firebaseUser
+  }); // ProfileController
 }());
