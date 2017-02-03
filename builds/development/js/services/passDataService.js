@@ -1,19 +1,22 @@
-meetingsApp.service('passDataService', function() {
-  
-  var productList = [];
+(function(){
+ 'use strict';
 
-  var addProduct = function(newObj) {
-      productList = [];
-      productList.push(newObj);
-  };
+ meetingsApp.service('passDataService', function() {
 
-  var getProducts = function(){
-      return productList;
-  };
+    var productList = [];
 
-  return {
-    addProduct: addProduct,
-    getProducts: getProducts
-  };
+    var addProduct = function(newObj) {
+        productList = [];
+        productList.push(newObj);
+    };
 
-});
+    var getProducts = function(){
+        return productList;
+    };
+
+    return {
+      addProduct: addProduct,
+      getProducts: getProducts
+    };
+ });
+}());

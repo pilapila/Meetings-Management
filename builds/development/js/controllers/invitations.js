@@ -1,4 +1,7 @@
-meetingsApp.controller('InvitationsController', function
+(function(){
+ 'use strict';
+
+ meetingsApp.controller('InvitationsController', function
   ( $scope, $rootScope, $firebase, $timeout, $firebaseArray,
   	$mdToast, $mdDialog, $routeParams, $mdMedia, $location, RefServices, passDataService) {
 
@@ -39,7 +42,7 @@ meetingsApp.controller('InvitationsController', function
           .targetEvent(event);
         $mdDialog.show(confirm).then(function(){
           $timeout(function () {
-            
+
             if (invitation.excuse) {
               RefServices.refData(firebaseUser).push().set({
                 'name':            invitation.name,
@@ -84,7 +87,7 @@ meetingsApp.controller('InvitationsController', function
               }
 
             };  // end for // find inviteeId
-            
+
             const refFindWhichCheckin = RefServices.refCheckin(invitation.whichUser, invitation.whichMeeting);
             refFindWhichCheckin.on('value', function (snap) {
               $timeout(function () {
@@ -94,7 +97,7 @@ meetingsApp.controller('InvitationsController', function
                     if ($scope.allCheckin[i].regUser == $scope.firebaseUser) {
                       RefServices.refCheckedPerson(invitation.whichUser, invitation.whichMeeting,  $scope.allCheckin[i].$id)
                         .update({
-                          "inviteeId":          inviteeId, 
+                          "inviteeId":          inviteeId,
                           "accept":             true,
                           "send":               true,
                           "reject":             false,
@@ -106,7 +109,7 @@ meetingsApp.controller('InvitationsController', function
               }, 0);
             }); // ref to response from invitee
 
-             
+
             RefServices.refDeleteInvitation(firebaseUser.uid, invitation.$id).remove();
             //ref to delete invitation
             RefServices.refInvitations(firebaseUser.uid).on('value', function (snap) {
@@ -127,8 +130,8 @@ meetingsApp.controller('InvitationsController', function
     $scope.suspentionDialog = function(event, invitation, color) {
       $scope.dialog = invitation;
               $mdDialog.show({
-                controller: function () { 
-                  this.parent = $scope; 
+                controller: function () {
+                  this.parent = $scope;
                   $scope.cancel = function() {
                 $mdDialog.cancel();
               };
@@ -157,19 +160,19 @@ meetingsApp.controller('InvitationsController', function
                 fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
               })
               .then(function(answer) {
-               
+
                }, function() {
-                
+
               });
     }; // suspentionDialog
 
 
     $scope.rejectInvitation = function(event, invitation, color) {
-      
+
         $scope.dialog = invitation;
         $mdDialog.show({
-          controller: function () { 
-            this.parent = $scope; 
+          controller: function () {
+            this.parent = $scope;
             $scope.cancel = function() {
               $mdDialog.cancel();
             };
@@ -180,7 +183,7 @@ meetingsApp.controller('InvitationsController', function
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
-          template: 
+          template:
           '<form ng-submit="ctrl.parent.delete(myExcuse)">' +
           '<md-dialog aria-label="Meeting details" style="border-radius:12px;max-width:500px;max-height:150px;height:150px;">' +
                 '<md-toolbar>' +
@@ -215,9 +218,9 @@ meetingsApp.controller('InvitationsController', function
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
-         
+
          }, function() {
-          
+
         });
     }; // Reject invitation
 
@@ -270,3 +273,5 @@ meetingsApp.controller('InvitationsController', function
   }); // end firebase.auth()
 
 }); // InvitationsController
+
+}());

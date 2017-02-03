@@ -1,6 +1,9 @@
-meetingsApp.controller('RecordController', function
-  ( $scope, $rootScope, $firebase, $timeout, $firebaseArray, 
-  	$mdToast, $mdDialog, $routeParams, $mdMedia, $filter, RefServices, 
+(function(){
+ 'use strict';
+
+ meetingsApp.controller('RecordController', function
+  ( $scope, $rootScope, $firebase, $timeout, $firebaseArray,
+  	$mdToast, $mdDialog, $routeParams, $mdMedia, $filter, RefServices,
     $location, productListPageCount, passDataService) {
 
     $scope.usersRecordBase = passDataService.getProducts(); // get sync data from meetingsController
@@ -28,7 +31,7 @@ meetingsApp.controller('RecordController', function
         $timeout(function () {
           $scope.meetingChecked = snap.val();
         }, 0);
-    }); // Ref to meeting's information 
+    }); // Ref to meeting's information
 
 
     RefServices.refSummery($scope.whichuser, $scope.whichmeeting)
@@ -45,7 +48,7 @@ meetingsApp.controller('RecordController', function
               $("#textarea1").next().removeClass("active");
             }
         }, 0);
-    }); // Ref to summery information 
+    }); // Ref to summery information
 
 
     RefServices.refGeneral($scope.whichuser, $scope.whichmeeting)
@@ -58,7 +61,7 @@ meetingsApp.controller('RecordController', function
               $scope.editGeneral = false;
             }
         }, 0);
-    }); // Ref to general information 
+    }); // Ref to general information
 
 
 
@@ -85,7 +88,7 @@ meetingsApp.controller('RecordController', function
 
             }.bind(this));
           }, 0);
-    });  // ref to audience's list 
+    });  // ref to audience's list
 
 
     const absentListRef = RefServices.refAbsence($scope.whichuser, $scope.whichmeeting);
@@ -110,14 +113,14 @@ meetingsApp.controller('RecordController', function
 
             }.bind(this));
           }, 0);
-    });  // ref to absent's list  
+    });  // ref to absent's list
 
-    const directivesListRef = RefServices.refDirectiveRecord($scope.whichuser, $scope.whichmeeting); 
+    const directivesListRef = RefServices.refDirectiveRecord($scope.whichuser, $scope.whichmeeting);
     directivesListRef.on('value', function (snap) {
           $timeout(function () {
 
             $scope.directiveArray = [];
-            
+
             $scope.dataRecord = $firebaseArray(directivesListRef);
             $scope.dataRecord.$loaded().then(function (list) {
               if ($scope.dataRecord.length == 0) {
@@ -135,10 +138,10 @@ meetingsApp.controller('RecordController', function
               }
             }.bind(this));
           }, 0);
-    });  // ref to Directive list  
+    });  // ref to Directive list
 
 
-  $scope.refFindRecordList = function() {   
+  $scope.refFindRecordList = function() {
         $timeout(function () {
             $scope.usersShortRecord = [];
 
@@ -152,7 +155,7 @@ meetingsApp.controller('RecordController', function
                 });
               } // end if
             }; // end for
-          
+
             for (var j = 0; j < $scope.audienceListSync.length; j++) {
               for (var i = 0; i < $scope.usersShortRecord.length; i++) {
                 if ($scope.usersShortRecord[i].regUser === $scope.audienceListSync[j].regUser) {
@@ -173,11 +176,11 @@ meetingsApp.controller('RecordController', function
               $scope.showCheckinList = false;
             } else if ($scope.usersShortRecord.length > 0) {
               $scope.showCheckinList = true;
-            }        
-            
+            }
+
         }, 0);
   }; // refFindRecordList
-    
+
   $scope.refFindRecordList();
 
   $scope.addAudience = function() {
@@ -185,7 +188,7 @@ meetingsApp.controller('RecordController', function
     $scope.alarmAudienceTitle = "#2ba030";
     $scope.alarmAbsentTitle = "#b5192f";
     var dataList = $scope.dataAudience;
-    $timeout(function () {      
+    $timeout(function () {
 
       for (var i = 0; i < dataList.length; i++) {
         for (var j = 0; j < $scope.usersRecord.length; j++) {
@@ -202,15 +205,15 @@ meetingsApp.controller('RecordController', function
         }; // end for
       };  // end for all
 
-      
+
       $scope.refFindRecordList();
       $scope.dataAudience = [];
       $scope.showAgreeAudience = 0;
       $scope.showToast('Added Audience', 'md-toast-add');
 
     }, 0);
-    
-  };  // Add Audience 
+
+  };  // Add Audience
 
 
   $scope.deleteAudience = function(event, checked) {
@@ -234,7 +237,7 @@ meetingsApp.controller('RecordController', function
   $scope.addAbsent = function() {
     var dataList = $scope.dataAbsent;
 
-    $timeout(function () {      
+    $timeout(function () {
 
         for (var i = 0; i < dataList.length; i++) {
           for (var j = 0; j < $scope.usersRecord.length; j++) {
@@ -259,10 +262,10 @@ meetingsApp.controller('RecordController', function
       $scope.showAgreeAbsent = 0;
       $scope.showToast('Added Absence', 'md-toast-add');
     }, 0);
-    
-  };  // Add Absent   
 
-  
+  };  // Add Absent
+
+
   $scope.deleteAbsent = function(event, checked) {
     var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete ' +  checked.firstname  + ' ' + checked.lastname + '?')
@@ -281,7 +284,7 @@ meetingsApp.controller('RecordController', function
 
 
   $scope.addDirective = function(record) {
-    
+
     if( $("#api_picker_clear").val() == '' ) {
 
       $scope.dateError = true;
@@ -299,7 +302,7 @@ meetingsApp.controller('RecordController', function
           'follow':         record.follow,
           'respite':        $( '#api_picker_clear' ).val()
       });
-      
+
       $rootScope.alarmDirectiveColor = "#dcdcdc";
       $rootScope.alarmDirectiveTitle = "#505050";
       $scope.showToast('Added Directive', 'md-toast-add');
@@ -338,11 +341,11 @@ meetingsApp.controller('RecordController', function
 
 
     $scope.showDetails = function(event, record) {
-      
+
       $scope.dialog = record;
         $mdDialog.show({
-          controller: function () { 
-              this.parent = $scope; 
+          controller: function () {
+              this.parent = $scope;
               $scope.cancel = function() {
                 $mdDialog.cancel();
               }; // cancel
@@ -374,9 +377,9 @@ meetingsApp.controller('RecordController', function
           fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
-         
+
          }, function() {
-          
+
         });
     }; // show record dialog
 
@@ -398,11 +401,11 @@ meetingsApp.controller('RecordController', function
     }; // clear summery
 
 
-    $scope.addGeneral = function() {    
+    $scope.addGeneral = function() {
       $(document).ready(function () {
           if( $("#date-picker1").val() == '' ) {
               $("#date-picker1").next().addClass("active");
-          } 
+          }
 
           if ( $("#time-picker1").val() == '' ) {
               $scope.required = "required!";
@@ -412,7 +415,7 @@ meetingsApp.controller('RecordController', function
           if ( $("#time-picker2").val() == '' ) {
               $scope.required = "required!";
               $("#time-picker2").next().addClass("active");
-          }       
+          }
       });
 
       if ( $scope.general.places &&
@@ -465,7 +468,7 @@ meetingsApp.controller('RecordController', function
 
             time2.setHours(hours2);
             time2.setMinutes(minutes2);
-          
+
               $scope.general = {
                  'date':         setDatePicker,
                  'startTime':    time1,
@@ -476,10 +479,10 @@ meetingsApp.controller('RecordController', function
 
 
     $scope.recordMeeting = function(event, showCheckinList) {
-        
-        if (!$scope.generalInfo) {    
+
+        if (!$scope.generalInfo) {
           $scope.alarmGeneralColor = "#d03468";
-          $scope.alarmGeneralTitle = "#fff";      
+          $scope.alarmGeneralTitle = "#fff";
           $mdDialog.show(
             $mdDialog.alert()
               .parent(angular.element(document.querySelector('#popupContainer')))
@@ -513,7 +516,7 @@ meetingsApp.controller('RecordController', function
               .ok('Ok')
               .targetEvent(event)
             );
-        
+
         } else if (!$scope.isThereOneDirective) {
             $rootScope.alarmDirectiveColor = "#d03468";
             $rootScope.alarmDirectiveTitle = "#fff";
@@ -587,7 +590,7 @@ meetingsApp.controller('RecordController', function
                     $location.path('/meetings');
                 });
 
-              }, 0); 
+              }, 0);
         } // end if
     }; //addRecord
 
@@ -620,7 +623,7 @@ meetingsApp.controller('RecordController', function
   $scope.dataAbsent = [];
 
   $scope.clearDataAudience = function() {
-    
+
     if ($scope.dataAudience.length) {
       $scope.showAgreeAudience = $scope.dataAudience.length;
     } else {
@@ -631,7 +634,7 @@ meetingsApp.controller('RecordController', function
 
 
   $scope.clearDataAbsent = function() {
-    
+
     if ($scope.dataAbsent.length) {
       $scope.showAgreeAbsent = $scope.dataAbsent.length;
     } else {
@@ -650,7 +653,7 @@ meetingsApp.controller('RecordController', function
       }
       return match;
   };  // checkbox checking
-  
+
   $scope.syncAudience = function(bool, item){
     if(bool){
       // add item
@@ -663,7 +666,7 @@ meetingsApp.controller('RecordController', function
           $scope.dataAudience.splice(i,1);
           $scope.showAgreeAudience = $scope.dataAudience.length;
         }
-      }      
+      }
     }
   };  // pic data from checkbox
 
@@ -677,7 +680,7 @@ meetingsApp.controller('RecordController', function
       }
       return match;
   };  // checkbox checking
-  
+
   $scope.syncAbsent = function(bool, item){
     if(bool){
       // add item
@@ -690,7 +693,7 @@ meetingsApp.controller('RecordController', function
           $scope.dataAbsent.splice(i,1);
           $scope.showAgreeAbsent = $scope.dataAbsent.length;
         }
-      }      
+      }
     }
   };  // pic data from checkbox
 
@@ -741,10 +744,4 @@ meetingsApp.controller('RecordController', function
 
 }); // CheckinsController
 
-
-
-
-
-
-
-
+}());

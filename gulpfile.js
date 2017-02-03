@@ -1,4 +1,7 @@
-var gulp = require('gulp'),
+(function(){
+ 'use strict';
+
+ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     webserver = require('gulp-webserver');
 
@@ -30,3 +33,5 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('default', ['watch', 'html', 'js', 'css', 'webserver']);
+
+}());

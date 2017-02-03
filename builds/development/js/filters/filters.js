@@ -1,4 +1,7 @@
-meetingsApp
+(function(){
+ 'use strict';
+
+ meetingsApp
     .filter("ShortName", function () {
     	return function (input, count) {
     		var shortName = "";
@@ -47,3 +50,5 @@ meetingsApp
           return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
         }
     });
+
+}());

@@ -1,4 +1,7 @@
-meetingsApp.factory('Authentication', function($rootScope, $firebase, $location, $window, $timeout, RefServices){
+(function(){
+ 'use strict';
+
+	meetingsApp.factory('Authentication', function($rootScope, $firebase, $location, $window, $timeout, RefServices){
 
 		var myObject = {
 			register : function(user) {
@@ -46,7 +49,7 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location,
 						  		$window.location.reload();
 						  	}, 500);
 						}, function(error) {
-						  
+
 						});
 			}, //logout
 
@@ -56,12 +59,12 @@ meetingsApp.factory('Authentication', function($rootScope, $firebase, $location,
 			} // singnedIn
 
 		} //myObject
-		
+
 		$rootScope.signedIn = function() {
 			return myObject.signedIn();
 		} // add function to rootScope to find it in every where
 
 		return myObject;
-         
-	   }); 
 
+	  }); 
+}());

@@ -1,4 +1,5 @@
 (function(){
+ 'use strict';
 
     const config = {
 	    apiKey: "AIzaSyDT18LztRkjLWQ_OSjsJeXo4VP0y7YHbdY",

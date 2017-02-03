@@ -1,4 +1,7 @@
-meetingsApp.controller('RegistrationController',
+(function(){
+ 'use strict';
+
+ meetingsApp.controller('RegistrationController',
   function($scope, $rootScope, $firebaseAuth, $location, $timeout, $interval, Authentication) {
 
     $scope.login = function() {
@@ -14,11 +17,11 @@ meetingsApp.controller('RegistrationController',
             alert(errorMessage);
             $scope.message = errorMessage;
           }
-          
+
         }).then(function(user){
            $timeout(function () {
               $scope.currentPath = $location.path('/meetings');
-              }, 0);  
+              }, 0);
            });
         // [END authwithemail]
       };
@@ -32,8 +35,10 @@ meetingsApp.controller('RegistrationController',
             Authentication.login($scope.user);
              $timeout(function () {
               $scope.currentPath = $location.path('/meetings');
-              }, 0);  
-          });       
+              }, 0);
+          });
   }; // register
 
 }); // Controller
+
+}());
