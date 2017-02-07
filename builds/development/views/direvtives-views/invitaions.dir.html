@@ -1,4 +1,4 @@
-<div ng-controller="InvitationsController" style="margin-top:-12px">
+<div ng-controller="InvitationsController as vm" style="margin-top:-12px">
 <div class="col s12">
   <div class="card horizontal">
     <div class="card-stacked">
@@ -9,7 +9,7 @@
         </div>
         <b class="right" style="color:#{{whichcolor}};margin-top:-20px">
           <div style="margin-top:2px;">
-          <i class="fa fa-check animated bounce delayAnimate" 
+          <i class="fa fa-check animated bounce delayAnimate"
              aria-hidden="true"></i>
           </div>
           <div style="margin-top:-17px;margin-left:12px">
@@ -25,10 +25,10 @@
       <div class="card-action" style="color: #6d6d6d">
 
         <ul class="invitelist cf" style="margin-left:5px;">
-          <li ng-repeat="invitation in invitationsList | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+          <li ng-repeat="invitation in invitationsList | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize"
               class="delayAnimate">
             <div class="checkin">
-              
+
                 <div class="col s12 m7">
                   <div class="card horizontal card">
                     <div class="card-image">
@@ -38,12 +38,12 @@
                              style="border-top-left-radius:12px;border-bottom-left-radius:12px;width:80px;max-width:80px;border: 1px solid #b6b6b6">
                               <md-tooltip md-direction="top" style="font-size:0.9rem">
                                 {{invitation.firstnameCaller}}
-                                {{invitation.lastnameCaller}} 
+                                {{invitation.lastnameCaller}}
                               </md-tooltip>
                             </span>
                         </a>
                     </div>
-                    <div class="card-stacked" 
+                    <div class="card-stacked"
                          style="font-size:0.85rem;margin-top:-10px;margin-left:-8px">
                       <div class="card-content">
                         <span ng-show="invitation.pause" style="color:#d44977">
@@ -51,19 +51,19 @@
                         </span>
                         <b>Meeting Name: </b>
                         <span>{{invitation.name}}</span>
-                        
-                        <div><b>Description: </b> 
+
+                        <div><b>Description: </b>
                           <span>{{invitation.description}}</span>
-                        </div>  
+                        </div>
                         <div class="date" style="color:#0e8dcf">
                           <i class="fa fa-calendar-o" aria-hidden="true"></i>
                           <b>Date: </b> {{invitation.dateMeeting | date}}  &nbsp&nbsp
                           <i class="fa fa-clock-o" aria-hidden="true"></i>
-                          <b>Time: </b> {{invitation.time | limitTo:5 }} 
-                        </div> 
+                          <b>Time: </b> {{invitation.time | limitTo:5 }}
+                        </div>
 
                         <!-- <div class="right" style="margin-top:-77px;margin-right:-21px">
-                          <img src="images/personal_pics/test.jpg" 
+                          <img src="images/personal_pics/test.jpg"
                           style="border: 1px solid #b6b6b6">
                         </div> -->
 
@@ -73,7 +73,7 @@
 
                         <div class="left-align col s1" style="margin-top:3px;">
                           <span class="fa-stack">
-                            <i class="fa fa-circle-thin fa-stack-2x" 
+                            <i class="fa fa-circle-thin fa-stack-2x"
                                style="color:#bcebf8;margin-top:1px;margin-left:15px"></i>
                             <span style="font-size:16px;color:#19a7ce;margin-left:23px;">
                               {{ ($index + 1) + (pageSize * (selectedPage - 1)) }}
@@ -84,12 +84,12 @@
                         <div class="right-align col s11" style="margin-top:-30px">
 
                           <a class="fontawesome-color" href="" style="margin-right:-5px"
-                             ng-click="suspentionDialog($event, invitation, themeColor)"
+                             ng-click="vm.suspentionDialog($event, invitation, themeColor)"
                              ng-show="invitation.pause">
                               <span class="fa-stack fa-lg" style="margin-top:2px">
-                                <i class="fa fa-square-o fa-stack-2x" 
+                                <i class="fa fa-square-o fa-stack-2x"
                                    style="color:#eaa8be;"></i>
-                                <i class="fa fa-pause fa-stack-1x" 
+                                <i class="fa fa-pause fa-stack-1x"
                                    style="font-size:12px;color:#d44977;margin-top:-1px"></i>
                                 <md-tooltip md-direction="top">
                                   SUSPENDED
@@ -98,11 +98,11 @@
                           </a>
 
                           <a class="fontawesome-color" href="" style="margin-right:-5px"
-                               ng-click="rejectInvitation($event, invitation, themeColor)">
+                               ng-click="vm.rejectInvitation($event, invitation, themeColor)">
                               <span class="fa-stack fa-lg" style="margin-top:2px">
-                                <i class="fa fa-square-o fa-stack-2x" 
+                                <i class="fa fa-square-o fa-stack-2x"
                                    style="color:#eaa8be;"></i>
-                                <i class="fa fa-times fa-stack-1x" 
+                                <i class="fa fa-times fa-stack-1x"
                                    style="font-size:20px;color:#d44977;margin-top:-2px"></i>
                                 <md-tooltip md-direction="top">
                                   REJECT INVITATION
@@ -111,12 +111,12 @@
                           </a>
 
                           <a href="" id="editLink" style="margin-right:10px"
-                             ng-click="acceptInvitation($event, invitation)"
+                             ng-click="vm.acceptInvitation($event, invitation)"
                              ng-hide="{{checked.send}}">
                               <span class="fa-stack fa-lg" style="margin-top:2px">
-                                <i class="fa fa-square-o fa-stack-2x" 
+                                <i class="fa fa-square-o fa-stack-2x"
                                    style="color:#c7ebb7;"></i>
-                                <i class="fa fa-check fa-stack-1x" 
+                                <i class="fa fa-check fa-stack-1x"
                                    style="font-size:18px;color:#65b13b;margin-top:0px;"></i>
                                 <md-tooltip md-direction="top">
                                   ACCEPT INVITATION
@@ -124,18 +124,18 @@
                               </span>
                           </a>
                         </div>
-                          
+
                       </div>
                     </div>
 
                     <div class="outer" style="margin-right:-1px" ng-hide="invitation.pause">
-                      <div class="inner" 
+                      <div class="inner"
                         style="background: #70b1ab;box-shadow: 0px 0px 30px 20px #70b1ab;">
                        </div>
                     </div>
 
                     <div class="outer" style="margin-right:-1px" ng-show="invitation.pause">
-                      <div class="inner" 
+                      <div class="inner"
                         style="background: #ec236a;box-shadow: 0px 0px 30px 20px #ec236a;">
                        </div>
                     </div>
@@ -144,13 +144,13 @@
                 </div>
 
             </div>
-            
+
 
           </li>
         </ul>
       </div>
 
-      <div ng-show="sendAllInvitationsButton" class="card-action right-align" 
+      <div ng-show="sendAllInvitationsButton" class="card-action right-align"
            style="margin-right:-45px">
         <a class="waves-effect btn-flat" style="color:#0889af"
            ng-click="sendAllInvitations($event)">
@@ -167,7 +167,7 @@
 </div>
 
 
-<div class="row"> 
+<div class="row">
     <div class="col s7">
           <ul class="pagination right">
             <li class="{{activationPre}}" ng-click="selectPrePage()">
@@ -185,14 +185,14 @@
                 <i class="material-icons">chevron_right</i>
               </a>
             </li>
-          </ul> 
+          </ul>
     </div>
     <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
-        <a class='dropdown-button-directive' 
-           data-activates='dropdownDirective' dropdown 
+        <a class='dropdown-button-directive'
+           data-activates='dropdownDirective' dropdown
            style="color:#5a5a5a" href="">
               rows: {{pageSize}} &nbsp
-              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true"
               style="margin-left:-10px;"></i>
         </a>
     </div>
@@ -200,11 +200,11 @@
 
 <div class="form-group">
 <ul id='dropdownDirective' class='dropdown-content' style="">
-    <li><a ng-click="selectRowNum(3)" 
+    <li><a ng-click="selectRowNum(3)"
       style="font-size:0.85rem!important;">3</a></li>
-    <li><a ng-click="selectRowNum(5)" 
+    <li><a ng-click="selectRowNum(5)"
       style="font-size:0.85rem!important;">5</a></li>
-    <li><a ng-click="selectRowNum(7)" 
+    <li><a ng-click="selectRowNum(7)"
       style="font-size:0.85rem!important;">7</a></li>
 </ul>
 </div>
@@ -222,10 +222,10 @@
             hover: false, // Activate on hover
             belowOrigin: false, // Displays dropdown below the button
             alignment: 'left', // Displays dropdown with edge aligned to the left of button
-            gutter: 0, 
+            gutter: 0,
           });
       $('.modal').modal();
       $('.tooltipped').tooltip({delay: 50});
-      
+
   })(jQuery); // End of jQuery name space
 </script>

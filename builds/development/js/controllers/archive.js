@@ -5,16 +5,18 @@ meetingsApp.controller('ArchiveController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, $routeParams,
    $mdMedia, $filter, RefServices, passDataService, productListPageCount) {
 
-	$scope.dataArchiveBase = passDataService.getProducts();
-    $scope.dataArchive = $scope.dataArchiveBase[0];
-
     //$scope.whichRecord = $routeParams.recordId;
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
-	   		$scope.deleteArchive = function(event, archive) {
-	   			
+      var vm = this;
+      vm.deleteArchive = deleteArchive;
+
+      vm.dataArchiveBase = passDataService.getProducts();
+      vm.dataArchive = vm.dataArchiveBase[0];
+
+      function deleteArchive(event, archive) {
 	   			var confirm = $mdDialog.confirm()
 			        .title('Are you sure you want to delete this archive?')
 			        .ok('Yes')
@@ -22,11 +24,11 @@ meetingsApp.controller('ArchiveController', function
 			        .targetEvent(event);
 			      $mdDialog.show(confirm).then(function(){
 			        RefServices.refArchiveKey(firebaseUser.uid, archive).remove();
-			        $scope.showToast('Archive Deleted!', 'md-toast-delete');
+			        showToast('Archive Deleted!', 'md-toast-delete');
 			      });
 	   		}; // delete Archive
 
-	   		$scope.showToast = function(message, color) {
+	   		function showToast(message, color) {
 				$mdToast.show(
 					$mdToast.simple()
 						.toastClass(color)

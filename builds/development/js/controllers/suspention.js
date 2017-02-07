@@ -2,14 +2,19 @@
  'use strict';
 
 meetingsApp.controller('SuspentionController', function
-  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, 
+  ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog,
    $mdMedia, $filter, RefServices, productListPageCount) {
 
   firebase.auth().onAuthStateChanged(firebaseUser =>{
     if(firebaseUser !== null){
 
-    $scope.unpauseMeeting = function(event, meeting, color) {
-      
+      var vm = this;
+      vm.unpauseMeeting = unpauseMeeting;
+      vm.unpauseAllMeetings = unpauseAllMeetings;
+      vm.suspentionDialog = suspentionDialog;
+
+
+    function unpauseMeeting(event, meeting, color) {
         var confirm = $mdDialog.confirm()
           .title('Are you sure you want to active ' +  meeting.name  + ' ?')
           .ok('Yes')
@@ -19,25 +24,25 @@ meetingsApp.controller('SuspentionController', function
           const refActiveCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
           refActiveCheckins.on('value', function (snap) {
             $timeout(function () {
-                $scope.activeCheckins = $firebaseArray(refActiveCheckins);
-                $scope.activeCheckins.$loaded().then(function (list) {
-                  for (var i = 0; i < $scope.activeCheckins.length; i++) {
-                    
-                    if ( $scope.activeCheckins[i].send == true && 
-                         $scope.activeCheckins[i].accept == true && 
-                         $scope.activeCheckins[i].reject == false ) {
+                vm.activeCheckins = $firebaseArray(refActiveCheckins);
+                vm.activeCheckins.$loaded().then(function (list) {
+                  for (var i = 0; i < vm.activeCheckins.length; i++) {
 
-                        RefServices.refMeetChecked($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].inviteeId)
+                    if ( vm.activeCheckins[i].send == true &&
+                         vm.activeCheckins[i].accept == true &&
+                         vm.activeCheckins[i].reject == false ) {
+
+                        RefServices.refMeetChecked(vm.activeCheckins[i].regUser, vm.activeCheckins[i].inviteeId)
                           .update({
                                    'pause':  false,
                                    'excuse': ''
                                 });
 
-                    } else if ( $scope.activeCheckins[i].send == true && 
-                                $scope.activeCheckins[i].accept == false && 
-                                $scope.activeCheckins[i].reject == false ) {
+                    } else if ( vm.activeCheckins[i].send == true &&
+                                vm.activeCheckins[i].accept == false &&
+                                vm.activeCheckins[i].reject == false ) {
 
-                        RefServices.refDeleteInvitation($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].whichInvitation)
+                        RefServices.refDeleteInvitation(vm.activeCheckins[i].regUser, vm.activeCheckins[i].whichInvitation)
                           .update({
                                    'pause':  false,
                                    'excuse': ''
@@ -52,16 +57,16 @@ meetingsApp.controller('SuspentionController', function
                   'excuse': ''
                 });
 
-                $scope.showToast('Meeting Activated!', 'md-toast-add');
-                
+                showToast('Meeting Activated!', 'md-toast-add');
+
           }, 0); // timeout
         });  // snap val()
       }); // confirm
     }; // activeMeeting
 
 
-    $scope.unpauseAllMeetings = function(event, datameetings, color) {
-      
+    function unpauseAllMeetings(event, datameetings, color) {
+
         var confirm = $mdDialog.confirm()
           .title('Are you sure you want to active all meetings ?')
           .ok('Yes')
@@ -73,25 +78,25 @@ meetingsApp.controller('SuspentionController', function
             if (!datameetings[j].invitation) {
                 const refActiveCheckins = RefServices.refCheckin(firebaseUser.uid, datameetings[j].$id);
                 refActiveCheckins.on('value', function (snap) {
-                      $scope.activeCheckins = $firebaseArray(refActiveCheckins);
-                      $scope.activeCheckins.$loaded().then(function (list) {
-                        for (var i = 0; i < $scope.activeCheckins.length; i++) {
-                          
-                          if ( $scope.activeCheckins[i].send == true && 
-                               $scope.activeCheckins[i].accept == true && 
-                               $scope.activeCheckins[i].reject == false ) {
+                      vm.activeCheckins = $firebaseArray(refActiveCheckins);
+                      vm.activeCheckins.$loaded().then(function (list) {
+                        for (var i = 0; i < vm.activeCheckins.length; i++) {
 
-                              RefServices.refMeetChecked($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].inviteeId)
+                          if ( vm.activeCheckins[i].send == true &&
+                               vm.activeCheckins[i].accept == true &&
+                               vm.activeCheckins[i].reject == false ) {
+
+                              RefServices.refMeetChecked(vm.activeCheckins[i].regUser, vm.activeCheckins[i].inviteeId)
                                 .update({
                                          'pause':  false,
                                          'excuse': ''
                                       });
 
-                          } else if ( $scope.activeCheckins[i].send == true && 
-                                      $scope.activeCheckins[i].accept == false && 
-                                      $scope.activeCheckins[i].reject == false ) {
+                          } else if ( vm.activeCheckins[i].send == true && 
+                                      vm.activeCheckins[i].accept == false && 
+                                      vm.activeCheckins[i].reject == false ) {
 
-                              RefServices.refDeleteInvitation($scope.activeCheckins[i].regUser, $scope.activeCheckins[i].whichInvitation)
+                              RefServices.refDeleteInvitation(vm.activeCheckins[i].regUser, vm.activeCheckins[i].whichInvitation)
                                 .update({
                                          'pause':  false,
                                          'excuse': ''
@@ -110,19 +115,19 @@ meetingsApp.controller('SuspentionController', function
           } // end if
         }; // end for
 
-        $scope.showToast('All Meetings Activated!', 'md-toast-add');
+        showToast('All Meetings Activated!', 'md-toast-add');
 
       }); // confirm
     }; // activeAllMeeting
 
 
 
-    $scope.suspentionDialog = function(event, excuse, color) {
-      
+    function suspentionDialog(event, excuse, color) {
+
               $scope.excuseDialog = excuse;
               $mdDialog.show({
-                controller: function () { 
-                  this.parent = $scope; 
+                controller: function () {
+                  this.parent = $scope;
                   $scope.cancel = function() {
                   $mdDialog.cancel();
                   };
@@ -152,7 +157,7 @@ meetingsApp.controller('SuspentionController', function
               });
     }; // suspentionDialog
 
-    $scope.showToast = function(message, color) {
+    function showToast(message, color) {
       $mdToast.show(
         $mdToast.simple()
           .toastClass(color)
