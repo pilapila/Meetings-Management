@@ -1,4 +1,4 @@
-<div ng-controller="CancelationController">
+<div ng-controller="CancelationController as vm">
 <div ng-controller="MeetingsController">
 <div class="row" style="padding-top:10px">
   <div class="col s12">
@@ -9,10 +9,10 @@
             <nav class="sidenav-title1" style="background-color:{{themeColor}}">
               <div class="nav-wrapper">
 
-                <nav class="search right right z-depth-0" 
+                <nav class="search right right z-depth-0"
                   style="height:35px;background-color:{{themeColor}};margin-top:3px;margin-right:3px;width:200px;">
                     <div class="nav-wrapper">
-                      
+
                         <div class="input-field">
                           <input type="search" ng-model="query" placeholder="search your term">
                           <label for="search">
@@ -20,7 +20,7 @@
                           </label>
                             <i class="material-icons" style="font-size:15px;" ng-click="query = ''">close</i>
                         </div>
-                      
+
                     </div>
                 </nav>
 
@@ -30,8 +30,8 @@
 
                 <ul class="left hide-on-med-and-down">
                   <li class="sidenav-li" style="margin-top:-3px">
-                    <a class="waves-effect waves-light" 
-                       ng-click="deleteAllCancelations(datameetings)">
+                    <a class="waves-effect waves-light"
+                       ng-click="vm.deleteAllCancelations(datameetings)">
                       <i class="fa fa-play-circle-o" aria-hidden="true"></i>
                       &nbsp Delete All Cancelation
                     </a>
@@ -75,54 +75,54 @@
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
       <th>
-        <a href="" ng-click="sort('name')">Meeting 
-        <i ng-show="sort.field !== 'name'" 
-           class="fa fa-chevron-down" 
+        <a href="" ng-click="sort('name')">Meeting
+        <i ng-show="sort.field !== 'name'"
+           class="fa fa-chevron-down"
            aria-hidden="true" style="color:#999"></i>
-        <i ng-show="sort.field === 'name' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
-        <i ng-show="sort.field === 'name' && sort.order" 
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+        <i ng-show="sort.field === 'name' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
+        <i ng-show="sort.field === 'name' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
            aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
-      
+
       <th>
-        <a href="" ng-click="sort('description')">Description 
-        <i ng-show="sort.field !== 'description'" 
-           class="fa fa-chevron-down" 
+        <a href="" ng-click="sort('description')">Description
+        <i ng-show="sort.field !== 'description'"
+           class="fa fa-chevron-down"
            aria-hidden="true" style="color:#999"></i>
-        <i ng-show="sort.field === 'description' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
-        <i ng-show="sort.field === 'description' && sort.order" 
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> </a> 
+        <i ng-show="sort.field === 'description' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
+        <i ng-show="sort.field === 'description' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
         <a href="" ng-click="sort('date')">Date
-        <i ng-show="sort.field !== 'date'" 
-           class="fa fa-chevron-down" 
-           aria-hidden="true" style="color:#999"></i> 
-        <i ng-show="sort.field === 'date' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field !== 'date'"
+           class="fa fa-chevron-down"
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'date' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
         <i ng-show="sort.field === 'date' && sort.order"
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
            aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
-        Time 
+        Time
       </th>
       <th>
-        
+
       </th>
       <th class="right-align" style="padding-right:40px">Actions</th>
     </tr>
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+    <tr ng-repeat="(key, meeting) in datameetings | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize"
         style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
         <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
@@ -140,16 +140,16 @@
         {{ meeting.time | limitTo:5 }}
       </td>
       <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
-        
+
       </td>
       <td class="right meeting-data-table">
 
-        <a href="" id="editLink" ng-click="cancelationDialog($event, meeting, themeColor)"
+        <a href="" id="editLink" ng-click="vm.cancelationDialog($event, meeting, themeColor)"
            class="md-primary md-raised">
           <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
+            <i class="fa fa-circle-thin fa-stack-2x"
                style="color:#bcebf8;margin-top:-7px;"></i>
-            <i class="fa fa-comment-o fa-stack-1x" 
+            <i class="fa fa-comment-o fa-stack-1x"
                style="font-size:16px;color:#19a7ce;margin-top:-8px;"></i>
             <md-tooltip md-direction="top">
               EXCUSE
@@ -160,9 +160,9 @@
         <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
            class="md-primary md-raised" style="margin-left:-3px">
           <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
+            <i class="fa fa-circle-thin fa-stack-2x"
                style="color:#ffe5a0;margin-top:-7px;"></i>
-            <i class="fa fa-bars fa-stack-1x" 
+            <i class="fa fa-bars fa-stack-1x"
                style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               VIEW DETAILS
@@ -171,11 +171,11 @@
         </a>
 
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteCancelation($event, meeting)">
+           ng-click="vm.deleteCancelation($event, meeting)">
           <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
+            <i class="fa fa-circle-thin fa-stack-2x"
                style="color:#eaa8be;margin-top:-7px;"></i>
-            <i class="fa fa-trash-o fa-stack-1x" 
+            <i class="fa fa-trash-o fa-stack-1x"
                style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               DELETE
@@ -190,7 +190,7 @@
 </table>
 
 
-<div class="row"> 
+<div class="row">
     <div class="col s7">
           <ul class="pagination right">
             <li class="{{activationPre}}" ng-click="selectPrePage()">
@@ -208,26 +208,26 @@
                 <i class="material-icons">chevron_right</i>
               </a>
             </li>
-          </ul> 
+          </ul>
     </div>
     <div class="col s5" layout="row" style="margin-top:15px;font-size:0.9em!important">
-        <a class='dropdown-button-directive' href='javascript:void(0);' 
-           data-activates='dropdownDirective' dropdown 
+        <a class='dropdown-button-directive' href='javascript:void(0);'
+           data-activates='dropdownDirective' dropdown
            style="color:#5a5a5a">
-              rows:  
+              rows:
               &nbsp&nbsp&nbsp  {{pageSize}}
-              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true"
               style="margin-left:-10px;"></i>
         </a>
     </div>
 </div>
 
 <ul id='dropdownDirective' class='dropdown-content'>
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)"
       style="font-size:0.85rem!important;">5</a></li>
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)"
       style="font-size:0.85rem!important;">10</a></li>
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)"
       style="font-size:0.85rem!important;">15</a></li>
 </ul>
 
@@ -245,6 +245,6 @@
               alignment: 'left', // Displays dropdown with edge aligned to the left of button
               gutter: 0,
             });
-      
+
   })(jQuery); // End of jQuery name space
 </script>

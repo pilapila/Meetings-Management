@@ -8,9 +8,14 @@ meetingsApp.controller('CancelationController', function
   firebase.auth().onAuthStateChanged(firebaseUser =>{
     if(firebaseUser !== null){
 
+    var vm = this;
+    vm.deleteAllCancelations = deleteAllCancelations;
+    vm.deleteCancelation = deleteCancelation;
+    vm.cancelationDialog = cancelationDialog;
+    vm.showToast = showToast;
 
-    $scope.deleteAllCancelations = function(cancelations) {
-      
+    function deleteAllCancelations(cancelations) {
+
         var confirm = $mdDialog.confirm()
             .title('Are you sure you want to delete all cancelations ?')
             .ok('Yes')
@@ -21,13 +26,13 @@ meetingsApp.controller('CancelationController', function
             for (var i = 0; i < cancelations.length; i++) {
               RefServices.refDeleteCancellations(firebaseUser.uid, cancelations[i].$id).remove();
             };
-            
-            $scope.showToast('All Cancelations Deleted!', 'md-toast-delete');
+
+            showToast('All Cancelations Deleted!', 'md-toast-delete');
           });
     }; // deleteAllCancelations
 
 
-    $scope.deleteCancelation = function(event, cancelation) {
+    function deleteCancelation(event, cancelation) {
         var confirm = $mdDialog.confirm()
             .title('Are you sure you want to delete this cancelation ?')
             .ok('Yes')
@@ -35,17 +40,17 @@ meetingsApp.controller('CancelationController', function
             .targetEvent(event);
           $mdDialog.show(confirm).then(function(){
             RefServices.refDeleteCancellations(firebaseUser.uid, cancelation.$id).remove();
-            $scope.showToast('Cancelation Deleted!', 'md-toast-delete');
+            showToast('Cancelation Deleted!', 'md-toast-delete');
           });
     }
 
 
-    $scope.cancelationDialog = function(event, meeting, color) {
-      
+    function cancelationDialog(event, meeting, color) {
+
       $scope.dialog = meeting;
               $mdDialog.show({
-                controller: function () { 
-                  this.parent = $scope; 
+                controller: function () {
+                  this.parent = $scope;
                   $scope.cancel = function() {
                 $mdDialog.cancel();
               };
@@ -74,13 +79,13 @@ meetingsApp.controller('CancelationController', function
                 fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
               })
               .then(function(answer) {
-               
+
                }, function() {
-                
+
               });
     }; // suspentionDialog
 
-    $scope.showToast = function(message, color) {
+    function showToast(message, color) {
       $mdToast.show(
         $mdToast.simple()
           .toastClass(color)

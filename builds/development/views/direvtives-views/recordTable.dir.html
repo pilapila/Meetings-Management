@@ -1,5 +1,5 @@
 <div ng-controller="MeetingsController">
-<div ng-controller="RecordController">
+<div ng-controller="RecordController as vm">
 
 
 <table class="bordered card" style="margin-top:0px">
@@ -16,26 +16,26 @@
 
     <tr style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
-        <form ng-submit="addDirective(recordTable)">
+        <form ng-submit="vm.addDirective(recordTable)">
           <div class="row">
             <div class="col s12" style="margin-bottom:15px">
               <div class="row modal-form-record modal-background">
                 <div class="input-field col s3 datepicker-style">
                   <i class="small material-icons prefix">subject</i>
-                      <input name="recordDescription" id="recordDescription" type="text" 
-                             class="validate" required="" aria-required="true" 
+                      <input name="recordDescription" id="recordDescription" type="text"
+                             class="validate" required="" aria-required="true"
                              ng-model="recordTable.recordDescription">
                   <label for="recordDescription">Description Act</label>
                 </div>
                 <div class="input-field col s3">
                   <i class="material-icons prefix">view_carousel</i>
-                  <input name="responsible" id="responsible" type="text" class="validate" 
+                  <input name="responsible" id="responsible" type="text" class="validate"
                        required="" aria-required="true" ng-model="recordTable.responsible">
                   <label for="responsible"> Responsible </label>
                 </div>
                 <div class="input-field col s3">
                   <i class="material-icons prefix">perm_identity</i>
-                  <input name="follow" id="follow" type="text" class="validate" 
+                  <input name="follow" id="follow" type="text" class="validate"
                        required="" aria-required="true" ng-model="recordTable.follow">
                   <label for="follow">  Follow </label>
                 </div>
@@ -45,30 +45,30 @@
                          name="api_picker_clear"
                          ng-model="recordTable.respite">
                   <label ng-if="dateError" for="api_picker_clear" style="color:#d20036">
-                     Date is required 
+                     Date is required
                   </label>
                   <label ng-if="!dateError" for="api_picker_clear" style="color:#adadad">
                      Date
                   </label>
                 </div>
-                
+
               </div>
-            
+
             </div>
             <div class="right-align" style="padding-right:15px">
-              <button id="api_button_clear" class="waves-effect btn-flat" 
+              <button id="api_button_clear" class="waves-effect btn-flat"
                       type="submit" style="color:#0889af">
                   Add directive
               </button>
-              <a id="api_button_clear" ng-click="cancelDirective()" 
-                      class="waves-effect btn-flat" 
+              <a id="api_button_clear" ng-click="vm.cancelDirective()"
+                      class="waves-effect btn-flat"
                       style="color:#0889af">
                   Cancel
               </a>
             </div>
           </div>
         </form>
-      </td>   
+      </td>
     </tr>
   </tbody>
 </table>
@@ -80,47 +80,47 @@
     <tr class="meeting-data-table meeting-table-title">
       <th class="meeting-data-table">#</th>
       <th>
-        <a href="" ng-click="sort('description')">Description Act 
-        <i ng-show="sort.field !== 'description'" 
-           class="fa fa-chevron-down" 
+        <a href="" ng-click="sort('description')">Description Act
+        <i ng-show="sort.field !== 'description'"
+           class="fa fa-chevron-down"
            aria-hidden="true" style="color:#999"></i>
-        <i ng-show="sort.field === 'description' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
-        <i ng-show="sort.field === 'description' && sort.order" 
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+        <i ng-show="sort.field === 'description' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
+        <i ng-show="sort.field === 'description' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
            aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
-      
+
       <th>
-        <a href="" ng-click="sort('responsible')">Responsible 
-        <i ng-show="sort.field !== 'responsible'" 
-           class="fa fa-chevron-down" 
+        <a href="" ng-click="sort('responsible')">Responsible
+        <i ng-show="sort.field !== 'responsible'"
+           class="fa fa-chevron-down"
            aria-hidden="true" style="color:#999"></i>
-        <i ng-show="sort.field === 'responsible' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
-        <i ng-show="sort.field === 'responsible' && sort.order" 
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> </a> 
+        <i ng-show="sort.field === 'responsible' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
+        <i ng-show="sort.field === 'responsible' && sort.order"
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
         <a href="" ng-click="sort('follow')"> Follow
-        <i ng-show="sort.field !== 'follow'" 
-           class="fa fa-chevron-down" 
-           aria-hidden="true" style="color:#999"></i> 
-        <i ng-show="sort.field === 'follow' && !sort.order" 
-           class="fa fa-chevron-down animated rotateIn delayAnimate" 
-           aria-hidden="true" style="color:#d81b60"></i> 
+        <i ng-show="sort.field !== 'follow'"
+           class="fa fa-chevron-down"
+           aria-hidden="true" style="color:#999"></i>
+        <i ng-show="sort.field === 'follow' && !sort.order"
+           class="fa fa-chevron-down animated rotateIn delayAnimate"
+           aria-hidden="true" style="color:#d81b60"></i>
         <i ng-show="sort.field === 'follow' && sort.order"
-           class="fa fa-chevron-up animated rotateIn delayAnimate" 
+           class="fa fa-chevron-up animated rotateIn delayAnimate"
            aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
-        Respite 
+        Respite
       </th>
       <th class="right-align">
-      	<nav class="search right right z-depth-0" 
+      	<nav class="search right right z-depth-0"
              style="height:10px;background-color:#dcdcdc;width:200px;margin-top:-16px">
           <div class="nav-wrapper">
             <form>
@@ -139,7 +139,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="(key, record) in dataRecord | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize" 
+    <tr ng-repeat="(key, record) in vm.dataRecord | filter:query | orderBy: sort.field: sort.order | range:selectedPage:pageSize"
         style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
         <b>{{ ($index + 1) + (pageSize * (selectedPage - 1)) }}</b>
@@ -159,12 +159,12 @@
 
       <td class="right meeting-data-table" style="margin-top:-3px">
 
-        <a href="" id="editLink" ng-click="showDetails($event, record)"
+        <a href="" id="editLink" ng-click="vm.showDetails($event, record)"
            class="md-primary md-raised">
           <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
+            <i class="fa fa-circle-thin fa-stack-2x"
                style="color:#ffe5a0;margin-top:-7px;"></i>
-            <i class="fa fa-bars fa-stack-1x" 
+            <i class="fa fa-bars fa-stack-1x"
                style="font-size:16px;color:#e9a144;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               VIEW DETAILS
@@ -174,11 +174,11 @@
 
         <span>
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteDirective($event, record)">
+           ng-click="vm.deleteDirective($event, record)">
           <span class="fa-stack fa-lg">
-            <i class="fa fa-circle-thin fa-stack-2x" 
+            <i class="fa fa-circle-thin fa-stack-2x"
                style="color:#eaa8be;margin-top:-7px;"></i>
-            <i class="fa fa-trash-o fa-stack-1x" 
+            <i class="fa fa-trash-o fa-stack-1x"
                style="font-size:20px;color:#d44977;margin-top:-7px;"></i>
             <md-tooltip md-direction="top">
               DELETE
@@ -192,7 +192,7 @@
   </tbody>
 </table>
 
-<div class="row" ng-show="isThereOneDirective" style="margin-top:-20px;"> 
+<div class="row" ng-show="isThereOneDirective" style="margin-top:-20px;">
     <div class="col s6">
           <ul class="pagination right">
             <li class="{{activationPre}}" ng-click="selectPrePage()">
@@ -200,7 +200,7 @@
                 <i class="material-icons">chevron_left</i>
               </a>
             </li>
-            <li ng-repeat="page in dataRecord | filter:query | pageCount:pageSize"
+            <li ng-repeat="page in vm.dataRecord | filter:query | pageCount:pageSize"
                 ng-click="selectPage($index + 1)" class="waves-effect"
                 ng-class="getPageClass($index + 1)" style="font-size:12px;">
                 <a href="">{{$index+1}}</a>
@@ -210,15 +210,15 @@
                 <i class="material-icons">chevron_right</i>
               </a>
             </li>
-          </ul> 
+          </ul>
     </div>
     <div class="col s6" layout="row" style="margin-top:15px;font-size:0.9em!important">
-        <a class='dropdown-button-directive' href='javascript:void(0);' 
-           data-activates='dropdownDirective' dropdown 
+        <a class='dropdown-button-directive' href='javascript:void(0);'
+           data-activates='dropdownDirective' dropdown
            style="color:#5a5a5a">
-              rows:  
+              rows:
               &nbsp&nbsp&nbsp  {{pageSize}}
-              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true" 
+              <i class="fa fa-angle-up fa-icon-right" aria-hidden="true"
               style="margin-left:-10px;"></i>
         </a>
     </div>
@@ -226,11 +226,11 @@
 
 <ul ng-show="isThereOneDirective" id='dropdownDirective' class='dropdown-content'
     style="margin-bottom:-15px">
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(5)"
       style="font-size:0.85rem!important;">5</a></li>
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(10)"
       style="font-size:0.85rem!important;">10</a></li>
-    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)" 
+    <li><a href="javascript:void(0);" ng-click="selectRowNum(15)"
       style="font-size:0.85rem!important;">15</a></li>
 </ul>
 
@@ -257,6 +257,6 @@
               alignment: 'left', // Displays dropdown with edge aligned to the left of button
               gutter: 0,
             });
-      
+
   })(jQuery); // End of jQuery name space
 </script>

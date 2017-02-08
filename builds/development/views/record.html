@@ -6,7 +6,7 @@
   <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
 </div>
 
-<div ng-show="signedIn()" ng-controller="RecordController">
+<div ng-show="signedIn()" ng-controller="RecordController as vm">
 
 <div>
 <h5>Record</h5>
@@ -31,13 +31,13 @@
                     </a>
                   </li>
                   <li class="sidenav-li" style="margin-top:-3px">
-                    <a ng-href="#/checkins/{{whichuser}}/{{whichmeeting}}/3f3f3f" class="waves-effect waves-light">
+                    <a ng-href="#/checkins/{{vm.whichuser}}/{{vm.whichmeeting}}/3f3f3f" class="waves-effect waves-light">
                       <i class="fa fa-check" aria-hidden="true"></i>
                       &nbsp Checkins
                     </a>
                   </li>
                   <li class="sidenav-li" style="margin-top:-3px">
-                    <a href="" ng-click="recordMeeting($event, showCheckinList)"
+                    <a href="" ng-click="vm.recordMeeting($event, vm.showCheckinList)"
                        class="waves-effect waves-light">
                       <i class="fa fa-archive" aria-hidden="true"></i>
                       &nbsp Record Meeting
@@ -68,14 +68,14 @@
             <td style="width:100px;vertical-align:top"><b>Meeting Name:</b></td>
             <td style="vertical-align:top">
               <span style="color:#6a6a6a;font-size:0.9rem;">
-                {{meetingChecked.name}}
+                {{vm.meetingChecked.name}}
               </span>
             </td>
             <td style="width:130px;vertical-align:top">
               <b class="right" style="color:#575757;padding-right:10px">
                 <i class="fa fa-check animated bounce delayAnimate" aria-hidden="true"></i>
                 <div style="margin-top:-14px;margin-left:12px">
-                    &nbsp {{ meetingChecked.dateMeeting | date }}
+                    &nbsp {{ vm.meetingChecked.dateMeeting | date }}
                 </div>
               </b>
             </td>
@@ -96,7 +96,7 @@
             <td style="width:100px;vertical-align:top"><b>Description:</b> </td>
             <td style="vertical-align:top">
               <span style="color:#6a6a6a;font-size:0.9rem">
-                {{meetingChecked.description}}
+                {{vm.meetingChecked.description}}
               </span>
             </td>
           </tr>
@@ -112,12 +112,12 @@
 
 
 
-<table class="bordered card" ng-hide="editGeneral">
+<table class="bordered card" ng-hide="vm.editGeneral">
   <tbody>
 
-    <tr style="background-color:{{alarmGeneralColor}};max-height:10px;height:10px;">
+    <tr style="background-color:{{vm.alarmGeneralColor}};max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
-                 <b style="color:{{alarmGeneralTitle}};font-size:0.9rem;margin-right:10px">
+                 <b style="color:{{vm.alarmGeneralTitle}};font-size:0.9rem;margin-right:10px">
                     Add General Info
                  </b>
         </td>
@@ -126,14 +126,14 @@
     <tr style="border-color: #e4e4e4;" class="delayAnimate">
         <td class="meeting-data-table">
          <div class="row">
-          <form class="col s12" ng-submit="addGeneral()">
+          <form class="col s12" ng-submit="vm.addGeneral()">
             <div class="row modal-form-record modal-background"
             style="margin-left: -0.1rem !important;margin-right: -0.1rem !important">
 
               <div class="input-field col s2 datepicker-style">
                 <i class="small material-icons prefix">today</i>
                     <input type="date" id="date-picker1" class="datepicker"
-                       name="date-picker1" ng-model="general.date">
+                       name="date-picker1" ng-model="vm.general.date">
                   <label for="date-picker1" style="color:#adadad">
                      Date
                   </label>
@@ -142,25 +142,25 @@
               <div class="input-field col s2">
                 <i class="material-icons prefix">alarm_on</i>
                 <input id="time-picker1" class="timepicker" type="time"
-                       name="time-picker1" ng-model="general.startTime">
+                       name="time-picker1" ng-model="vm.general.startTime">
                 <label for="time-picker1" style="color:#adadad">
-                     Start Time {{required1}}
+                     Start Time {{vm.required1}}
                 </label>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix">alarm_off</i>
                 <input id="time-picker2" class="timepicker" type="time"
-                       name="time-picker2" ng-model="general.endTime">
+                       name="time-picker2" ng-model="vm.general.endTime">
                   <label for="time-picker2" style="color:#adadad">
-                     End Time {{required2}}
+                     End Time {{vm.required2}}
                 </label>
               </div>
 
               <div class="input-field col s6">
                 <i class="material-icons prefix">room</i>
                 <input name="place" id="place" type="text" class="validate"
-                       required="" aria-required="true" ng-model="general.places">
+                       required="" aria-required="true" ng-model="vm.general.places">
                 <label for="place">Meeting Places</label>
               </div>
 
@@ -179,7 +179,7 @@
   </tbody>
 </table>
 
-<table class="bordered card" ng-show="editGeneral">
+<table class="bordered card" ng-show="vm.editGeneral">
   <tbody>
 
     <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
@@ -200,34 +200,34 @@
               <div class="input-field col s2 datepicker-style">
                 <i class="small material-icons prefix" style="margin-top:-10px">today</i>
                 <span style="margin-left:35px;color:#979797">
-                  <b>{{ generalInfo.date | date }}</b>
+                  <b>{{ vm.generalInfo.date | date }}</b>
                 </span>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix" style="margin-top:-10px">alarm_on</i>
                   <span style="margin-left:35px;color:#979797">
-                    <b>{{ generalInfo.startTime | limitTo:5 }}</b>
+                    <b>{{ vm.generalInfo.startTime | limitTo:5 }}</b>
                   </span>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix" style="margin-top:-10px">alarm_off</i>
                   <span style="margin-left:35px;color:#979797">
-                    <b>{{ generalInfo.endTime | limitTo:5 }}</b>
+                    <b>{{ vm.generalInfo.endTime | limitTo:5 }}</b>
                   </span>
               </div>
 
               <div class="input-field col s6">
                 <i class="material-icons prefix" style="margin-top:-10px">room</i>
                   <span style="margin-left:35px;color:#979797">
-                    <b>{{ generalInfo.places }}</b>
+                    <b>{{ vm.generalInfo.places }}</b>
                   </span>
               </div>
 
               <div class="right-align" style="margin-right:-30px;margin-bottom:-10px">
               <a id="" class="waves-effect btn-flat"
-                      style="color:#0889af" ng-click="getEditGeneral()">
+                      style="color:#0889af" ng-click="vm.getEditGeneral()">
                   Edit
               </a>
           </div>
@@ -246,15 +246,15 @@
 
 <table class="bordered card" style="margin-top:-1px">
   <tbody>
-      <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
+      <tr style="background-color:{{vm.alarmAudienceColor}};max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
           <a href="" class="modal-trigger waves-effect waves-light"
                  data-target="modal1">
                  <i class="material-icons prefix"
-                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAudienceTitle}}">thumb_up</i>
-                 <b style="color:{{alarmAudienceTitle}};font-size:0.9rem;margin-right:10px">Add Audience</b>
+                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{vm.alarmAudienceTitle}}">thumb_up</i>
+                 <b style="color:{{vm.alarmAudienceTitle}};font-size:0.9rem;margin-right:10px">Add Audience</b>
 
-              <span ng-hide="isThereOnePresent" style="color:#fff;vertical-align:bottom">
+              <span ng-hide="vm.isThereOnePresent" style="color:#fff;vertical-align:bottom">
                 add audience to meeting...
               </span>
               </a>
@@ -264,10 +264,10 @@
       <tr style="border-color: #e4e4e4" class="delayAnimate">
         <td class="meeting-data-table">
 
-            <div style="color: #6d6d6d;margin-top:5px" ng-show="isThereOnePresent">
+            <div style="color: #6d6d6d;margin-top:5px" ng-show="vm.isThereOnePresent">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAudience in audienceListSync | filter:query"
+              <li ng-repeat="checkedAudience in vm.audienceListSync | filter:query"
                   class="delayAnimate"
                   style="">
                 <div class="checkin"
@@ -292,7 +292,7 @@
                             </div>
                             <div class="right-align">
                               <a class="fontawesome-color" href=""
-                                   ng-click="deleteAudience($event, checkedAudience)">
+                                   ng-click="vm.deleteAudience($event, checkedAudience)">
                                   <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
                                     <i class="fa fa-square-o fa-stack-2x"
                                        style="color:#eaa8be;"></i>
@@ -325,27 +325,27 @@
         </td>
       </tr>
 
-      <tr style="background-color:{{alarmAudienceColor}};max-height:10px;height:10px;">
+      <tr style="background-color:{{vm.alarmAudienceColor}};max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;">
           <a href="" class="modal-trigger waves-effect waves-light"
                data-target="modal2">
                <i class="material-icons prefix"
-                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{alarmAbsentTitle}}">thumb_down</i>
-              <b style="color:{{alarmAbsentTitle}};font-size:0.9rem;vertical-align:top;margin-right:10px">
+                    style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:{{vm.alarmAbsentTitle}}">thumb_down</i>
+              <b style="color:{{vm.alarmAbsentTitle}};font-size:0.9rem;vertical-align:top;margin-right:10px">
                   Add Absence
                </b>
             </a>
-            <span ng-hide="isThereOneAbsent" style="color:#fff;vertical-align:bottom">
+            <span ng-hide="vm.isThereOneAbsent" style="color:#fff;vertical-align:bottom">
                 add absence to meeting...</span>
         </td>
       </tr>
 
       <tr style="border-color: #e4e4e4" class="delayAnimate">
         <td class="meeting-data-table">
-            <div style="color: #6d6d6d" ng-show="isThereOneAbsent">
+            <div style="color: #6d6d6d" ng-show="vm.isThereOneAbsent">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAbsent in absentListSync | filter:query"
+              <li ng-repeat="checkedAbsent in vm.absentListSync | filter:query"
                   class="delayAnimate"
                   style="">
                 <div class="checkin"
@@ -369,7 +369,7 @@
                             </div>
                             <div class="right-align">
                               <a class="fontawesome-color" href=""
-                                   ng-click="deleteAbsent($event, checkedAbsent)">
+                                   ng-click="vm.deleteAbsent($event, checkedAbsent)">
                                   <span class="fa-stack fa-lg" style="margin-top:15px;margin-right:-15px">
                                     <i class="fa fa-square-o fa-stack-2x"
                                        style="color:#eaa8be;"></i>
@@ -407,12 +407,12 @@
 
 
 
-<table class="bordered card" style="margin-top:0px" ng-hide="editSummery">
+<table class="bordered card" style="margin-top:0px" ng-hide="vm.editSummery">
   <tbody>
 
-    <tr style="background-color:{{alarmSummeryColor}};max-height:10px;height:10px;">
+    <tr style="background-color:{{vm.alarmSummeryColor}};max-height:10px;height:10px;">
       <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
-               <b style="color:{{alarmSummeryTitle}};font-size:0.9rem;margin-right:10px">
+               <b style="color:{{vm.alarmSummeryTitle}};font-size:0.9rem;margin-right:10px">
                   Add Meeting Summary
                </b>
       </td>
@@ -420,7 +420,7 @@
 
     <tr style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
-        <form ng-submit="addSummery()">
+        <form ng-submit="vm.addSummery()">
           <div class="row">
             <div class="col s12" style="margin-bottom:15px">
               <div class="row modal-form-record modal-background">
@@ -429,7 +429,7 @@
                       <textarea name="textarea1" id="textarea1"
                              class="validate materialize-textarea" required=""
                              aria-required="true"
-                             ng-model="summery"></textarea>
+                             ng-model="vm.summery"></textarea>
                   <label for="textarea1">Meeting Summary</label>
                 </div>
               </div>
@@ -439,7 +439,7 @@
                       type="submit" style="color:#0889af">
                   Add Summary
               </button>
-              <a ng-click="clearSummery()"
+              <a ng-click="vm.clearSummery()"
                       class="waves-effect btn-flat"
                       style="color:#0889af">
                   Clear
@@ -453,7 +453,7 @@
 </table>
 
 
-<table class="bordered card" style="margin-top:0px;" ng-show="editSummery">
+<table class="bordered card" style="margin-top:0px;" ng-show="vm.editSummery">
   <tbody>
 
     <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
@@ -466,13 +466,13 @@
 
     <tr style="border-color: #e4e4e4" class="delayAnimate">
       <td class="meeting-data-table">
-        <form ng-submit="editSummery=false">
+        <form ng-submit="vm.editSummery=false">
           <div class="row">
             <div class="col s12 m12" style="margin-bottom:15px">
               <div class="row modal-form-record modal-background">
                 <div class="input-field col s12 datepicker-style"
                      style="margin-top:-10px;color:#858585;font-family:arial">
-                  <pre>{{summery}}</pre>
+                  <pre>{{vm.summery}}</pre>
                 </div>
               </div>
             </div>
@@ -527,22 +527,22 @@
 
   <div class="modal-content">
 
-    <div ng-hide="showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
+    <div ng-hide="vm.showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
       <p class="center-align">All invitees have selected...</p>
     </div>
 
-    <div ng-show="showCheckinList" style="margin-bottom:-12px">
+    <div ng-show="vm.showCheckinList" style="margin-bottom:-12px">
       <!-- <div class="row" style="margin-bottom:-12px"> -->
         <div class="col s12" style="margin-bottom:9px"
-             ng-repeat="(key, presentUser) in usersShortRecord | filter:queryCheck"
+             ng-repeat="(key, presentUser) in vm.usersShortRecord | filter:queryCheck"
              class="presentUser delayAnimate"
              id="{{presentUser.regUser}}">
 
           <div class="col s5">
             <input type="checkbox" class="filled-in"
-                   ng-change="syncAudience(boolAudience, presentUser)"
+                   ng-change="vm.syncAudience(boolAudience, presentUser)"
                    ng-model="boolAudience"
-                   ng-checked="isCheckedAudience(presentUser.regUser)"
+                   ng-checked="vm.isCheckedAudience(presentUser.regUser)"
                    id="audience{{$index}}" />
             <label for="audience{{$index}}">
               {{presentUser.firstname | capitalize }} {{presentUser.lastname | capitalize }}
@@ -555,18 +555,18 @@
     </div>
   </div>
 
-  <div class="modal-footer" ng-show="showCheckinList">
-    <a ng-click="clearDataAudience()"
+  <div class="modal-footer" ng-show="vm.showCheckinList">
+    <a ng-click="vm.clearDataAudience()"
             class="modal-action modal-close waves-effect btn-flat">
       Cancel
     </a>
-    <button ng-show="showAgreeAudience"  ng-click="addAudience()"
+    <button ng-show="vm.showAgreeAudience"  ng-click="vm.addAudience()"
             class="modal-action modal-close waves-effect btn-flat">
       Agree
     </button>
   </div>
 
-  <div class="modal-footer" ng-hide="showCheckinList">
+  <div class="modal-footer" ng-hide="vm.showCheckinList">
     <a href="" class="modal-action modal-close waves-effect btn-flat">
       Ok
     </a>
@@ -611,22 +611,22 @@
 
   <div class="modal-content">
 
-    <div ng-hide="showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
+    <div ng-hide="vm.showCheckinList" style="color:#7d7d7d;font-size:1.3rem">
       <p class="center-align">All invitees have selected...</p>
     </div>
 
-    <div ng-show="showCheckinList" style="margin-bottom:-12px">
+    <div ng-show="vm.showCheckinList" style="margin-bottom:-12px">
 
         <div class="col s12" style="margin-bottom:9px"
-             ng-repeat="(key, absentUser) in usersShortRecord | filter:queryCheck"
+             ng-repeat="(key, absentUser) in vm.usersShortRecord | filter:queryCheck"
              class="absentUser delayAnimate"
              id="{{absentUser.regUser}}">
 
           <div class="col s5">
             <input type="checkbox" class="filled-in"
-                   ng-change="syncAbsent(boolAbsent, absentUser)"
+                   ng-change="vm.syncAbsent(boolAbsent, absentUser)"
                    ng-model="boolAbsent"
-                   ng-checked="isCheckedAbsent(absentUser.regUser)"
+                   ng-checked="vm.isCheckedAbsent(absentUser.regUser)"
                    id="absent{{$index}}" />
             <label for="absent{{$index}}">
               {{absentUser.firstname | capitalize }} {{absentUser.lastname | capitalize }}
@@ -638,18 +638,18 @@
     </div>
   </div>
 
-  <div class="modal-footer" ng-show="showCheckinList">
-    <a ng-click="clearDataAbsent()"
+  <div class="modal-footer" ng-show="vm.showCheckinList">
+    <a ng-click="vm.clearDataAbsent()"
             class="modal-action modal-close waves-effect btn-flat">
       Cancel
     </a>
-    <button ng-show="showAgreeAbsent"  ng-click="addAbsent()"
+    <button ng-show="vm.showAgreeAbsent"  ng-click="vm.addAbsent()"
             class="modal-action modal-close waves-effect btn-flat">
       Agree
     </button>
   </div>
 
-  <div class="modal-footer" ng-hide="showCheckinList">
+  <div class="modal-footer" ng-hide="vm.showCheckinList">
     <a href="" class="modal-action modal-close waves-effect btn-flat">
       Ok
     </a>
@@ -666,10 +666,10 @@
 <!-----------------Directive ------------------------------------------------>
 
 <record-directive
-           data-record="dataRecord"
+           data-record-list="vm.dataRecord"
            theme-color="themeColor3"
            firebase-user="firebaseUser"
-           is-there-one-directive="isThereOneDirective"
+           is-there-one-directive="vm.isThereOneDirective"
            alarm-directive-color="alarmDirectiveColor"
            alarm-directive-title="alarmDirectiveTitle">
 </record-directive>

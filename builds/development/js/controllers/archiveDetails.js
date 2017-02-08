@@ -5,22 +5,22 @@ meetingsApp.controller('ArchiveDetailsController', function
   ($scope, $rootScope, $firebase, $timeout, $firebaseArray, $mdToast, $mdDialog, $routeParams,
    $mdMedia, $filter, RefServices, passDataService, productListPageCount) {
 
-	$scope.recordDetailsBase = passDataService.getProducts();
-    $scope.recordDetails = $scope.recordDetailsBase[0];
-    
-    $scope.directiveList = $scope.recordDetails[5];
-    //$scope.whichRecord = $routeParams.recordId;
-
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
 		if(firebaseUser !== null){
 
+      var vm = this;
+      vm.showDirectiveDetails = showDirectiveDetails;
 
-			$scope.showDirectiveDetails = function(event, record) {
-		      
+      vm.recordDetailsBase = passDataService.getProducts();
+      vm.recordDetails = vm.recordDetailsBase[0];
+      vm.directiveList = vm.recordDetails[5];
+
+			function showDirectiveDetails(event, record) {
+
 		      $scope.dialog = record;
 		        $mdDialog.show({
-		          controller: function () { 
-		              this.parent = $scope; 
+		          controller: function () {
+		              this.parent = $scope;
 		              $scope.cancel = function() {
 		                $mdDialog.cancel();
 		              }; // cancel
@@ -52,9 +52,9 @@ meetingsApp.controller('ArchiveDetailsController', function
 		          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
 		        })
 		        .then(function(answer) {
-		         
+
 		         }, function() {
-		          
+
 		        });
 		    }; // show record dialog
 

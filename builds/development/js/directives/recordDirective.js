@@ -5,7 +5,7 @@
 	  return {
 	  	templateUrl: 'views/direvtives-views/recordTable.dir.html',
 	    scope: {
-		  dataRecord:          '=dataRecord',
+		  dataRecordList:          '=dataRecordList',
 		  firebaseUser:        '=firebaseUser',
 		  pageSize:            '=pageSize',
 		  themeColor:          '=themeColor',

@@ -7,7 +7,7 @@
   <p>Please <a ng-href="#/register">Register</a> or <a ng-href="#/login">Login</a></p>
 </div>
 
-<div ng-show="signedIn()" ng-controller="ArchiveDetailsController">
+<div ng-show="signedIn()" ng-controller="ArchiveDetailsController as vm">
 
 <div>
 
@@ -35,7 +35,7 @@
                   <li class="sidenav-li" style="margin-top:-3px">
                     <a ng-href="#/archives/{{firebaseUser}}" class="waves-effect waves-light">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                      &nbsp Back to Archives 
+                      &nbsp Back to Archives
                     </a>
                   </li>
                 </ul>
@@ -50,10 +50,6 @@
 </div>
 
 
-
-
-
-
 <table class="bordered card" style="margin-top:-12px">
   <thead>
     <tr class="meeting-data-table">
@@ -63,15 +59,15 @@
           <tr class="meeting-data-table">
             <td style="width:100px;vertical-align:top"><b>Meeting Name: &nbsp&nbsp&nbsp</b></td>
             <td style="vertical-align:top">
-              <span style="color:#6a6a6a;font-size:0.9rem;"> 
-                {{recordDetails[7].$value}} 
+              <span style="color:#6a6a6a;font-size:0.9rem;">
+                {{vm.recordDetails[7].$value}}
               </span>
             </td>
             <td style="width:130px;vertical-align:top">
               <b class="right" style="color:#575757;padding-right:10px">
                 <i class="fa fa-check animated bounce delayAnimate" aria-hidden="true"></i>
                 <div style="margin-top:-14px;margin-left:12px">
-                  &nbsp&nbsp {{recordDetails[3].$value | date }}
+                  &nbsp&nbsp {{vm.recordDetails[3].$value | date }}
                 </div>
               </b>
             </td>
@@ -91,21 +87,16 @@
           <tr class="meeting-data-table">
             <td style="width:100px;vertical-align:top"><b>Description:</b> </td>
             <td style="vertical-align:top">
-              <span style="color:#6a6a6a;font-size:0.9rem"> 
-                {{recordDetails[4].$value}} 
+              <span style="color:#6a6a6a;font-size:0.9rem">
+                {{vm.recordDetails[4].$value}}
               </span>
             </td>
           </tr>
         </table>
-        
-       
       </td>
     </tr>
-
   </tbody>
 </table>
-
-
 
 
 <table class="bordered card">
@@ -117,7 +108,7 @@
                     General Info
                  </b>
         </td>
-      </tr>
+    </tr>
 
     <tr style="border-color: #e4e4e4;" class="delayAnimate">
         <td class="meeting-data-table">
@@ -129,21 +120,21 @@
               <div class="input-field col s2 datepicker-style">
                 <i class="small material-icons prefix" style="margin-top:-10px">today</i>
                 <span style="margin-left:35px;color:#979797">
-                  <b>{{recordDetails[6].date | date }}</b>
+                  <b>{{vm.recordDetails[6].date | date }}</b>
                 </span>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix" style="margin-top:-10px">alarm_on</i>
                   <span style="margin-left:35px;color:#979797">
-                    <b>{{recordDetails[6].startTime | limitTo:5 }}</b>
+                    <b>{{vm.recordDetails[6].startTime | limitTo:5 }}</b>
                   </span>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix" style="margin-top:-10px">alarm_off</i>
                   <span style="margin-left:35px;color:#979797">
-                    <b>{{recordDetails[6].endTime | limitTo:5 }}</b>
+                    <b>{{vm.recordDetails[6].endTime | limitTo:5 }}</b>
                   </span>
               </div>
 
@@ -153,28 +144,24 @@
                 </div>
                 <div class="input-field col s11" style="margin-top:25px">
                   <span style="color:#979797">
-                    <b>{{recordDetails[6].places }}</b>
+                    <b>{{vm.recordDetails[6].places }}</b>
                   </span>
                 </div>
               </div>
 
             </div>
           </div>
-        </td>   
+        </td>
       </tr>
   </tbody>
 </table>
 
 
-
-
-
-
 <table class="bordered card" style="margin-top:-1px">
-  <tbody>     
+  <tbody>
       <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;border-top-left-radius:8px !important;border-top-right-radius:8px !important;">
-            <i class="material-icons prefix" 
+            <i class="material-icons prefix"
                     style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:#2ba030">
                     thumb_up
             </i>
@@ -188,16 +175,16 @@
             <div style="color: #6d6d6d;margin-top:5px">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAudience in recordDetails[1]" 
-                  class="delayAnimate" 
+              <li ng-repeat="checkedAudience in vm.recordDetails[1]"
+                  class="delayAnimate"
                   style="">
-                <div class="checkin" 
+                <div class="checkin"
                      style="position:relative;z-index:100">
 
                     <div class="col s12 m7">
                       <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
                         <div class="card-image">
-                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;"
                            src="images/personal_pics/{{checkedAudience.image}}.jpg">
                         </div>
 
@@ -205,7 +192,7 @@
                           <div class="card-content">
 
                             <b style="font-size:1em">
-                              {{ checkedAudience.firstname | capitalize }} 
+                              {{ checkedAudience.firstname | capitalize }}
                               {{ checkedAudience.lastname | capitalize }}
                             </b>
                             <div class="date">
@@ -217,9 +204,9 @@
                         </div>
 
                           <div class="outer">
-                            <div class="inner-record" 
+                            <div class="inner-record"
                             style="background: #23ba0a;box-shadow: 0px 0px 30px 20px #23ba0a;">
-                             </div> 
+                             </div>
                           </div>
 
                       </div>
@@ -229,19 +216,19 @@
             </ul>
           </div>
 
-        </td>   
+        </td>
       </tr>
 
       <tr style="background-color:#dcdcdc;max-height:10px;height:10px;">
         <td class="meeting-data-link" style="max-height:10px;height:10px;">
-            <i class="material-icons prefix" 
+            <i class="material-icons prefix"
                style="margin-right:2px;font-size:1.1rem;vertical-align:bottom;color:#b5192f">
                thumb_down
             </i>
           	<b style="color:#b5192f;font-size:0.9rem;vertical-align:top;margin-right:10px">
              	 Absences
             </b>
-            
+
         </td>
       </tr>
 
@@ -250,23 +237,23 @@
             <div style="color: #6d6d6d">
 
             <ul class="userlist cf" style="margin-left:5px;">
-              <li ng-repeat="checkedAbsent in recordDetails[0]" 
-                  class="delayAnimate" 
+              <li ng-repeat="checkedAbsent in vm.recordDetails[0]"
+                  class="delayAnimate"
                   style="">
-                <div class="checkin" 
+                <div class="checkin"
                      style="position:relative;z-index:100">
 
                     <div class="col s12 m7">
                       <div class="card horizontal" style="height:6.75rem;max-height:6.75rem;border-radius:8px !important">
                         <div class="card-image">
-                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;" 
+                          <img style="border-top-left-radius:8px;border-bottom-left-radius:8px;width:60px;max-width:60px;"
                            src="images/personal_pics/{{checkedAbsent.image}}.jpg">
                         </div>
 
                         <div class="card-stacked">
                           <div class="card-content">
                             <b style="font-size:1em">
-                              {{ checkedAbsent.firstname | capitalize }} 
+                              {{ checkedAbsent.firstname | capitalize }}
                               {{ checkedAbsent.lastname | capitalize }}
                             </b>
                             <div class="date">
@@ -276,9 +263,9 @@
                         </div>
 
                         <div class="outer">
-                          <div class="inner-record" 
+                          <div class="inner-record"
                             style="background: #e762ad;box-shadow: 0px 0px 30px 20px #e762ad;">
-                          </div> 
+                          </div>
                         </div>
 
                       </div>
@@ -288,7 +275,7 @@
             </ul>
           </div>
 
-        </td>   
+        </td>
       </tr>
   </tbody>
 
@@ -313,14 +300,14 @@
           <div class="row">
             <div class="col s12 m12" style="margin-bottom:15px">
               <div class="row modal-form-record modal-background">
-                <div class="input-field col s12 datepicker-style" 
+                <div class="input-field col s12 datepicker-style"
                      style="margin-top:-10px;color:#858585;font-family:arial">
-                  <pre>{{ recordDetails[8].$value }}</pre>
+                  <pre>{{ vm.recordDetails[8].$value }}</pre>
                 </div>
               </div>
             </div>
           </div>
-      </td>   
+      </td>
     </tr>
   </tbody>
 </table>
@@ -329,8 +316,8 @@
 
 <!-----------------Directive ------------------------------------------------>
 
-<record-details-directive 
-           directive-list-record="directiveList"
+<record-details-directive
+           directive-list-record="vm.directiveList"
            theme-color="themeColor3"
            firebase-user="firebaseUser">
 </record-details-directive>
@@ -349,4 +336,3 @@
     $('.modal').modal();
   });
 </script>
-
