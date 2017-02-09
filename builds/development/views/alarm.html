@@ -7,20 +7,20 @@
 
 
 <div ng-show="signedIn()">
-  
 
-<div ng-hide="showAlarmList" class="center">
+
+<div ng-hide="vm.showAlarmList" class="center">
   <h4 style="color: #555;">It's ok</h4>
   <p style="color: #777;">You have nothing alarm in this time, maybe next day :)</p>
 </div>
 
 
-<div ng-show="showAlarmList">
+<div ng-show="vm.showAlarmList">
 
 <h5 style="margin-bottom:0px">Alarm</h5>
 <span style="color:#646464;font-size:0.9rem">Snow is comming...</span>
 
-<nav class="search right right z-depth-0" 
+<nav class="search right right z-depth-0"
 style="height:35px;background-color:{{themeColor3}};margin-top:36px;margin-right:6px;width:250px;">
   <div class="nav-wrapper">
     <form>
@@ -36,8 +36,8 @@ style="height:35px;background-color:{{themeColor3}};margin-top:36px;margin-right
 </nav>
 
 
-<datatable-directive 
-           datameetings="meetingAlarmFilter"
+<datatable-directive
+           datameetings="vm.meetingAlarmFilter"
            page-size="pageSize"
            query="query"
            theme-color="themeColor3"
@@ -46,7 +46,7 @@ style="height:35px;background-color:{{themeColor3}};margin-top:36px;margin-right
 </datatable-directive>
 
 
-</div>  
+</div>
 
 
 </div>

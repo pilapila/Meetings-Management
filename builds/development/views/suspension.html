@@ -1,4 +1,3 @@
-<div  ng-controller="MeetingsController">
 <br>
 <div ng-hide="signedIn()" class="center">
   <h3>Sorry</h3>
@@ -23,8 +22,8 @@
 </span>
 
 
-<suspension-directive 
-           datameetings="cancelMeetings"
+<suspension-directive
+           datameetings="vm.cancelMeetings"
            page-size="pageSize"
            theme-color="themeColor3"
            firebase-user="firebaseUser">
@@ -32,6 +31,5 @@
 
 
 
-</div>  
 </div>
 </div>

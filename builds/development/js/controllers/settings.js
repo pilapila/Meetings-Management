@@ -13,7 +13,6 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
     vm.selectSettings = selectSettings;
     vm.changeAnime = changeAnime;
 
-    vm.roleAnime;
     vm.themeChecked;
     vm.alarmChecked;
     vm.settingTheme;
@@ -21,7 +20,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 
   	function selectSettings(theme, day) {
   		RefServices.refSettings(firebaseUser).update({
-  				       'anime':     vm.roleAnime,
+  				       'anime':     $scope.roleAnime,
 	               'color1':    theme.color1,
 	               'color2': 		theme.color2,
 	               'color3': 		theme.color3,
@@ -36,7 +35,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
   	}
 
   	function changeAnime() {
-  		vm.roleAnime = !vm.roleAnime;
+  		$scope.roleAnime = !$scope.roleAnime;
   	};
 
   	function showToast(message) {
@@ -56,7 +55,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 
 			vm.themeChecked  = snap.val().themeId;
 			vm.alarmChecked = snap.val().dayId;
-			vm.roleAnime = snap.val().anime;
+			$scope.roleAnime = snap.val().anime;
 
       vm.settingTheme = [
 		   			{

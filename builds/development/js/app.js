@@ -11,27 +11,27 @@
 		$routeProvider
 			.when('/login', {
 				templateUrl: 'views/login.html',
-				controller: 'RegistrationController'
+				controller: 'RegistrationController as vm'
 			})
 			.when('/register', {
 				templateUrl: 'views/register.html',
-				controller: 'RegistrationController'
+				controller: 'RegistrationController as vm'
 			})
 			.when('/meetings', {
 				templateUrl: 'views/meetings.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/alarm', {
 				templateUrl: 'views/alarm.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/expired', {
 				templateUrl: 'views/expired.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/checkins/:uId/:mId/:colorId', {
 				templateUrl: 'views/checkins.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/invitations/:userId', {
 				templateUrl: 'views/invitations.html',
@@ -54,11 +54,11 @@
 			})
 			.when('/suspension', {
 				templateUrl: 'views/suspension.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/cancelation', {
 				templateUrl: 'views/cancelation.html',
-				controller: 'MeetingsController'
+				controller: 'MeetingsController as vm'
 			})
 			.when('/record/:uId/:mId', {
 				templateUrl: 'views/record.html',
@@ -107,25 +107,12 @@
 
 	function passDataControllerRecord(checkinsList, passDataService) {
 		passDataService.addProduct(checkinsList);
-	};
+	}; // pass sync data from resolve to passDataService for checkin controller
 
 	function passDataControllerArchive(archiveList, passDataService) {
 		passDataService.addProduct(archiveList);
-	};
+	}; // pass sync data from resolve to passDataService for archive controller
 
 	function passDataControllerArchiveDetails(archiveDetails, passDataService) {
 		passDataService.addProduct(archiveDetails);
-	};
-
-	// function SyncAllData(syncAllList, passDataService) {
-	// 	passDataService.addProduct(syncAllList);
-	// };  // pass sync data from resolve to passDataService for meetings controller
-
-
-	// resolve: {
-	// 	syncAllList: function($firebaseObject, RefServices, $route) {
-
-	// 		return $firebaseObject(RefServices.refCaller($route.current.params.userId)).$loaded();
-
-	// 	}
-	// }
+	}; // pass sync data from resolve to passDataService for archive details controller

@@ -1,29 +1,29 @@
 <div class="row">
-    <form ng-submit="login()" class="col m5 offset-m3 s12">
+    <form ng-submit="vm.login()" class="col m5 offset-m3 s12">
     	<br><p class="title center" style="color:#585858">Log-in to access the awesomeness</p>
-        <div class="row card" 
+        <div class="row card"
         style="padding:30px;border:4px solid #fff;background-color:#ecf3f2;color:#05b1c0">
             <div class="input-field col s12">
                 <i class="small material-icons prefix">email</i>
-                <input name="email" id="email" type="email" class="validate" 
-                       required="" aria-required="true" ng-model="user.email">
+                <input name="email" id="email" type="email" class="validate"
+                       required="" aria-required="true" ng-model="vm.user.email">
                 <label for="email2" data-error="wrong">Email</label>
             </div>
             <div class="input-field col s12">
                 <i class="small material-icons prefix">https</i>
-                <input name="password" id="password" type="password" class="validate" 
-                       required="" aria-required="true" ng-model="user.password">
+                <input name="password" id="password" type="password" class="validate"
+                       required="" aria-required="true" ng-model="vm.user.password">
                 <label for="password" data-error="password is required">
                    Password
                 </label>
             </div>
             <div class="input-field col s12 center">
-                <button class="waves-effect waves-light Default btn-flat" 
+                <button class="waves-effect waves-light Default btn-flat"
                         type="submit" name="action"
                         style="color:#05b1c0">
                 	Submit
                 </button>
-                <a href="#/register" class="waves-effect waves-light Default btn-flat" 
+                <a href="#/register" class="waves-effect waves-light Default btn-flat"
                    name="action"
                    style="color:#05b1c0">
                 	Register
@@ -32,4 +32,3 @@
         </div>
     </form>
 </div>
-

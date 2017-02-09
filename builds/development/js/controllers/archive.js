@@ -12,7 +12,7 @@ meetingsApp.controller('ArchiveController', function
 
       var vm = this;
       vm.deleteArchive = deleteArchive;
-
+      vm.firebaseUser = firebaseUser.uid;
       vm.dataArchiveBase = passDataService.getProducts();
       vm.dataArchive = vm.dataArchiveBase[0];
 

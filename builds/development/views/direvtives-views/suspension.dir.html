@@ -1,5 +1,5 @@
 <div ng-controller="SuspentionController as vm">
-<div ng-controller="MeetingsController">
+<div ng-controller="MeetingsController as ctrl">
 <div class="row" style="padding-top:10px">
   <div class="col s12">
     <span class="flow-text">
@@ -180,7 +180,7 @@
           </span>
         </a>
 
-        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+        <a href="" id="editLink" ng-click="ctrl.showMeetDialog($event, key, meeting)"
            class="md-primary md-raised" style="margin-left:-3px">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x"

@@ -4,37 +4,41 @@
  meetingsApp.controller('RegistrationController',
   function($scope, $rootScope, $firebaseAuth, $location, $timeout, $interval, Authentication) {
 
-    $scope.login = function() {
-      Authentication.login($scope.user)
+    var vm = this;
+    vm.login = login;
+    vm.register = register;
+
+    function login() {
+      Authentication.login(vm.user)
         .catch(function(error) {
           var errorCode = error.code;
           var errorMessage = error.message;
           // [START_EXCLUDE]
           if (errorCode === 'auth/wrong-password') {
-            $scope.message = errorMessage;
+            vm.message = errorMessage;
             alert('Wrong password.');
           } else {
             alert(errorMessage);
-            $scope.message = errorMessage;
+            vm.message = errorMessage;
           }
 
         }).then(function(user){
            $timeout(function () {
-              $scope.currentPath = $location.path('/meetings');
+              vm.currentPath = $location.path('/meetings');
               }, 0);
            });
         // [END authwithemail]
       };
 
 
-  $scope.register = function() {
-    Authentication.register($scope.user)
+  function register() {
+    Authentication.register(vm.user)
         .catch(function(error) {
             $scope.message = error.message;
           }).then(function(regUser){
-            Authentication.login($scope.user);
+            Authentication.login(vm.user);
              $timeout(function () {
-              $scope.currentPath = $location.path('/meetings');
+              vm.currentPath = $location.path('/meetings');
               }, 0);
           });
   }; // register

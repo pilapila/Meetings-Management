@@ -19,21 +19,21 @@
 				$scope.selectedPage = newPage;
 				if ($scope.selectedPage < $rootScope.pageCount) {
 					$scope.activationNext = "active waves-effect grey lighten-2";
-					
+
 				}
 				if ($scope.selectedPage == $rootScope.pageCount) {
 					$scope.activationNext = "disabled";
 					$scope.activationPre = "active waves-effect grey lighten-2";
 				}
 				if ($scope.selectedPage > 1) {
-					
+
 					$scope.activationPre = "active waves-effect grey lighten-2";
 				}
 				if ($scope.selectedPage == 1) {
 					$scope.activationNext = "active waves-effect grey lighten-2";
 					$scope.activationPre = "disabled";
 				}
-			}; 
+			};
 
 			$scope.selectNextPage = function () {
 				if ($scope.selectedPage < $rootScope.pageCount) {
@@ -45,7 +45,7 @@
 				} else if ($scope.selectedPage >= $rootScope.pageCount) {
 					$scope.selectedPage = $rootScope.pageCount;
 				}
-			}; 
+			};
 
 			$scope.selectPrePage = function () {
 				if ($scope.selectedPage > 1) {
@@ -57,11 +57,11 @@
 				} else if ($scope.selectedPage <= 1) {
 					$scope.selectedPage = 1;
 				}
-			}; 
+			};
 
 			$scope.getPageClass = function(page) {
             	return $scope.selectedPage == page ? "active blue lighten-3" : "";
-        	}; 
+        	};
 
         	// sort by fields
         	$scope.sort = function (field) {
@@ -73,8 +73,8 @@
         	$scope.sort.field = 'name';
         	$scope.sort.order = false;  // ordering for meetings
 
-        	
-        	
+
+
   }); //dataTableController
 
 }());

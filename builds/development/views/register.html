@@ -1,22 +1,22 @@
 <div class="row">
-  
-        <form ng-submit="register()" class="col m5 offset-m3 s12">
-          
+
+        <form ng-submit="vm.register()" class="col m5 offset-m3 s12">
+
           <br>
           <p class="title center" style="color:#585858">
             Register to access site features
           </p>
 
           <p class="error formerror" ng-show="message">{{ message }}</p>
-          
+
           <div class="row card" style="padding:30px;border:4px solid #fff;background-color:#ecf3f2;color:#05b1c0;">
 
           <div class="row">
               <div class="input-field col s12">
                 <i class="small material-icons prefix">person_pin</i>
-                <input name="firstname" id="firstname" type="text" class="validate" 
-                       required="" 
-                       aria-required="true" ng-model="user.firstname">
+                <input name="firstname" id="firstname" type="text" class="validate"
+                       required=""
+                       aria-required="true" ng-model="vm.user.firstname">
                 <label for="" data-error="Please enter first name." data-success="Perfect!">
                   First Name
                 </label>
@@ -26,8 +26,8 @@
           <div class="row">
               <div class="input-field col s12">
                 <i class="small material-icons prefix">person_pin</i>
-                <input name="lastname" id="lastname" type="text" class="validate" 
-                       required="" aria-required="true" ng-model="user.lastname">
+                <input name="lastname" id="lastname" type="text" class="validate"
+                       required="" aria-required="true" ng-model="vm.user.lastname">
                 <label for="" data-error="Please enter last name." data-success="Perfect!">
                   Last Name
                 </label>
@@ -37,8 +37,8 @@
           <div class="row">
               <div class="input-field col s12">
                 <i class="small material-icons prefix">verified_user</i>
-                <input name="age" id="age_input2" type="number" class="validate" 
-                       required="" aria-required="true" ng-model="user.age">
+                <input name="age" id="age_input2" type="number" class="validate"
+                       required="" aria-required="true" ng-model="vm.user.age">
                 <label for="age_input2" data-error="Please enter your age." data-success="Wow!">  Age
                 </label>
               </div>
@@ -47,29 +47,29 @@
           <div class="row">
             <div class="input-field col s12">
               <i class="small material-icons prefix">email</i>
-              <input name="email" id="email_input2" type="email" class="validate" 
-                     required="" aria-required="true" ng-model="user.email">
-              <label for="email_input2" class="" data-error="Please enter valid email." 
+              <input name="email" id="email_input2" type="email" class="validate"
+                     required="" aria-required="true" ng-model="vm.user.email">
+              <label for="email_input2" class="" data-error="Please enter valid email."
                      data-success="I Like it!">
                      Email
               </label>
             </div>
           </div>
-          
+
           <div class="row">
             <div class="input-field col s12">
               <i class="small material-icons prefix">https</i>
-                <input name="password" id="password" type="password" class="validate" 
-                       required="" aria-required="true" ng-model="user.password">
+                <input name="password" id="password" type="password" class="validate"
+                       required="" aria-required="true" ng-model="vm.user.password">
                 <label for="password" data-error="password is required" data-success="right">
                    Password
                 </label>
             </div>
           </div>
-                   
+
         <div class="row">
           <div class="input-field col s12 center">
-            <button class="waves-effect waves-light Default btn-flat" type="submit" 
+            <button class="waves-effect waves-light Default btn-flat" type="submit"
                     name="action" style="color:#05b1c0">
             	Submit
             </button>
@@ -79,5 +79,3 @@
         </div>
     </form>
 </div>
-  
-
