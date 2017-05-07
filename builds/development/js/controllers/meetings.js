@@ -24,7 +24,7 @@ meetingsApp.controller('MeetingsController', function
       vm.deleteCheckinsMeetingAction = deleteCheckinsMeetingAction;
       vm.pauseMeetingAction = pauseMeetingAction;
       vm.sendRejectToCaller = sendRejectToCaller;
-
+      
       vm.meetingAction = "add";
       vm.nameAction = "Add New Meeting";
 

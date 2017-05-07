@@ -10,6 +10,7 @@ meetingsApp.controller('ArchiveDetailsController', function
 
       var vm = this;
       vm.showDirectiveDetails = showDirectiveDetails;
+      vm.userId = firebaseUser.uid;
 
       vm.recordDetailsBase = passDataService.getProducts();
       vm.recordDetails = vm.recordDetailsBase[0];

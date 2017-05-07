@@ -1,7 +1,7 @@
 (function(){
  'use strict';
 
- var gulp = require('gulp'),
+var gulp = require('gulp'),
     gutil = require('gulp-util'),
     webserver = require('gulp-webserver');
 
