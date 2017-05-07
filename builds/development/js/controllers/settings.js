@@ -20,14 +20,14 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 
   	function selectSettings(theme, day) {
   		RefServices.refSettings(firebaseUser).update({
-  				       'anime':     $scope.roleAnime,
-	               'color1':    theme.color1,
+  				   'anime':    		$scope.roleAnime,
+	               'color1':    	theme.color1,
 	               'color2': 		theme.color2,
 	               'color3': 		theme.color3,
 	               'day':    		day,
 	               'dayId':  		day-1,
 	               'image':  		theme.image,
-	               'themeId':   theme.id
+	               'themeId':   	theme.id
 	            }).then(function() {
 	            	$scope.$emit('newSetAllCount', day);
 	            	showToast('Settings Changed');
@@ -57,7 +57,7 @@ firebase.auth().onAuthStateChanged(firebaseUser =>{
 			vm.alarmChecked = snap.val().dayId;
 			$scope.roleAnime = snap.val().anime;
 
-      vm.settingTheme = [
+      		vm.settingTheme = [
 		   			{
 		   				"name": "Purple",
 		   				"theme": {

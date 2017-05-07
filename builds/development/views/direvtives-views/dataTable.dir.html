@@ -181,7 +181,7 @@ style="border-radius: 12px !important;">
           </span>
         </a>
 
-        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+        <a href="" id="editLink" ng-click="showMeetDetails($event, key, meeting)"
            class="md-primary md-raised" style="margin-left:-3px"
            ng-hide="meeting.change">
           <span class="fa-stack fa-lg">
@@ -195,7 +195,7 @@ style="border-radius: 12px !important;">
           </span>
         </a>
 
-        <a href="" id="editLink" ng-click="showMeetDialog($event, key, meeting)"
+        <a href="" id="editLink" ng-click="showMeetDetails($event, key, meeting)"
            class="md-primary md-raised" style="margin-left:-3px"
            ng-show="meeting.change">
           <span class="fa-stack fa-lg"
@@ -267,7 +267,7 @@ style="border-radius: 12px !important;">
 
         <span ng-show="meeting.checkins">
         <a class="fontawesome-color" href="" style="margin-left:-3px"
-           ng-click="deleteCheckinsMeetingDialog($event, meeting)"
+           ng-click="deleteMeetingDialog($event, meeting)"
            ng-hide="meeting.invitation">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle-thin fa-stack-2x"
@@ -352,7 +352,7 @@ style="border-radius: 12px !important;">
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
                  style="margin-right:-5px">
-                <a href="" id="editLink" ng-click="vm.showMeetDialog($event, key, meeting)"
+                <a href="" id="editLink" ng-click="vm.showMeetDetails($event, key, meeting)"
                    class="md-primary md-raised" style="margin-left:-2px;"
                    ng-hide="meeting.change">
                   <span class="fa-stack fa-lg">
@@ -366,7 +366,7 @@ style="border-radius: 12px !important;">
                   </span>
                 </a>
 
-                <a href="" id="editLink" ng-click="vm.showMeetDialog($event, key, meeting)"
+                <a href="" id="editLink" ng-click="vm.showMeetDetails($event, key, meeting)"
                    class="md-primary md-raised" style="margin-left:-3px"
                    ng-show="meeting.change">
                   <span class="fa-stack fa-lg"
@@ -447,7 +447,7 @@ style="border-radius: 12px !important;">
                   style="margin-right:-5px">
                 <span ng-show="meeting.checkins">
                 <a class="fontawesome-color" href="" style="margin-left:-3px"
-                   ng-click="vm.deleteCheckinsMeetingDialog($event, meeting)"
+                   ng-click="vm.deleteMeetingDialog($event, meeting)"
                    ng-hide="meeting.invitation">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle-thin fa-stack-2x"

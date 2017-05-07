@@ -7,25 +7,25 @@
 			register : function(user) {
                 return firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                    .then(function(regUser){
-					 var messageListRef = RefServices.refCaller(regUser.uid);
-								messageListRef.set({
-								  'date': Firebase.ServerValue.TIMESTAMP,
-			                      'regUser': regUser.uid,
-			                      'firstname': user.firstname,
-			                      'lastname': user.lastname,
-			                      'age': user.age,
-			                      'email': user.email,
-			                      'settings': {
-			                      	"dayId": 1,
-			                      	"themeId": 5,
-			                      	"anime": true,
-			                      	"color1": "pink darken-1",
-	   								"color2": "red lighten-2",
-	   								"color3": "#14978a",
-	   								"image": "back2.png",
-	   								"day": 2
-			                      }
-								});
+					 	var messageListRef = RefServices.refCaller(regUser.uid);
+						messageListRef.set({
+						  'date': Firebase.ServerValue.TIMESTAMP,
+	                      'regUser': regUser.uid,
+	                      'firstname': user.firstname,
+	                      'lastname': user.lastname,
+	                      'age': user.age,
+	                      'email': user.email,
+	                      'settings': {
+	                      	"dayId": 1,
+	                      	"themeId": 5,
+	                      	"anime": true,
+	                      	"color1": "pink darken-1",
+								"color2": "red lighten-2",
+								"color3": "#14978a",
+								"image": "back2.png",
+								"day": 2
+	                      }
+						});
                    });
             },
 

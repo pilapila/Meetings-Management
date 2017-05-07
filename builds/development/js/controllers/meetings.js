@@ -6,22 +6,22 @@ meetingsApp.controller('MeetingsController', function
    $mdMedia, $filter, $interval, RefServices, productListPageCount) {
 
 	firebase.auth().onAuthStateChanged(firebaseUser =>{
-		if(firebaseUser !== null){
+	  if(firebaseUser !== null){
 
       var vm = this;
       var ctrl = this;
       vm.clearButton = clearButton;
       vm.setAllCount = setAllCount;
       vm.addMeeting = addMeeting;
-      vm.deleteCheckinsMeetingDialog = deleteCheckinsMeetingDialog;
+      vm.deleteMeetingDialog = deleteMeetingDialog;
       vm.deleteMeeting = deleteMeeting;
       vm.showToast = showToast;
       vm.getEdit = getEdit;
       vm.pauseMeetingDialog = pauseMeetingDialog;
-      ctrl.showMeetDialog = showMeetDialog;
+      ctrl.showMeetDetails = showMeetDetails;
       vm.rejectMeeting = rejectMeeting;
       vm.editCheckinsMeeting = editCheckinsMeeting;
-      vm.deleteCheckinsMeetingAction = deleteCheckinsMeetingAction;
+      vm.deleteMeetingAction = deleteMeetingAction;
       vm.pauseMeetingAction = pauseMeetingAction;
       vm.sendRejectToCaller = sendRejectToCaller;
       
@@ -54,7 +54,7 @@ meetingsApp.controller('MeetingsController', function
 		        $timeout(function () {
 		          vm.callerMeetingInfo = snap.val();
 		        }, 0);
-		  }); // Ref to users to find picture of caller
+		  	}); // Ref to find informations and picture of user
 
 
 			$rootScope.invitationShow = false;
@@ -82,8 +82,8 @@ meetingsApp.controller('MeetingsController', function
 	    	}); // ref to find number of archives
 
 		$scope.$on('newSetAllCount', function(event, day){
-  		setAllCount(day);
-  	});
+  			setAllCount(day);
+  		});
 
 	function setAllCount(day) {
 		const meetingRef = RefServices.refData(firebaseUser);
@@ -127,75 +127,76 @@ meetingsApp.controller('MeetingsController', function
 			            }
 
 			            var today = new Date();
-      						var dd = today.getDate();
-      						var mm = today.getMonth()+1; //January is 0!
-      						var yyyy = today.getFullYear();
+  						var dd = today.getDate();
+  						var mm = today.getMonth()+1; //January is 0!
+  						var yyyy = today.getFullYear();
 
-      						if(dd<10) {
-      						    dd='0'+dd
-      						}
+  						if(dd<10) {
+  						    dd='0'+dd
+  						}
 
-      						if(mm<10) {
-      						    mm='0'+mm
-      						}
-      						today = yyyy+'-'+mm+'-'+dd;
+  						if(mm<10) {
+  						    mm='0'+mm
+  						}
+  						today = yyyy+'-'+mm+'-'+dd;
 
-      						$rootScope.alarm = 0;
-      						$rootScope.expiredDate = 0;
+  						$rootScope.alarm = 0;
+  						$rootScope.expiredDate = 0;
 
-      						vm.meetingAlarm = [];
-      						vm.meetingAlarmFilter = [];
-      						vm.showAlarmList = false;
+  						vm.meetingAlarm = [];
+  						vm.meetingAlarmFilter = [];
+  						vm.showAlarmList = false;
 
 			            vm.meetingExp = [];
 			            vm.meetingExpFilter = [];
 			            vm.showExpList = false;
 
 			            angular.forEach(vm.meetings, function (value, key) {
-      			        var date1 = new Date(today);
-      							var date2 = new Date(value.dateMeeting);
-      							var timeDiff = (date2.getTime() - date1.getTime());
-      							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      							if ( !vm.meetings[key].dateMeeting ) {
-      			            		vm.meetings[key].dayColor = "b4b4b4";
-      							} // end if
+  			        		var date1 = new Date(today);
+  							var date2 = new Date(value.dateMeeting);
+  							var timeDiff = (date2.getTime() - date1.getTime());
+  							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  							console.log(vm.meetings[key].dateMeeting);
+  							if ( !vm.meetings[key].dateMeeting ) {
+  			            		vm.meetings[key].dayColor = "b4b4b4";
+  							} // end if
 
-		            	if(diffDays > 0 && diffDays <= day){
-		            		$rootScope.alarm += 1;
-		            		vm.meetings[key].dayColor = "3f3f3f";
-		            		vm.meetingAlarm.push(key);
-		            		if (diffDays == 1) {
-		            			vm.meetings[key].remainDay = diffDays + " day remain";
-		            		} else if (diffDays > 1) {
-		            			vm.meetings[key].remainDay = diffDays + " days remain";
-		            		}
-		            	} else if (diffDays < 0) {
-		            		vm.meetings[key].remainDay = "expired";
-		            		$rootScope.expiredDate += 1;
-		            		vm.meetings[key].dayColor = "cc2864";
-		            		vm.meetings[key].textColor = "cc2864";
-		            		vm.meetingExp.push(key);
-		            		if (diffDays == -1) {
-		            			vm.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
-		            		} else if (diffDays < -1) {
-		            			vm.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
-		            		}
-		            	} else if (diffDays == 0) {
-		            		vm.meetings[key].remainDay = "Today!";
-		            		vm.meetings[key].dayColor = "419215";
-		            		vm.meetings[key].textColor = "419215";
-		            		$rootScope.alarm += 1;
-		            		vm.meetingAlarm.push(key);
-		            	} else if (diffDays > day) {
-		            		vm.meetings[key].remainDay = diffDays + " days remain";
-		            		vm.meetings[key].dayColor = "3f3f3f";
-		            	} // end else if
+		            		if(diffDays > 0 && diffDays <= day){
+			            		$rootScope.alarm += 1;
+			            		vm.meetings[key].dayColor = "3f3f3f";
+			            		vm.meetingAlarm.push(key);
+			            		if (diffDays == 1) {
+			            			vm.meetings[key].remainDay = diffDays + " day remain";
+			            		} else if (diffDays > 1) {
+			            			vm.meetings[key].remainDay = diffDays + " days remain";
+			            		}
+		            		} else if (diffDays < 0) {
+			            		vm.meetings[key].remainDay = "expired";
+			            		$rootScope.expiredDate += 1;
+			            		vm.meetings[key].dayColor = "cc2864";
+			            		vm.meetings[key].textColor = "cc2864";
+			            		vm.meetingExp.push(key);
+			            		if (diffDays == -1) {
+			            			vm.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " day passed";
+			            		} else if (diffDays < -1) {
+			            			vm.meetings[key].diffDays = "/ " + Math.abs(diffDays) + " days passed";
+			            		}
+		            		} else if (diffDays == 0) {
+			            		vm.meetings[key].remainDay = "Today!";
+			            		vm.meetings[key].dayColor = "419215";
+			            		vm.meetings[key].textColor = "419215";
+			            		$rootScope.alarm += 1;
+			            		vm.meetingAlarm.push(key);
+		            		} else if (diffDays > day) {
+			            		vm.meetings[key].remainDay = diffDays + " days remain";
+			            		vm.meetings[key].dayColor = "3f3f3f";
+		            		} // end else if
 
-		            	for (var i = 0; i < vm.meetingAlarm.length; i++) {
-		            		if ( key == vm.meetingAlarm[i]) {
-		            			vm.meetingAlarmFilter[i] = value;
-		            			vm.showAlarmList = true;
-		            		} // end if
+		            		for (var i = 0; i < vm.meetingAlarm.length; i++) {
+		            			if ( key == vm.meetingAlarm[i]) {
+			            			vm.meetingAlarmFilter[i] = value;
+			            			vm.showAlarmList = true;
+		            			} // end if
 		            	}; // end for
 
 		            	for (var i = 0; i < vm.meetingExp.length; i++) {
@@ -215,49 +216,49 @@ meetingsApp.controller('MeetingsController', function
     	$timeout(function () {
 	      if (vm.meetingAction === "add") {
   	        RefServices.refData(firebaseUser).push().set({
-                 'name':         	vm.meeting.name,
-                 'description':  	vm.meeting.description,
-                 'dateEnter':    	firebase.database.ServerValue.TIMESTAMP,
-                 'dateMeeting':  	$('.datepicker').val(),
-                 'time':         	$('.timepicker').val(),
-                 'pause':         false
+                'name':         	vm.meeting.name,
+                'description':  	vm.meeting.description,
+                'dateEnter':    	firebase.database.ServerValue.TIMESTAMP,
+                'dateMeeting':  	$('.datepicker').val(),
+                'time':         	$('.timepicker').val(),
+                'pause':         false
   	        }).then(function() {
               	showToast('Added Meeting', 'md-toast-add');
               	vm.meeting = "";
-              	$(".collapsible-header").removeClass(function(){
-  				            return "active";
-  				      });
-        				$(".collapsible").collapsible({accordion: true});
-        				$(".collapsible").collapsible({accordion: false});
+              	$(".collapsible-header").removeClass( function () {
+			        return "active";
+			    });
+				$(".collapsible").collapsible({accordion: true});
+				$(".collapsible").collapsible({accordion: false});
                 $("#name").val("");
-        				$("#name").next().removeClass("active");
-        				$("#description").val("");
-        				$("#description").next().removeClass("active");
-        				inputElement.data( 'pickadate' ).clear();
+				$("#name").next().removeClass("active");
+				$("#description").val("");
+				$("#description").next().removeClass("active");
+				inputElement.data( 'pickadate' ).clear();
   	        }); // if action is add statement
 	      } else if (vm.meetingAction === "edit") {
 	      	  RefServices.meetData(firebaseUser, vm.key).update({
-               'name':         		vm.meeting.name,
-               'description': 		vm.meeting.description,
-               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
-               'dateMeeting':  		$('.datepicker').val(),
-               'time':         		$('.timepicker').val()
+                'name':         		vm.meeting.name,
+                'description': 		vm.meeting.description,
+                'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+                'dateMeeting':  		$('.datepicker').val(),
+                'time':         		$('.timepicker').val()
             }).then(function() {
             	editCheckinsMeeting(vm.meeting, $('.datepicker').val(), $('.timepicker').val());
             	showToast('Edited Meeting', 'md-toast-add');
             	vm.meeting = "";
             	vm.nameAction = "Add New Meeting";
-				      vm.meetingAction = "add";
-      				$(".collapsible-header").removeClass(function(){
-      				    return "active";
-      				});
-      				$(".collapsible").collapsible({accordion: true});
-      				$(".collapsible").collapsible({accordion: false});
-      				$("#name").val("");
-      				$("#name").next().removeClass("active");
-      				$("#description").val("");
-      				$("#description").next().removeClass("active");
-      				inputElement.data( 'pickadate' ).clear();
+			    vm.meetingAction = "add";
+  				$(".collapsible-header").removeClass(function(){
+  				    return "active";
+  				});
+  				$(".collapsible").collapsible({accordion: true});
+  				$(".collapsible").collapsible({accordion: false});
+  				$("#name").val("");
+  				$("#name").next().removeClass("active");
+  				$("#description").val("");
+  				$("#description").next().removeClass("active");
+  				inputElement.data( 'pickadate' ).clear();
 	        }); // if action is edit statement
 	      }
 	    }, 0);
@@ -275,27 +276,27 @@ meetingsApp.controller('MeetingsController', function
                          vm.editCheckins[i].reject == false ) {
 
                         RefServices.refMeetChecked(vm.editCheckins[i].regUser, vm.editCheckins[i].inviteeId)
-                          .update({
+                            .update({
                                    'name':         		meeting.name,
-          					               'description': 		meeting.description,
-          					               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
-          					               'dateMeeting':  		date,
-          					               'time':         		time,
-          					               'change':          true
-                          });
+  					               'description': 		meeting.description,
+  					               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+  					               'dateMeeting':  		date,
+  					               'time':         		time,
+  					               'change':            true
+                            });
 
                     } else if ( vm.editCheckins[i].send == true &&
                                 vm.editCheckins[i].accept == false &&
                                 vm.editCheckins[i].reject == false ) {
 
                         RefServices.refDeleteInvitation(vm.editCheckins[i].regUser, vm.editCheckins[i].whichInvitation)
-                          .update({
+                            .update({
                                    'name':         		meeting.name,
-          					               'description': 		meeting.description,
-          					               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
-          					               'dateMeeting':  		date,
-          					               'time':         		time
-                          });
+  					               'description': 		meeting.description,
+  					               'dateEnter':    		firebase.database.ServerValue.TIMESTAMP,
+  					               'dateMeeting':  		date,
+  					               'time':         		time
+                        });
                     } // end else if
                   };
                 }.bind(this)); // asynchronous data, but in a wrong way actially!
@@ -303,50 +304,54 @@ meetingsApp.controller('MeetingsController', function
 	}; // editCheckinsMeeting
 
 
-	function deleteCheckinsMeetingAction(myExcuse, meeting) {
+	function deleteMeetingAction(myExcuse, meeting) {
 
-		const refSenddeleteToCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
-		refSenddeleteToCheckins.on('value', function (snap) {
+		const refSendDeleteToCheckins = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
+		refSendDeleteToCheckins.on('value', function (snap) {
 
-			  vm.deleteCheckinsList = $firebaseArray(refSenddeleteToCheckins);
-        vm.deleteCheckinsList.$loaded().then(function (list) {
-          for (var i = 0; i < vm.deleteCheckinsList.length; i++) {
+			vm.deleteCheckinsList = $firebaseArray(refSendDeleteToCheckins);
+            vm.deleteCheckinsList.$loaded().then(function (list) {
+            	for (var i = 0; i < vm.deleteCheckinsList.length; i++) {
+						
 						if ( vm.deleteCheckinsList[i].send == true &&
   							 vm.deleteCheckinsList[i].accept == true &&
   							 vm.deleteCheckinsList[i].reject == false ) {
 
-							  RefServices.refMeetChecked(vm.deleteCheckinsList[i].regUser, vm.deleteCheckinsList[i].inviteeId).remove();
-						    RefServices.refCancellations(vm.deleteCheckinsList[i].regUser).push().set({
-						            'dateMeeting':      meeting.dateMeeting,
-						            'name':             meeting.name,
-						            'description':      meeting.description,
-						            'time':             meeting.time,
-						            'imageCaller':      vm.callerMeetingInfo.image,
-						            'firstnameCaller':  vm.callerMeetingInfo.firstname,
-						            'lastnameCaller':   vm.callerMeetingInfo.lastname,
-						            'excuse':           myExcuse
-						          });
+									RefServices.refMeetChecked(vm.deleteCheckinsList[i].regUser, vm.deleteCheckinsList[i].inviteeId).remove();
+						    		RefServices.refCancellations(vm.deleteCheckinsList[i].regUser).push().set({
+							            'dateMeeting':      meeting.dateMeeting,
+							            'name':             meeting.name,
+							            'description':      meeting.description,
+							            'time':             meeting.time,
+							            'imageCaller':      vm.callerMeetingInfo.image,
+							            'firstnameCaller':  vm.callerMeetingInfo.firstname,
+							            'lastnameCaller':   vm.callerMeetingInfo.lastname,
+							            'excuse':           myExcuse
+						          	});
 						} else if ( vm.deleteCheckinsList[i].send == true &&
-      									vm.deleteCheckinsList[i].accept == false &&
-      									vm.deleteCheckinsList[i].reject == false ) {
+  									vm.deleteCheckinsList[i].accept == false &&
+  									vm.deleteCheckinsList[i].reject == false ) {
 
-							                   RefServices.refDeleteInvitation(vm.deleteCheckinsList[i].regUser, vm.deleteCheckinsList[i].whichInvitation).remove();
+							        	RefServices.refDeleteInvitation(vm.deleteCheckinsList[i].regUser, vm.deleteCheckinsList[i].whichInvitation).remove();
+
 						} // end else if
-					}; // end for
-        }.bind(this));
+				}; // end for
+        	}.bind(this));
 		}); // snap val()
+		
 		$timeout(function() {
 			RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).remove();
 			showToast( 'Meeting Deleted', 'md-toast-delete');
 		}, 0);
-	}; // deleteCheckinsMeetingAction
+	
+	}; // deleteMeetingAction
 
-	function deleteCheckinsMeetingDialog(event, meeting) {
+	function deleteMeetingDialog(event, meeting) {
 		var firstCheck = true;
 		const refFindAcceptedCheckin = RefServices.refCheckin(firebaseUser.uid, meeting.$id);
 		refFindAcceptedCheckin.on('value', function (snap) {
 
-			  vm.acceptedCheckin = $firebaseArray(refFindAcceptedCheckin);
+	    vm.acceptedCheckin = $firebaseArray(refFindAcceptedCheckin);
         vm.acceptedCheckin.$loaded().then(function (list) {
             $timeout(function() {
             	var checkExplain = false;
@@ -356,8 +361,8 @@ meetingsApp.controller('MeetingsController', function
             		if (vm.acceptedCheckin[i].accept) {
             			checkExplain = true;
             			var valExp = vm.acceptedCheckin[i].$id;
-            		}
-            	};
+            		} // Check if any inviteed has accepted then user has to explain why he wants delete it
+            	}; 
 
 		        if (checkExplain && firstCheck) {
 		        	firstCheck = false;
@@ -368,7 +373,7 @@ meetingsApp.controller('MeetingsController', function
 				              $mdDialog.cancel();
 				            };
 				            $scope.delete = function(myExcuse) {
-				              deleteCheckinsMeetingAction(myExcuse, meeting);
+				              deleteMeetingAction(myExcuse, meeting);
 				              $mdDialog.cancel();
 				            };
 				          },
@@ -419,7 +424,7 @@ meetingsApp.controller('MeetingsController', function
 							.cancel('Cancel')
 							.targetEvent(event);
 							$mdDialog.show(confirm).then(function(){
-								deleteCheckinsMeetingAction('nothing', meeting);
+								deleteMeetingAction('nothing', meeting);
 							});
 
 						return false;
@@ -429,7 +434,7 @@ meetingsApp.controller('MeetingsController', function
 		        }, 0);
 			  }.bind(this));
 			}); // snap val()
-		}; // deleteCheckinsMeetingDialog
+		}; // deleteMeetingDialog
 
 
 		function deleteMeeting(event, meeting) {
@@ -479,10 +484,10 @@ meetingsApp.controller('MeetingsController', function
   		        	if (vm.editMeeting.time) {
   						var spliceTime = vm.editMeeting.time.slice(0, 5);
   						var time = new Date(),
-  						    s = spliceTime + " AM",
-  						    parts = s.match(/(\d+)\:(\d+) (\w+)/),
-  						    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
-  						    minutes = parseInt(parts[2], 10);
+					    s = spliceTime + " AM",
+					    parts = s.match(/(\d+)\:(\d+) (\w+)/),
+					    hours = /am/i.test(parts[3]) ? parseInt(parts[1], 10) : parseInt(parts[1], 10) + 12,
+					    minutes = parseInt(parts[2], 10);
 
   						time.setHours(hours);
   						time.setMinutes(minutes);
@@ -491,7 +496,7 @@ meetingsApp.controller('MeetingsController', function
   		        	};
 
 		        	vm.meeting = {
-		        	     'name':         vm.editMeeting.name,
+		        	   'name':         vm.editMeeting.name,
 		               'description':  vm.editMeeting.description,
 		               'date':         setDatePicker,
 		               'time':         time,
@@ -513,45 +518,45 @@ meetingsApp.controller('MeetingsController', function
   								 vm.pauseCheckins[i].accept == true &&
   								 vm.pauseCheckins[i].reject == false ) {
 
-									            RefServices.refMeetChecked(vm.pauseCheckins[i].regUser, vm.pauseCheckins[i].inviteeId)
-            										.update({
-            							               'pause':  true,
-            							               'excuse': excuse
-            							            });
+								            RefServices.refMeetChecked(vm.pauseCheckins[i].regUser, vm.pauseCheckins[i].inviteeId)
+        										.update({
+        							                'pause':  true,
+        							                'excuse': excuse
+        							            });
 
 							                RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, vm.pauseCheckins[i].$id)
-										            .update({
-      							               'pause':  true,
-      							               'excuse': excuse
-      							            });
+										        .update({
+      							               		'pause':  true,
+      							               		'excuse': excuse
+      							            	});
 
 							} else if ( vm.pauseCheckins[i].send == true &&
-      										vm.pauseCheckins[i].accept == false &&
-      										vm.pauseCheckins[i].reject == false ) {
+  										vm.pauseCheckins[i].accept == false &&
+  										vm.pauseCheckins[i].reject == false ) {
 
-									                   RefServices.refDeleteInvitation(vm.pauseCheckins[i].regUser, vm.pauseCheckins[i].whichInvitation)
-                    										.update({
-                    							               'pause':  true,
-                    							               'excuse': excuse
-                    							      });
+							                RefServices.refDeleteInvitation(vm.pauseCheckins[i].regUser, vm.pauseCheckins[i].whichInvitation)
+        										.update({
+        							               'pause':  true,
+        							               'excuse': excuse
+            							      	});
 
-							                       RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, vm.pauseCheckins[i].$id)
-                    										.update({
-                    							               'pause':  true,
-                    							               'excuse': excuse
-              							            });
+						                    RefServices.refCheckedPerson(firebaseUser.uid, meeting.$id, vm.pauseCheckins[i].$id)
+        										.update({
+        							               'pause':  true,
+        							               'excuse': excuse
+          							            });
 							} // end else if
 						}; // end for
 					}.bind(this)); // asynchronous data in a wrong way actially!
 				}, 0); // timeout
 			});  // snap val()
 
-				RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).update({
-					'pause':  true,
-					'excuse': excuse
-				});
+			RefServices.refMeetChecked(firebaseUser.uid, meeting.$id).update({
+				'pause':  true,
+				'excuse': excuse
+			});
 
-				showToast( 'Meeting Suspended', 'md-toast-delete');
+			showToast( 'Meeting Suspended', 'md-toast-delete');
 
 		} // pauseMeetingAction
 
@@ -609,24 +614,24 @@ meetingsApp.controller('MeetingsController', function
 		}; // pause meeting
 
 
-    function showMeetDialog(event, key, meeting) {
-     	  $scope.dialog = meeting;
+    function showMeetDetails(event, key, meeting) {
+     	$scope.dialog = meeting;
         $mdDialog.show({
           controller: function () {
-          	this.parent = $scope;
+          	this.parent = $scope;	
           	$scope.cancel = function() {
-    		      $mdDialog.cancel();
-    		      if ( meeting.change ) {
-    			      RefServices.meetData(firebaseUser, meeting.$id)
-                    .update({
-    		               'change':  false
-                     });
-                }
-    		    }; // cancel
-    		    $scope.reject = function() {
-    		      $mdDialog.cancel();
-    		      rejectMeeting(event, meeting, $rootScope.themeColor3);
-    		    }; // reject
+		      	$mdDialog.cancel();
+		      	if ( meeting.change ) {
+			      	RefServices.meetData(firebaseUser, meeting.$id)
+                		.update({
+		               		'change':  false
+                 		});
+            	}
+		    }; // cancel
+		    $scope.reject = function() {
+		      $mdDialog.cancel();
+		      rejectMeeting(event, meeting, $rootScope.themeColor3);
+		    }; // reject
           },
           controllerAs: 'ctrl',
           parent: angular.element(document.body),
@@ -661,7 +666,7 @@ meetingsApp.controller('MeetingsController', function
         })
         .then(function(answer) {
 
-         }, function() {
+        }, function() {
 
         });
     }; // show meeting dialog
@@ -780,7 +785,7 @@ meetingsApp.controller('MeetingsController', function
       var vm = this;
       vm.meeting = "";
       vm.nameAction = "Add New Meeting";
-			vm.meetingAction = "add";
+	  vm.meetingAction = "add";
       console.log(vm.nameAction);
 			$("#name").val("");
 			$("#name").next().removeClass("active");
