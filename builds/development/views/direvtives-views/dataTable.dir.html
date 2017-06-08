@@ -419,7 +419,7 @@ style="border-radius: 12px !important;">
 
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
                   style="margin-right:-5px">
-                <a ng-href="#/checkins/{{firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}"
+                <a ng-href="#/checkins/{{vm.firebaseUser}}/{{meeting.$id}}/{{meeting.dayColor}}"
                    id="editLink" ng-hide="meeting.invitation" style="margin-left:-2px"
                    data-click=".collapsible .collapsible-header:first">
                   <span class="fa-stack fa-lg">
@@ -509,7 +509,7 @@ style="border-radius: 12px !important;">
               <md-button aria-label="twitter" class="md-fab md-raised md-mini"
                   style="margin-right:-5px">
                 <a ng-hide="meeting.invitation" id="editLink"
-                   ng-href="#/record/{{firebaseUser}}/{{meeting.$id}}"
+                   ng-href="#/record/{{vm.firebaseUser}}/{{meeting.$id}}"
                    style="margin-left:-2px"
                    data-click=".collapsible .collapsible-header:first">
                   <span class="fa-stack fa-lg">

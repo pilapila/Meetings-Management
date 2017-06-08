@@ -10,6 +10,7 @@ meetingsApp.controller('MeetingsController', function
 
       var vm = this;
       var ctrl = this;
+      vm.firebaseUser = firebaseUser;
       vm.clearButton = clearButton;
       vm.setAllCount = setAllCount;
       vm.addMeeting = addMeeting;

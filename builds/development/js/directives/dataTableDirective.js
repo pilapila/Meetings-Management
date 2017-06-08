@@ -6,7 +6,6 @@
 	  	templateUrl: 'views/direvtives-views/dataTable.dir.html',
 	    scope: {
 		  datameetings: '=datameetings',
-		  firebaseUser: '=firebaseUser',
 		  pageSize: '=pageSize',
 		  query: '=query',
 		  themeColor: '=themeColor',
