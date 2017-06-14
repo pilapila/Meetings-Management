@@ -66,7 +66,6 @@
         	// sort by fields
         	$scope.sort = function (field) {
         		$scope.sort.field = field;
-        		console.log(field);
         		$scope.sort.order = !$scope.sort.order;
         	};
 

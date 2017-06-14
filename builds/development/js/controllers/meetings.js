@@ -157,7 +157,6 @@ meetingsApp.controller('MeetingsController', function
   							var date2 = new Date(value.dateMeeting);
   							var timeDiff = (date2.getTime() - date1.getTime());
   							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  							console.log(vm.meetings[key].dateMeeting);
   							if ( !vm.meetings[key].dateMeeting ) {
   			            		vm.meetings[key].dayColor = "b4b4b4";
   							} // end if
@@ -787,7 +786,6 @@ meetingsApp.controller('MeetingsController', function
       vm.meeting = "";
       vm.nameAction = "Add New Meeting";
 	  vm.meetingAction = "add";
-      console.log(vm.nameAction);
 			$("#name").val("");
 			$("#name").next().removeClass("active");
 			$("#description").val("");
