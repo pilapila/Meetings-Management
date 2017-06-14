@@ -57,10 +57,13 @@ meetingsApp.controller('SuspentionController', function
                   'excuse': ''
                 });
 
-                showToast('Meeting Activated!', 'md-toast-add');
+                
 
           }, 0); // timeout
         });  // snap val()
+
+        showToast('Meeting Activated!', 'md-toast-add');
+        
       }); // confirm
     }; // activeMeeting
 

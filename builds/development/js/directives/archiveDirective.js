@@ -11,8 +11,6 @@
 		  themeColor: '=themeColor'
 		},
 		controller: 'dataDirController'
-    // controllerAs: 'vm',
-    // bindToController:true
 	  }
 
 	});

@@ -47,7 +47,7 @@
                          style="font-size:0.85rem;margin-top:-10px;margin-left:-8px">
                       <div class="card-content">
                         <span ng-show="invitation.pause" style="color:#d44977">
-                          <b>This meeting is suspended for now</b><br>
+                          <b>This invitation is suspended for now</b><br>
                         </span>
                         <b>Meeting Name: </b>
                         <span>{{invitation.name}}</span>
@@ -61,11 +61,6 @@
                           <i class="fa fa-clock-o" aria-hidden="true"></i>
                           <b>Time: </b> {{invitation.time | limitTo:5 }}
                         </div>
-
-                        <!-- <div class="right" style="margin-top:-77px;margin-right:-21px">
-                          <img src="images/personal_pics/test.jpg"
-                          style="border: 1px solid #b6b6b6">
-                        </div> -->
 
                       </div>
 

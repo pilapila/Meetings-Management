@@ -322,7 +322,7 @@
           'description':  myDescription,
           'date':         firebase.database.ServerValue.TIMESTAMP,
         }).then(function() {
-          //$scope.showToast( 'Added description!' );
+          
         });
     }, 0);
   };  // add description
@@ -446,7 +446,6 @@
         .targetEvent(event);
       $mdDialog.show(confirm).then(function(){
         RefServices.refDeleteDescription(vm.whichuser, vm.whichmeeting, idChecked, key).remove();
-        showToast( 'Description deleted!', 'md-toast-delete');
       }, function(){
 
       });

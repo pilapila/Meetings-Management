@@ -43,23 +43,7 @@
                     </a>
                   </li>
                 </ul>
-<!-- -------------------------------Phone view -------------------------------- -->
-                <ul id="slide-out" class="side-nav">
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a class="waves-effect waves-light" ng-click="vm.activeAllMeetings()">
-                      <i class="fa fa-play-circle-o" aria-hidden="true"
-                      style="margin-top:7px;margin-right:5px;"></i>
-                      &nbsp Activation All Meetings
-                    </a>
-                  </li>
-                  <li class="sidenav-li" style="margin-top:-3px">
-                    <a ng-href="#/meetings" class="waves-effect waves-light">
-                      <i class="fa fa-chevron-left" aria-hidden="true"
-                      style="margin-top:7px;margin-right:5px;"></i>
-                      &nbsp Back to Meetings
-                    </a>
-                  </li>
-                </ul>
+
               </div>
             </nav>
 
@@ -100,16 +84,7 @@
            aria-hidden="true" style="color:#d81b60"></i> </a>
       </th>
       <th>
-        <a href="" ng-click="sort('date')">Date
-        <i ng-show="sort.field !== 'date'"
-           class="fa fa-chevron-down"
-           aria-hidden="true" style="color:#999"></i>
-        <i ng-show="sort.field === 'date' && !sort.order"
-           class="fa fa-chevron-down animated rotateIn delayAnimate"
-           aria-hidden="true" style="color:#d81b60"></i>
-        <i ng-show="sort.field === 'date' && sort.order"
-           class="fa fa-chevron-up animated rotateIn delayAnimate"
-           aria-hidden="true" style="color:#d81b60"></i> </a>
+        Date
       </th>
       <th>
         Time
@@ -134,10 +109,10 @@
         {{ meeting.description | ShortName:15 }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        ---
+        {{ meeting.dateMeeting | date }}
       </td>
       <td style="color: {{meeting.textColor}};" class="meeting-data-table">
-        ---
+        {{ meeting.time | limitTo:5 }}
       </td>
       <td class="meeting-data-table" style="color: #{{meeting.dayColor}};">
         ---
