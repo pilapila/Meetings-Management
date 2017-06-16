@@ -1,4 +1,10 @@
-<div class="row">
+<div ng-show="signedIn()" class="center">
+  <h5>You are now sign in</h3>
+  <p>Please go to the other pages.</p>
+</div>
+
+
+<div class="row" ng-hide="signedIn()">
     <form ng-submit="vm.login()" class="col m5 offset-m3 s12">
     	<br><p class="title center" style="color:#585858">Log-in to access the awesomeness</p>
         <div class="row card"
